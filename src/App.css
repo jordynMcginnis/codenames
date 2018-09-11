@@ -1,0 +1,13 @@
+.app {
+  text-align: center;
+}
+
+.app-title {
+  font-size: 1.5em;
+  background-color: #222;
+  color: white;
+}
+
+.app-intro {
+  font-size: large;
+}
