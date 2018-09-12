@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
+import {createGame} from './api/index.js';
 
 class CreateGame extends Component {
   render () {
     return (
       <div>
-        create game
+        <input placeholder='game name'/>
       </div>
     )
   }

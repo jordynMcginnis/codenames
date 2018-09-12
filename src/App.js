@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import './App.css';
-import {createGame} from './api/index.js';
 import CreateGame from './CreateGame.js';
 
 class App extends Component {
@@ -9,13 +8,17 @@ class App extends Component {
     this.state = {
       render: 'gameList'
     }
+    this.renderCreateGame = this.renderCreateGame.bind(this);
+  }
+  renderCreateGame () {
+    this.setState(() => ({render: 'createGame'}));
   }
   render() {
     return (
       <div className="app">
           <h1 className="app-title">Codenames</h1>
         <div className="app-intro">
-          <button onClick={() => {createGame('jordyn')}}>Create a new game</button>
+          <button onClick={this.renderCreateGame}>Create a new game</button>
           {this.state.render === 'createGame' ? <CreateGame/> : null}
           <div>Games</div>
 
