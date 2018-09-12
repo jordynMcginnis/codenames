@@ -1,0 +1,1 @@
+import { firebasedb } from '../utils/config.js';

@@ -7,7 +7,7 @@ class App extends Component {
       <div className="app">
           <h1 className="app-title">Codenames</h1>
         <div className="app-intro">
-
+          <button>test db connection </button>
         </div>
       </div>
     );
