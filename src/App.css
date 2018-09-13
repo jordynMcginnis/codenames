@@ -20,10 +20,51 @@
 .name {
   color: #2cb5b4;
 }
+
 .app-intro {
   font-size: large;
 }
 
 .t-input {
   border:1px solid white;
+}
+
+.team-selection {
+  display: flex;
+  justify-content: center;
+}
+
+.blue-team {
+  width: 150px;
+  height: 30px;
+  border-left-width: 5px;
+  border-left-color: #2cb5b4;
+  border-left-style: solid;
+  background-color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 2px;
+}
+
+.red-team {
+  width: 150px;
+  height: 30px;
+  border-left-width: 5px;
+  border-left-color: #e86c7a;
+  border-left-style: solid;
+  background-color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 2px;
+}
+
+.switch {
+  width: 150px;
+  height: 30px;
+  background-color: #2cb5b4;
+  border-radius: 10px;
+  margin-top: 10px;
+  color: white;
 }

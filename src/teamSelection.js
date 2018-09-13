@@ -23,17 +23,18 @@ class TeamSelection extends Component {
   }
   render() {
     return (
-      <div className="board">
+      <div className="team-selection">
         {this.state.render === 'name'
           ? <div>
               <input className='t-input' placeholder='name' onChange={this.updateInput}/>
               <button onClick ={this.submitName}>Submit</button>
             </div>
           : <div>
-            blue
+                <div className='blue-team'> jordyn </div>
+                <div className='red-team'> jordyn </div>
+                <button className='switch'> SWITCH TEAMS</button>
             </div>
         }
-
       </div>
     );
   }
