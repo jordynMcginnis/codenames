@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './App.css';
-import {SubmitName} from './api/index.js';
+import {submitName} from './api/index.js';
 
 class TeamSelection extends Component {
   constructor(props) {
@@ -13,7 +13,7 @@ class TeamSelection extends Component {
     this.updateInput = this.updateInput.bind(this);
   }
   submitName () {
-    SubmitName(this.state.name);
+    submitName(this.state.name, this.props.id);
     this.state.render === 'name'
       ? this.setState(() => ({render: 'teams'}))
       : this.setState(() => ({render: 'name'}))

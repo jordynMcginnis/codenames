@@ -32,7 +32,7 @@ class Home extends Component {
           <button onClick={this.renderCreateGame}>Create a new game</button>
           {this.state.render === 'createGame' ? <CreateGame exitSubmit={this.renderCreateGame}/> : null}
           <div>Games:</div>
-          {Object.keys(this.state.games).map((id) => <Link to={`/game/${id}`} key={id}> {this.state.games[id]['name']} </Link>)}
+          {Object.keys(this.state.games).map((id) => <Link to={`/${id}`} key={id}> {this.state.games[id]['name']} </Link>)}
       </div>
     );
   }

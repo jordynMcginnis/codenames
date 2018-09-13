@@ -12,7 +12,7 @@ class GameBoard extends Component {
   render() {
     return (
       <div className="game-board">
-        <TeamSelection/>
+        <TeamSelection id={this.props.location.pathname.slice(1)}/>
       </div>
     );
   }

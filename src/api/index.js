@@ -6,10 +6,12 @@ export function createGame (name) {
     teamAssign: false,
     redPoints: 0,
     bluePoints: 0,
-    bluePlayer1: false,
-    bluePlayer2: false,
-    redPlayer1: false,
-    redPlayer2: false
+    players: {
+      bluePlayer1: false,
+      bluePlayer2: false,
+      redPlayer1: false,
+      redPlayer2: false
+    }
   }
   //get random keyId from firebase below:
   const key = firebasedb.ref().child('games').push().key;
@@ -18,6 +20,21 @@ export function createGame (name) {
   return firebasedb.ref('/games/').update(updates);
 };
 
-export function SubmitName (name) {
-  alert(name);
+export function submitName (name, id) {
+  const key = firebasedb.ref('/games/' + id + '/players').once('value').then(function(snapshot) {
+    let playersArr = Object.keys(snapshot.val());
+    let playersObj = snapshot.val();
+    for(var i = 0; i < playersArr.length; i++) {
+      if(playersObj[playersArr[i]] === false) {
+        playersObj[playersArr[i]] = name;
+        i+=5;
+      }
+    }
+    return firebasedb.ref('/games/' + id + '/players').update(playersObj);
+  });
 }
+
+export function switchTeams () {
+
+}
+
