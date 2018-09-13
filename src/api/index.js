@@ -14,4 +14,11 @@ export function createGame (name) {
   return firebasedb.ref('/games/').update(updates);
 };
 
+export function fetchGames () {
+  return firebasedb.ref('/games/').once('value').then(function(snapshot) {
+  //console.log(snapshot.val())
+    return snapshot.val();
+  });
+};
+
 

@@ -1,11 +1,20 @@
 .app {
   text-align: center;
+  height: 98vh;
+  width: 98vw;
+  max-width: 400px;
+  max-height: 800px;
+  min-height: 300px;
+  border-color: black;
+  border-style: solid;
+  border-radius: 10px;
+  margin: 0 auto;
+  background-color: white;
 }
 
 .app-title {
   font-size: 1.5em;
-  background-color: #222;
-  color: white;
+  color: black;
 }
 
 .app-intro {

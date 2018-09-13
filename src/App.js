@@ -1,29 +1,18 @@
 import React, { Component } from 'react';
 import './App.css';
+import ReactRouter, { Route, BrowserRouter as Router } from 'react-router-dom';
 import CreateGame from './CreateGame.js';
-
+import {fetchGames} from './api/index.js';
+import Home from './Home.js';
 class App extends Component {
-  constructor(props){
-    super(props);
-    this.state = {
-      render: 'gameList'
-    }
-    this.renderCreateGame = this.renderCreateGame.bind(this);
-  }
-  renderCreateGame () {
-    this.state.render === 'createGame'? this.setState(() => ({render: 'gameList'})): this.setState(() => ({render: 'createGame'}));
-  }
-
   render() {
     return (
+      <Router>
       <div className="app">
-          <h1 className="app-title">Codenames</h1>
-        <div className="app-intro">
-          <button onClick={this.renderCreateGame}>Create a new game</button>
-          {this.state.render === 'createGame' ? <CreateGame exitSubmit={this.renderCreateGame}/> : null}
-          <div>Games</div>
-        </div>
+        <h1 className="app-title">Codenames</h1>
+        <Route exact path='/' component={Home}/>
       </div>
+      </Router>
     );
   }
 }
