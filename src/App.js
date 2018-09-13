@@ -11,17 +11,17 @@ class App extends Component {
     this.renderCreateGame = this.renderCreateGame.bind(this);
   }
   renderCreateGame () {
-    this.setState(() => ({render: 'createGame'}));
+    this.state.render === 'createGame'? this.setState(() => ({render: 'gameList'})): this.setState(() => ({render: 'createGame'}));
   }
+
   render() {
     return (
       <div className="app">
           <h1 className="app-title">Codenames</h1>
         <div className="app-intro">
           <button onClick={this.renderCreateGame}>Create a new game</button>
-          {this.state.render === 'createGame' ? <CreateGame/> : null}
+          {this.state.render === 'createGame' ? <CreateGame exitSubmit={this.renderCreateGame}/> : null}
           <div>Games</div>
-
         </div>
       </div>
     );
