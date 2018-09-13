@@ -3,6 +3,7 @@ import './App.css';
 import CreateGame from './CreateGame.js';
 import {fetchGames} from './api/index.js';
 import ReactRouter, { Link } from 'react-router-dom';
+import { firebasedb } from './utils/config.js';
 
 class Home extends Component {
   constructor(props){
@@ -12,14 +13,20 @@ class Home extends Component {
       games: false
     }
     this.renderCreateGame = this.renderCreateGame.bind(this);
+    this.fetchGames = this.fetchGames.bind(this);
   }
   componentDidMount () {
-    fetchGames().then((games) => {
-      this.setState(() => ({games}));
+    let that = this;
+    let games = firebasedb.ref('/games/');
+    games.on('value', function (snapshot) {
+      let value = snapshot.val();
+      that.setState(() => ({games: value}));
     })
   }
   renderCreateGame () {
-    this.state.render === 'createGame'? this.setState(() => ({render: 'gameList'})): this.setState(() => ({render: 'createGame'}));
+    this.state.render === 'createGame'
+      ? this.setState(() => ({render: 'gameList'}))
+      : this.setState(() => ({render: 'createGame'}));
   }
   render() {
     return (

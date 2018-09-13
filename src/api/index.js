@@ -14,11 +14,16 @@ export function createGame (name) {
   return firebasedb.ref('/games/').update(updates);
 };
 
+// export function fetchGames () {
+//   return firebasedb.ref('/games/').once('value').then(function(snapshot) {
+//   //console.log(snapshot.val())
+//     return snapshot.val();
+//   });
+// };
+
 export function fetchGames () {
-  return firebasedb.ref('/games/').once('value').then(function(snapshot) {
-  //console.log(snapshot.val())
+  var games = firebasedb.ref('/games/');
+  return games.on('value', function (snapshot) {
     return snapshot.val();
-  });
+  })
 };
-
-

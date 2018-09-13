@@ -4,8 +4,8 @@ import './App.css';
 class GameBoard extends Component {
   render() {
     return (
-      <div className="board">
-
+      <div className="game-board">
+        gameboard
       </div>
     );
   }
