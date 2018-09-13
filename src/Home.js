@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import './App.css';
 import CreateGame from './CreateGame.js';
-import {fetchGames} from './api/index.js';
-import ReactRouter, { Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { firebasedb } from './utils/config.js';
 
 class Home extends Component {
