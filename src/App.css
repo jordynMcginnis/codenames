@@ -5,11 +5,11 @@
   max-width: 400px;
   max-height: 800px;
   min-height: 300px;
-  border-color: black;
+  border-color: #ffefe9;
   border-style: solid;
   border-radius: 10px;
   margin: 0 auto;
-  background-color: white;
+  background-color: #ffefe9;
 }
 
 .app-title {
@@ -17,6 +17,13 @@
   color: black;
 }
 
+.name {
+  color: #2cb5b4;
+}
 .app-intro {
   font-size: large;
+}
+
+.t-input {
+  border:1px solid white;
 }

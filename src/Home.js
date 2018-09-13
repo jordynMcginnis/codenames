@@ -12,7 +12,6 @@ class Home extends Component {
       games: false
     }
     this.renderCreateGame = this.renderCreateGame.bind(this);
-    this.fetchGames = this.fetchGames.bind(this);
   }
   componentDidMount () {
     let that = this;

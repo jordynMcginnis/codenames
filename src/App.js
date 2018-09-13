@@ -9,7 +9,7 @@ class App extends Component {
     return (
       <Router>
         <div className="app">
-          <h1 className="app-title">Codenames</h1>
+          <h1 className="app-title">Code<span className='name'>Names</span></h1>
           <Route exact path='/' component={Home}/>
           <Route path='/game/:id' component={GameBoard} />
         </div>
