@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './App.css';
-import {submitName} from './api/index.js';
+import {submitName, switchTeam} from './api/index.js';
 import { firebasedb } from './utils/config.js';
 
 class TeamSelection extends Component {
@@ -13,6 +13,7 @@ class TeamSelection extends Component {
     }
     this.submitName = this.submitName.bind(this);
     this.updateInput = this.updateInput.bind(this);
+    this.switchTeams = this.switchTeams.bind(this);
   }
   componentDidMount () {
     let that = this;
@@ -31,6 +32,9 @@ class TeamSelection extends Component {
   updateInput ({target}) {
    this.setState(() => ({name: target.value}))
   }
+  switchTeams () {
+    switchTeam(this.props.id);
+  }
   render() {
     return (
       <div className="team-selection">
@@ -39,7 +43,7 @@ class TeamSelection extends Component {
               <input className='t-input' placeholder='name' onChange={this.updateInput}/>
               <button onClick ={this.submitName}>Submit</button>
             </div>
-          : <div>
+          : <div className='team-options'>
                 {Object.keys(this.state.players).map((player) => {
                   if(player[0] === 'b'){
                     return <div className='blue-team' key={player} >{this.state.players[player]} </div>
@@ -47,7 +51,8 @@ class TeamSelection extends Component {
                     return <div className='red-team' key={player}> {this.state.players[player]} </div>
                   }
                 })}
-                <button className='switch'> SWITCH TEAMS</button>
+                <button className='switch' onClick={this.switchTeams}> SWITCH TEAMS</button>
+                <button className='switch' onClick={this.props.start}> START</button>
             </div>
         }
       </div>

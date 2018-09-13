@@ -34,6 +34,12 @@
   justify-content: center;
 }
 
+.team-options{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
 .blue-team {
   width: 150px;
   height: 30px;
@@ -67,4 +73,5 @@
   border-radius: 10px;
   margin-top: 10px;
   color: white;
+  align-self: center;
 }

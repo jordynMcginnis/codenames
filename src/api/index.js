@@ -34,7 +34,22 @@ export function submitName (name, id) {
   });
 }
 
-export function switchTeams () {
+export function switchTeam (id) {
+  firebasedb.ref('/games/' + id + '/players').once('value').then(function(snapshot) {
+    let playersArr = Object.keys(snapshot.val());
+    let playersObj = snapshot.val();
+    let playersNames = [];
+    let randomize = {};
 
+    for(var key in playersObj) {
+      playersNames.push(playersObj[key]);
+    }
+    let value = playersNames.pop();
+    playersNames.unshift(value);
+    for(var i = 0; i < playersArr.length; i++) {
+     randomize[playersArr[i]] = playersNames[i];
+    }
+    return firebasedb.ref('/games/' + id + '/players').update(randomize);
+  });
 }
 
