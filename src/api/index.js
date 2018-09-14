@@ -41,7 +41,6 @@ export function switchTeam (id) {
     let playersObj = snapshot.val();
     let playersNames = [];
     let randomize = {};
-
     for(var key in playersObj) {
       playersNames.push(playersObj[key]);
     }

@@ -37,7 +37,13 @@ class GameBoard extends Component {
       {this.state.start === false
         ? <TeamSelection id={this.props.location.pathname.slice(1)} start={this.startGame}/>
         : <div> {Object.keys(this.state.players).map((player) => {
-            console.log('here')
+            console.log(player)
+            if(this.state.name === this.state.gameInfo.players[player] && player.slice(-1) == 1){
+              alert('spyMaster');
+              return <SpyMasters/>
+            } else if (this.state.name === this.state.gameInfo.players[player]){
+              return <FieldOps/>
+            }
           })}
           </div>
       }
