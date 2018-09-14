@@ -5,7 +5,7 @@ class SpyMasters extends Component {
   render() {
     return (
       <div className="board">
-
+       sppyyyyy masterrrr
       </div>
     );
   }

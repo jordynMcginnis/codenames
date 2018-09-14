@@ -52,7 +52,7 @@ class TeamSelection extends Component {
                   }
                 })}
                 <button className='switch' onClick={this.switchTeams}> SWITCH TEAMS</button>
-                <button className='switch' onClick={this.props.start}> START</button>
+                <button className='switch' onClick={() => {this.props.start(this.state.name)}}> START</button>
             </div>
         }
       </div>
