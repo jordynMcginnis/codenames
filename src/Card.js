@@ -4,8 +4,8 @@ import React, { Component } from 'react';
 class Card extends Component {
   render() {
     return (
-      <div className="card">
-        card
+      <div className={this.props.class1}>
+        {this.props.value}
       </div>
     );
   }

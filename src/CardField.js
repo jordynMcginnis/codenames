@@ -5,7 +5,7 @@ class CardField extends Component {
   render() {
     return (
       <div className="card-field">
-        {Object.keys(this.props.data).map(() => <Card/>)}
+        {Object.keys(this.props.data).map((obj) => <Card value={obj} class1={JSON.stringify(this.props.data[obj])}/>)}
       </div>
     );
   }
