@@ -3,7 +3,7 @@ import TeamSelection from './teamSelection.js';
 import { firebasedb } from './utils/config.js';
 import SpyMasters from './SpyMasters.js';
 import FieldOps from './FieldOps.js';
-import {checkStart} from './api/index.js';
+import {checkStart, checkData} from './api/index.js';
 
 class GameBoard extends Component {
   constructor(props) {
@@ -28,6 +28,7 @@ class GameBoard extends Component {
   startGame = (name) =>  {
     this.setState(() => ({name: name}));
     checkStart(this.props.location.pathname.slice(1));
+    checkData(this.props.location.pathname.slice(1));
   }
   render() {
     return (

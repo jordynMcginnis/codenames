@@ -1,4 +1,5 @@
 import { firebasedb } from '../utils/config.js';
+import data from '../data.js';
 
 export function createGame (name) {
   const gameData = {
@@ -13,7 +14,9 @@ export function createGame (name) {
       redPlayer2: false
     },
     spyMaster: 1,
-    start: false
+    start: false,
+    wordMap: false,
+    gameMap: false
   }
   //get random keyId from firebase below:
   const key = firebasedb.ref().child('games').push().key;
@@ -80,5 +83,28 @@ export function checkStart (id) {
 }
 
 export function checkData (id) {
+  firebasedb.ref('/games/' + id + '/words').once('value').then(function(snapshot) {
+    let value = snapshot.val();
+    console.log('here', value);
+    if(value === false){
+      let result = {};
+      result.words = chooseData();
+      firebasedb.ref('/games/' + id + '/').update(result);
+    } else {
+      console.log('already filled')
+    }
+  });
+}
+
+function chooseData () {
+  var newData = {};
+  for(var i = 0; i < 25; i++){
+    let index = Math.floor(Math.random() * Math.floor(374));
+    newData[data[index]] = false;
+  }
+  return newData;
+}
+
+function chooseTeamWords() {
 
 }
