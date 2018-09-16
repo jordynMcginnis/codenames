@@ -10,17 +10,16 @@ class Home extends Component {
       render: 'gameList',
       games: false
     }
-    this.renderCreateGame = this.renderCreateGame.bind(this);
   }
   componentDidMount () {
     let that = this;
     let games = firebasedb.ref('/games/');
     games.on('value', function (snapshot) {
-      let value = snapshot.val();
-      that.setState(() => ({games: value}));
+      let games = snapshot.val();
+      that.setState(() => ({games}));
     })
   }
-  renderCreateGame () {
+  renderCreateGame = () => {
     this.state.render === 'createGame'
       ? this.setState(() => ({render: 'gameList'}))
       : this.setState(() => ({render: 'createGame'}));
@@ -28,10 +27,10 @@ class Home extends Component {
   render() {
     return (
       <div className="app-intro">
-          <button onClick={this.renderCreateGame}>Create a new game</button>
-          {this.state.render === 'createGame' ? <CreateGame exitSubmit={this.renderCreateGame}/> : null}
-          <div>Games:</div>
-          {Object.keys(this.state.games).map((id) => <Link to={`/${id}`} key={id}> {this.state.games[id]['name']} </Link>)}
+        <button onClick={this.renderCreateGame}>Create a new game</button>
+        {this.state.render === 'createGame' ? <CreateGame exitSubmit={this.renderCreateGame}/> : null}
+        <div>Games:</div>
+        {Object.keys(this.state.games).map((id) => <Link to={`/${id}`} key={id}> {this.state.games[id]['name']} </Link>)}
       </div>
     );
   }
