@@ -21,6 +21,7 @@ class GameBoard extends Component {
     let games = firebasedb.ref('/games/' + path);
     games.on('value', (snapshot) => {
       let value = snapshot.val();
+      console.log(value.start);
       this.setState(() => ({gameInfo: value, players: value.players, start: value.start}));
     })
   }

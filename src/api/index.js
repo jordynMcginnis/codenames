@@ -78,3 +78,7 @@ export function checkStart (id) {
     }
   });
 }
+
+export function checkData (id) {
+
+}
