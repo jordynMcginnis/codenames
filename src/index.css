@@ -29,6 +29,8 @@ body {
 
 .app-intro {
   font-size: large;
+  display: flex;
+  flex-direction: column;
 }
 
 .t-input {
