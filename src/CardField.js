@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import './App.css';
 
 class CardField extends Component {
   render() {

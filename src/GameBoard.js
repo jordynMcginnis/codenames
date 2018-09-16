@@ -21,11 +21,9 @@ class GameBoard extends Component {
     let games = firebasedb.ref('/games/' + path);
     games.on('value', (snapshot) => {
       let value = snapshot.val();
-      console.log(value)
       this.setState(() => ({gameInfo: value, players: value.players}));
     })
   }
-
   startGame (name) {
     this.state.start === true ? this.setState(() => ({start: false})) : this.setState(() => ({start: true, name: name}));
   }
@@ -35,18 +33,16 @@ class GameBoard extends Component {
       <div className="game-board">
       {this.state.start === false
         ? <TeamSelection id={this.props.location.pathname.slice(1)} start={this.startGame}/>
-        : <div> {Object.keys(this.state.players).map((player) => {
-            console.log(player)
-            if(this.state.name === this.state.gameInfo.players[player] && player.slice(-1) == 1){
-              alert('spyMaster');
-              return <SpyMasters/>
-            } else if (this.state.name === this.state.gameInfo.players[player]){
-              return <FieldOps/>
-            }
-          })}
+        : <div>
+            {Object.keys(this.state.players).map((player) => {
+              if(this.state.name === this.state.gameInfo.players[player] && player.slice(-1) == 1){
+                return <SpyMasters/>
+              } else if (this.state.name === this.state.gameInfo.players[player]){
+                return <FieldOps/>
+              }
+            })}
           </div>
       }
-
       </div>
     );
   }
