@@ -16,7 +16,8 @@ export function createGame (name) {
     spyMaster: 1,
     start: false,
     wordMap: false,
-    gameMap: false
+    gameMap: false,
+    words: false
   }
   //get random keyId from firebase below:
   const key = firebasedb.ref().child('games').push().key;
@@ -88,7 +89,7 @@ export function checkData (id) {
     console.log('here', value);
     if(value === false){
       let result = {};
-      result.words = chooseData();
+      result.words = chooseData(id);
       firebasedb.ref('/games/' + id + '/').update(result);
     } else {
       console.log('already filled')
@@ -96,15 +97,35 @@ export function checkData (id) {
   });
 }
 
-function chooseData () {
+function chooseData (id) {
   var newData = {};
   for(var i = 0; i < 25; i++){
     let index = Math.floor(Math.random() * Math.floor(374));
     newData[data[index]] = false;
   }
+  chooseTeamWords(newData, id)
   return newData;
 }
 
-function chooseTeamWords() {
+function chooseTeamWords(data, id) {
+  let newData = {};
+  let BlueCount = 12;
+  let RedCount = 12;
+  let killer = 1;
 
+  for(var key in data){
+    if(BlueCount > 0) {
+      newData[key] = 'blue';
+      BlueCount -= 1;
+    } else if (RedCount > 0){
+      newData[key] = 'red';
+      RedCount -= 1;
+    } else if (killer > 0){
+      newData[key] = 'killer';
+      killer -= 1;
+    }
+  }
+  let result = {};
+  result.wordMap = newData
+  firebasedb.ref('/games/' + id + '/').update(result);
 }
