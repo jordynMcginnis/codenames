@@ -14,7 +14,6 @@ class GameBoard extends Component {
       players: {},
       name: false
     }
-    this.startGame = this.startGame.bind(this);
   }
   componentDidMount () {
     let path = this.props.location.pathname.slice(1);
@@ -24,10 +23,9 @@ class GameBoard extends Component {
       this.setState(() => ({gameInfo: value, players: value.players}));
     })
   }
-  startGame (name) {
+  startGame = (name) =>  {
     this.state.start === true ? this.setState(() => ({start: false})) : this.setState(() => ({start: true, name: name}));
   }
-
   render() {
     return (
       <div className="game-board">
@@ -37,7 +35,8 @@ class GameBoard extends Component {
             {Object.keys(this.state.players).map((player) => {
               if(this.state.name === this.state.gameInfo.players[player] && player.slice(-1) == 1){
                 return <SpyMasters/>
-              } else if (this.state.name === this.state.gameInfo.players[player]){
+              }
+              else if (this.state.name === this.state.gameInfo.players[player]){
                 return <FieldOps/>
               }
             })}
