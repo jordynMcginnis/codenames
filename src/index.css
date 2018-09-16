@@ -83,3 +83,28 @@ body {
   color: white;
   align-self: center;
 }
+
+.card-field{
+  width: 95%;
+  background-color: red;
+  height: 400px;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+.card {
+  width: 70px;
+  height: 50px;
+  border-style: solid;
+  border-color: blue;
+  border-width: 1px;
+  border-radius: 5px;
+  margin: 3px;
+}
+
+.board {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}

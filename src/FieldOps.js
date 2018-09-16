@@ -19,8 +19,8 @@ class FieldOps extends Component {
   render() {
     return (
       <div className="board">
-       <h3>Field Operations</h3>
-       <CardField data={this.state.words}/>
+        <h6>Field Operations</h6>
+        <CardField data={this.state.words}/>
       </div>
     );
   }

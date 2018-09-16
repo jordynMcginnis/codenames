@@ -4,7 +4,7 @@ import Card from './Card.js';
 class CardField extends Component {
   render() {
     return (
-      <div className="board">
+      <div className="card-field">
         {Object.keys(this.props.data).map(() => <Card/>)}
       </div>
     );
