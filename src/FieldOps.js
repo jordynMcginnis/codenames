@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { firebasedb } from './utils/config.js';
+import CardField from './CardField.js';
 
 class FieldOps extends Component {
   constructor(props) {
@@ -18,7 +19,8 @@ class FieldOps extends Component {
   render() {
     return (
       <div className="board">
-       field ops
+       <h3>Field Operations</h3>
+       <CardField data={this.state.words}/>
       </div>
     );
   }
