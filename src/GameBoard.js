@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import './App.css';
 import TeamSelection from './teamSelection.js';
 import { firebasedb } from './utils/config.js';
 import SpyMasters from './SpyMasters.js';

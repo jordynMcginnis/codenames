@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import './App.css';
 import ReactRouter, { Route, BrowserRouter as Router } from 'react-router-dom';
 import Home from './Home.js';
 import GameBoard from './GameBoard.js';

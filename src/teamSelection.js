@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import './App.css';
 import {submitName, switchTeam} from './api/index.js';
 import { firebasedb } from './utils/config.js';
 

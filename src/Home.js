@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import './App.css';
 import CreateGame from './CreateGame.js';
 import { Link } from 'react-router-dom';
 import { firebasedb } from './utils/config.js';

@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import './App.css';
 
 class SpyMasters extends Component {
   render() {
