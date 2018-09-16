@@ -43,15 +43,15 @@ class TeamSelection extends Component {
               <button onClick ={this.submitName}>Submit</button>
             </div>
           : <div className='team-options'>
-                {Object.keys(this.state.players).map((player) => {
-                  if(player[0] === 'b'){
-                    return <div className='blue-team' key={player} >{this.state.players[player]} </div>
-                  } else {
-                    return <div className='red-team' key={player}> {this.state.players[player]} </div>
-                  }
-                })}
-                <button className='switch' onClick={this.switchTeams}> SWITCH TEAMS</button>
-                <button className='switch' onClick={() => {this.props.start(this.state.name)}}> START</button>
+              {Object.keys(this.state.players).map((player) => {
+                if(player[0] === 'b'){
+                  return <div className='blue-team' key={player} >{this.state.players[player]} </div>
+                } else {
+                  return <div className='red-team' key={player}> {this.state.players[player]} </div>
+                }
+              })}
+              <button className='switch' onClick={this.switchTeams}> SWITCH TEAMS</button>
+              <button className='switch' onClick={() => {this.props.start(this.state.name)}}> START</button>
             </div>
         }
       </div>
