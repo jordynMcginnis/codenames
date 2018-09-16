@@ -63,14 +63,18 @@ export function switchSpyMaster (id) {
 }
 
 export function checkStart (id) {
+  let start = true;
+  let count = 0;
   firebasedb.ref('/games/' + id + '/players').once('value').then(function(snapshot) {
     let playersObj = snapshot.val();
-    let start = true;
+
     for(var key in playersObj) {
-      playersObj[key] === false ? start = false : null;
+      playersObj[key] !== false ? count += 1 : null;
     }
-    start === true
-      ? firebasedb.ref('/games/' + id + '/start').update(start)
-      : false;
+    if(count === 4){
+      let result = {};
+      result.start = true;
+      firebasedb.ref('/games/' + id + '/').update(result);
+    }
   });
 }

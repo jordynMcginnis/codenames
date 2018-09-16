@@ -3,6 +3,7 @@ import TeamSelection from './teamSelection.js';
 import { firebasedb } from './utils/config.js';
 import SpyMasters from './SpyMasters.js';
 import FieldOps from './FieldOps.js';
+import {checkStart} from './api/index.js';
 
 class GameBoard extends Component {
   constructor(props) {
@@ -20,12 +21,12 @@ class GameBoard extends Component {
     let games = firebasedb.ref('/games/' + path);
     games.on('value', (snapshot) => {
       let value = snapshot.val();
-      this.setState(() => ({gameInfo: value, players: value.players}));
+      this.setState(() => ({gameInfo: value, players: value.players, start: value.start}));
     })
   }
   startGame = (name) =>  {
-    console.log('this ran here')
-    this.state.start === true ? this.setState(() => ({start: false})) : this.setState(() => ({start: true, name: name}));
+    this.setState(() => ({name: name}));
+    checkStart(this.props.location.pathname.slice(1));
   }
   render() {
     return (

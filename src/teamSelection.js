@@ -24,6 +24,7 @@ class TeamSelection extends Component {
   }
   submitName () {
     submitName(this.state.name, this.props.id);
+    this.props.start(this.state.name);
     this.state.render === 'name'
       ? this.setState(() => ({render: 'teams'}))
       : this.setState(() => ({render: 'name'}))
