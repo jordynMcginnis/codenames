@@ -24,24 +24,24 @@ class GameBoard extends Component {
     })
   }
   startGame = (name) =>  {
+    console.log('this ran here')
     this.state.start === true ? this.setState(() => ({start: false})) : this.setState(() => ({start: true, name: name}));
   }
   render() {
     return (
       <div className="game-board">
-      {this.state.start === false
-        ? <TeamSelection id={this.props.location.pathname.slice(1)} start={this.startGame}/>
-        : <div>
-            {Object.keys(this.state.players).map((player) => {
-              if(this.state.name === this.state.gameInfo.players[player] && player.slice(-1) == 1){
-                return <SpyMasters/>
-              }
-              else if (this.state.name === this.state.gameInfo.players[player]){
-                return <FieldOps/>
-              }
-            })}
-          </div>
-      }
+        {this.state.start === false
+          ? <TeamSelection id={this.props.location.pathname.slice(1)} start={this.startGame}/>
+          : <div>
+              {Object.keys(this.state.players).map((player) => {
+                if(this.state.name === this.state.gameInfo.players[player] && player.slice(-1) == 1){
+                  return <SpyMasters/>
+                } else if (this.state.name === this.state.gameInfo.players[player]){
+                  return <FieldOps/>
+                }
+              })}
+            </div>
+        }
       </div>
     );
   }

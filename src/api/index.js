@@ -12,7 +12,8 @@ export function createGame (name) {
       redPlayer1: false,
       redPlayer2: false
     },
-    spyMaster: 1
+    spyMaster: 1,
+    start: false
   }
   //get random keyId from firebase below:
   const key = firebasedb.ref().child('games').push().key;
@@ -58,5 +59,18 @@ export function switchSpyMaster (id) {
       let spyMaster = snapshot.val().spyMaster;
       spyMaster === 1 ? spyMaster = 2 : spyMaster = 1;
     return firebasedb.ref('/games/' + id + '/players').update(spyMaster);
+  });
+}
+
+export function checkStart (id) {
+  firebasedb.ref('/games/' + id + '/players').once('value').then(function(snapshot) {
+    let playersObj = snapshot.val();
+    let start = true;
+    for(var key in playersObj) {
+      playersObj[key] === false ? start = false : null;
+    }
+    start === true
+      ? firebasedb.ref('/games/' + id + '/start').update(start)
+      : false;
   });
 }
