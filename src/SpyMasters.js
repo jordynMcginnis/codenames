@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { firebasedb } from './utils/config.js';
 import CardField from './CardField.js';
+import {submitWord} from './api/index.js';
 
 class SpyMasters extends Component {
   constructor(props) {
@@ -24,8 +25,8 @@ class SpyMasters extends Component {
   handleInput = ({target}) => {
     this.setState(() => ({singleWord: target.value}));
   }
-  submitWord = () => {
-
+  handleSubmitWord = () => {
+    submitWord(this.props.id, this.state.singleWord, this.state.num);
   }
   render() {
     return (
@@ -39,7 +40,7 @@ class SpyMasters extends Component {
            <li onClick={() => {this.handleNumber(3)}}> </li>
            <li onClick={() => {this.handleNumber(4)}}> </li>
          </ol>
-         <button>Submit</button>
+         <button onClick={this.handleSubmitWord}>Submit</button>
       </div>
     );
   }

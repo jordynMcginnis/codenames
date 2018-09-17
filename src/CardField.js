@@ -11,9 +11,8 @@ class CardField extends Component {
           } else {
             return <Card value={obj} class1={this.props.data[obj]}/>
           }
-        }
-
-          )}
+          }
+        )}
       </div>
     );
   }

@@ -17,7 +17,9 @@ export function createGame (name) {
     start: false,
     wordMap: false,
     gameMap: false,
-    words: false
+    words: false,
+    currentWord: false,
+    currentNum: false
   }
   //get random keyId from firebase below:
   const key = firebasedb.ref().child('games').push().key;
@@ -71,7 +73,6 @@ export function checkStart (id) {
   let count = 0;
   firebasedb.ref('/games/' + id + '/players').once('value').then(function(snapshot) {
     let playersObj = snapshot.val();
-
     for(var key in playersObj) {
       playersObj[key] !== false ? count += 1 : null;
     }
@@ -80,6 +81,21 @@ export function checkStart (id) {
       result.start = true;
       firebasedb.ref('/games/' + id + '/').update(result);
     }
+  });
+}
+
+export function submitWord (id, word, num){
+  firebasedb.ref('/games/' + id + '/currentWord').once('value').then(function(snapshot) {
+    let value = snapshot.val();
+      let result = {};
+      result.currentWord = word;
+      firebasedb.ref('/games/' + id + '/').update(result);
+  });
+  firebasedb.ref('/games/' + id + '/currentNum').once('value').then(function(snapshot) {
+    let value = snapshot.val();
+      let result = {};
+      result.currentNum = num
+      firebasedb.ref('/games/' + id + '/').update(result);
   });
 }
 
@@ -96,6 +112,7 @@ export function checkData (id) {
     }
   });
 }
+
 
 function chooseData (id) {
   var newData = {};
