@@ -150,14 +150,14 @@ body {
   justify-content: center;
 }
 
-ol {
+.ol {
   display: flex;
   justify-content: space-around;
   height: 20px;
   background-color: white;
 }
 
-ol li {
+.ol div {
   border-style: solid;
   border-color: black;
   border-width: 1px;

@@ -38,7 +38,7 @@ class GameBoard extends Component {
           : <div>
               {Object.keys(this.state.players).map((player) => {
                 if(this.state.name === this.state.gameInfo.players[player] && player.slice(-1) == 1){
-                  return <SpyMasters id={this.props.location.pathname.slice(1)}/>
+                  return <SpyMasters id={this.props.location.pathname.slice(1)} name={this.state.name}/>
                 } else if (this.state.name === this.state.gameInfo.players[player]){
                   return <FieldOps id={this.props.location.pathname.slice(1)} name={this.state.name}/>
                 }

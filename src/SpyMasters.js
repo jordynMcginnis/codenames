@@ -9,7 +9,9 @@ class SpyMasters extends Component {
     this.state = {
       words: {},
       num: 0,
-      singleWord: ''
+      singleWord: '',
+      turn: false,
+      team: false
     };
   }
   componentDidMount () {
@@ -18,6 +20,28 @@ class SpyMasters extends Component {
       let words = snapshot.val();
       this.setState(() => ({words}));
     })
+    const name = this.props.name;
+    const that = this;
+    const key = firebasedb.ref('/games/' + this.props.id + '/players').once('value').then(function(snapshot) {
+      let playersArr = Object.keys(snapshot.val());
+      let playersObj = snapshot.val();
+      for(var i = 0; i < playersArr.length; i++) {
+        if(playersObj[playersArr[i]] === name) {
+          that.setState(() => ({team: playersArr[i].slice(0,1)}));
+          break;
+        }
+      }
+    });
+    this.handleTeam();
+  }
+  handleTeam = () => {
+    const that = this;
+    const team = firebasedb.ref('/games/' + this.props.id + '/turn').once('value').then(function(snapshot) {
+      let value = snapshot.val();
+      if(value === that.state.team){
+        that.setState(() => ({turn : true}));
+      }
+    });
   }
   handleNumber = (num) => {
     this.setState(() => ({num}));
@@ -33,14 +57,19 @@ class SpyMasters extends Component {
       <div className="board">
          <h6>Spy Master</h6>
          <CardField data={this.state.words}/>
-         <input placeholder='word' onChange={this.handleInput}/>
-         <ol>
-           <li onClick={() => {this.handleNumber(1)}}> </li>
-           <li onClick={() => {this.handleNumber(2)}}> </li>
-           <li onClick={() => {this.handleNumber(3)}}> </li>
-           <li onClick={() => {this.handleNumber(4)}}> </li>
-         </ol>
-         <button onClick={this.handleSubmitWord}>Submit</button>
+         {this.state.turn === true
+          ? <div>
+              <input placeholder='word' onChange={this.handleInput}/>
+              <div className ='ol'>
+                <div onClick={() => {this.handleNumber(1)}}> </div>
+                <div onClick={() => {this.handleNumber(2)}}> </div>
+                <div onClick={() => {this.handleNumber(3)}}> </div>
+                <div onClick={() => {this.handleNumber(4)}}> </div>
+              </div>
+             <button onClick={this.handleSubmitWord}>Submit</button>
+            </div>
+          : null
+         }
       </div>
     );
   }

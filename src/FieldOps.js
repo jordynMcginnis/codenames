@@ -28,7 +28,6 @@ class FieldOps extends Component {
     });
 
    this.handleTeam();
-
   }
   handleTeam = () => {
     const that = this;
