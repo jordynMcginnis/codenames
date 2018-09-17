@@ -114,6 +114,30 @@ export function checkData (id) {
   });
 }
 
+export function sendWord (arr) {
+  firebasedb.ref('/games/' + id + '/').once('value').then(function(snapshot) {
+    let turn = snapshot.val().turn;
+    let wordMap = snapshot.val().wordMap;
+    let words = snapshot.val().words;
+    for(var i = 0; i < arr.length; i++) {
+      if(wordMap[arr[i]].slice(0,1) === turn){
+        word[arr[i]] = turn;
+      } else if (wordMap[arr[i]] === 'killer'){
+        switchturn();
+        selectWinner();
+      }
+    }
+  });
+  //switchTurn();
+}
+
+export function switchTurn (turn) {
+
+}
+
+export function selectWinner () {
+
+}
 
 function chooseData (id) {
   var newData = {};

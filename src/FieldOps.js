@@ -1,14 +1,16 @@
 import React, { Component } from 'react';
 import { firebasedb } from './utils/config.js';
 import CardField from './CardField.js';
-
+import {sendWord, switchTurn, gatherData} from './api/index.js';
 class FieldOps extends Component {
   constructor(props) {
     super(props);
     this.state = {
       words: {},
       turn: false,
-      team: false
+      team: false,
+      currentWord: false,
+      currentNum: false
     };
   }
   componentDidMount () {
@@ -26,16 +28,24 @@ class FieldOps extends Component {
         }
       }
     });
-
    this.handleTeam();
   }
   handleTeam = () => {
     const that = this;
     let games = firebasedb.ref('/games/' + this.props.id + '/words');
-
     games.on('value', (snapshot) => {
       let words = snapshot.val();
       that.setState(() => ({words}));
+    })
+    let word = firebasedb.ref('/games/' + this.props.id + '/currentWord');
+    word.on('value', (snapshot) => {
+      let currentWord = snapshot.val();
+      that.setState(() => ({currentWord}));
+    })
+    let num = firebasedb.ref('/games/' + this.props.id + '/currentNum');
+    num.on('value', (snapshot) => {
+      let currentNum = snapshot.val();
+      that.setState(() => ({currentNum}));
     })
     const team = firebasedb.ref('/games/' + this.props.id + '/turn').once('value').then(function(snapshot) {
       let value = snapshot.val();
@@ -44,12 +54,21 @@ class FieldOps extends Component {
       }
     });
   }
+  handleSubmit = (arr) => {
+    console.log('selected options', arr);
+    sendWord(arr);
+    //switchTurn();
+  }
   render() {
     return (
       <div className="board">
         <h6>Field Operations</h6>
-        <CardField data={this.state.words}/>
-        {this.state.turn === true ? <button>Submit</button> : null}
+        <CardField data={this.state.words} handleSubmit={this.handleSubmit} maxNum={this.state.currentNum}/>
+        {this.state.turn === true
+          ? <button> submit</button>
+          : null
+        }
+        {this.state.currentWord} : {this.state.currentNum}
       </div>
     );
   }
