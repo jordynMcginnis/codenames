@@ -6,7 +6,9 @@ class SpyMasters extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      words: {}
+      words: {},
+      num: '',
+      singleWord: ''
     };
   }
   componentDidMount () {
@@ -16,19 +18,28 @@ class SpyMasters extends Component {
       this.setState(() => ({words}));
     })
   }
+  handleNumber = (num) => {
+    this.setState(num => ({num}));
+  }
+  handleInput = ({target}) => {
+    this.setState(() => ({singleWord: target.value}));
+  }
+  submitWord = () => {
+
+  }
   render() {
     return (
       <div className="board">
-       <h6>Spy Master</h6>
-       <CardField data={this.state.words}/>
-       <input placeholder='word'/>
-       <ol>
-         <li> </li>
-         <li> </li>
-         <li> </li>
-         <li> </li>
-       </ol>
-       <button>Submit</button>
+         <h6>Spy Master</h6>
+         <CardField data={this.state.words}/>
+         <input placeholder='word' onChange={this.handleInput}/>
+         <ol>
+           <li onClick={() => {this.handleNumber(1)}}> </li>
+           <li onClick={() => {this.handleNumber(2)}}> </li>
+           <li onClick={() => {this.handleNumber(3)}}> </li>
+           <li onClick={() => {this.handleNumber(4)}}> </li>
+         </ol>
+         <button>Submit</button>
       </div>
     );
   }
