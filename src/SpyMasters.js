@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { firebasedb } from './utils/config.js';
 import CardField from './CardField.js';
+
 class SpyMasters extends Component {
   constructor(props) {
     super(props);
@@ -18,8 +19,16 @@ class SpyMasters extends Component {
   render() {
     return (
       <div className="board">
-       <h3>Spy Master</h3>
+       <h6>Spy Master</h6>
        <CardField data={this.state.words}/>
+       <input placeholder='word'/>
+       <ol>
+         <li> </li>
+         <li> </li>
+         <li> </li>
+         <li> </li>
+       </ol>
+       <button>Submit</button>
       </div>
     );
   }

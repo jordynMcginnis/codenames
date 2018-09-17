@@ -85,40 +85,62 @@ body {
 }
 
 .card-field{
-  width: 95%;
+  width: 98%;
   height: 400px;
   display: flex;
   justify-content: space-between;
   flex-wrap: wrap;
 }
 .false {
-  width: 70px;
+  width: 80px;
   height: 50px;
   border-style: solid;
   border-color: grey;
   border-width: 1px;
   border-radius: 5px;
   margin: 3px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .red {
-  width: 70px;
+  width: 80px;
   height: 50px;
   border-style: solid;
   border-color: red;
   border-width: 1px;
   border-radius: 5px;
   margin: 3px;
+   display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .blue{
-  width: 70px;
+  width: 80px;
   height: 50px;
   border-style: solid;
   border-color: blue;
   border-width: 1px;
   border-radius: 5px;
   margin: 3px;
+   display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.killer {
+  width: 80px;
+  height: 50px;
+  border-style: solid;
+  border-color: black;
+  border-width: 1px;
+  border-radius: 5px;
+  margin: 3px;
+   display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .board {
@@ -126,4 +148,19 @@ body {
   flex-direction: column;
   align-items: center;
   justify-content: center;
+}
+
+ol {
+  display: flex;
+  justify-content: space-around;
+  height: 20px;
+  background-color: white;
+}
+
+ol li {
+  border-style: solid;
+  border-color: black;
+  border-width: 1px;
+  border-radius: 5px;
+  width: 40px;
 }
