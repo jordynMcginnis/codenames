@@ -8,7 +8,7 @@ class SpyMasters extends Component {
     super(props);
     this.state = {
       words: {},
-      num: '',
+      num: 0,
       singleWord: ''
     };
   }
@@ -20,7 +20,7 @@ class SpyMasters extends Component {
     })
   }
   handleNumber = (num) => {
-    this.setState(num => ({num}));
+    this.setState(() => ({num}));
   }
   handleInput = ({target}) => {
     this.setState(() => ({singleWord: target.value}));
