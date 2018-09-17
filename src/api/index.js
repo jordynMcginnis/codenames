@@ -19,7 +19,8 @@ export function createGame (name) {
     gameMap: false,
     words: false,
     currentWord: false,
-    currentNum: false
+    currentNum: false,
+    turn: 'b'
   }
   //get random keyId from firebase below:
   const key = firebasedb.ref().child('games').push().key;
