@@ -28,6 +28,7 @@ export function createGame (name) {
   let updates = {};
   updates[key] = gameData;
   return firebasedb.ref('/games/').update(updates);
+  //switchTurn('b', key);
 };
 
 export function submitName (name, id) {
@@ -63,10 +64,12 @@ export function switchTeam (id) {
 }
 
 export function switchSpyMaster (id) {
-    firebasedb.ref('/games/' + id + '/players').once('value').then(function(snapshot) {
+    firebasedb.ref('/games/' + id + '/').once('value').then(function(snapshot) {
       let spyMaster = snapshot.val().spyMaster;
       spyMaster === 1 ? spyMaster = 2 : spyMaster = 1;
-    return firebasedb.ref('/games/' + id + '/players').update(spyMaster);
+      let result = {};
+      result.spyMaster = spyMaster;
+    return firebasedb.ref('/games/' + id + '/').update(result);
   });
 }
 
@@ -124,29 +127,44 @@ export function sendWord (arr, id) {
       if(wordMap[arr[i]].slice(0,1) === turn){
         words[arr[i]] = turn;
       } else if (wordMap[arr[i]] === 'killer'){
-        switchTurn(turn, id);
-        selectWinner(id);
+        //switchTurn(turn, id);
+        //selectWinner(id);
+        //NEED TO FIX HERE
       }
     }
     firebasedb.ref('/games/' + id + '/words').update(words);
+    //switchTurn(turn, id);
   });
 
-  switchTurn();
+
 }
 
-function switchTurn (turn, id) {
-  let result = {};
-  turn === 'b' ? result[turn] = 'r' : result[turn] = 'b';
-  firebasedb.ref('/games/' + id + '/').update(result);
+export function switchTurn (id) {
+    firebasedb.ref('/games/' + id + '/').once('value').then(function(snapshot) {
+    let turn = snapshot.val().turn;
+    let result = {};
+    if(turn === 'b'){
+      result.turn = 'r';
+    } else {
+      result.turn = 'b';
+    }
+    firebasedb.ref('/games/' + id + '/').update(result);
+    switchSpyMaster(id);
+  });
+
+  console.log('got here to switch turn');
+
+  //firebasedb.ref('/games/' + id + '/').update(result);
 }
 
 export function selectWinner (id) {
-  firebasedb.ref('/games/' + id + '/').once('value').then(function(snapshot) {
-    let turn = snapshot.val().turn;
-    let result = {};
-    result.winner = turn;
-    firebasedb.ref('/games/' + id + '/').update(result);
-  });
+  console.log('winner function ran')
+  // firebasedb.ref('/games/' + id + '/').once('value').then(function(snapshot) {
+  //   let turn = snapshot.val().turn;
+  //   let result = {};
+  //   result.winner = turn;
+  //   firebasedb.ref('/games/' + id + '/').update(result);
+  // });
 }
 
 function chooseData (id) {

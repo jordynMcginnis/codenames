@@ -13,7 +13,9 @@ class GameBoard extends Component {
       start: false,
       gameInfo: {},
       players: {},
-      name: false
+      name: false,
+      turn: false,
+      spym: false
     }
   }
   componentDidMount () {
@@ -22,7 +24,7 @@ class GameBoard extends Component {
     games.on('value', (snapshot) => {
       let value = snapshot.val();
       console.log(value.start);
-      this.setState(() => ({gameInfo: value, players: value.players, start: value.start}));
+      this.setState(() => ({gameInfo: value, players: value.players, start: value.start, turn: value.turn, spym: value.spyMaster}));
     })
   }
   startGame = (name) =>  {
@@ -37,7 +39,7 @@ class GameBoard extends Component {
           ? <TeamSelection id={this.props.location.pathname.slice(1)} start={this.startGame}/>
           : <div>
               {Object.keys(this.state.players).map((player) => {
-                if(this.state.name === this.state.gameInfo.players[player] && player.slice(-1) == 1){
+                if(this.state.name === this.state.gameInfo.players[player] && player.slice(-1) == this.state.spym){
                   return <SpyMasters id={this.props.location.pathname.slice(1)} name={this.state.name}/>
                 } else if (this.state.name === this.state.gameInfo.players[player]){
                   return <FieldOps id={this.props.location.pathname.slice(1)} name={this.state.name}/>

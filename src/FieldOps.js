@@ -10,7 +10,8 @@ class FieldOps extends Component {
       turn: false,
       team: false,
       currentWord: false,
-      currentNum: false
+      currentNum: false,
+      arr: []
     };
   }
   componentDidMount () {
@@ -56,6 +57,7 @@ class FieldOps extends Component {
   }
   handleSubmit = (arr) => {
     console.log('selected options', arr);
+    this.setState(()=> ({arr}))
     sendWord(arr, this.props.id);
     //switchTurn();
   }
@@ -65,7 +67,7 @@ class FieldOps extends Component {
         <h6>Field Operations</h6>
         <CardField data={this.state.words} handleSubmit={this.handleSubmit} maxNum={this.state.currentNum}/>
         {this.state.turn === true
-          ? <button> submit</button>
+          ? <button onClick={() => {switchTurn(this.props.id)}}> submit</button>
           : null
         }
         {this.state.currentWord} : {this.state.currentNum}
