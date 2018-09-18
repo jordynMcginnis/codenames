@@ -25,7 +25,12 @@ class CardField extends Component {
       <div className="card-field">
         {Object.keys(this.props.data).map((obj) => {
           if(this.props.data[obj] === false){
-            return <Card value={obj} handleSelection={this.handleSelection} class1={JSON.stringify(this.props.data[obj])}/>
+            if(this.state.selection.indexOf(this.props.data[obj]) > -1){
+              return <Card value={obj} handleSelection={this.handleSelection} class1='selected'/>
+            } else {
+              return <Card value={obj} handleSelection={this.handleSelection} class1={JSON.stringify(this.props.data[obj])}/>
+            }
+
           } else {
             return <Card value={obj} handleSelection={this.handleSelection} class1={this.props.data[obj]}/>
           }

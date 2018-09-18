@@ -104,11 +104,37 @@ body {
   align-items: center;
 }
 
-.r {
+.red {
   width: 80px;
   height: 50px;
   border-style: solid;
   border-color: red;
+  border-width: 1px;
+  border-radius: 5px;
+  margin: 3px;
+   display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.r{
+  width: 80px;
+  height: 50px;
+  border-style: solid;
+  border-color: red;
+  border-width: 1px;
+  border-radius: 5px;
+  margin: 3px;
+   display: flex;
+  justify-content: center;
+  align-items: center
+}
+
+.blue{
+  width: 80px;
+  height: 50px;
+  border-style: solid;
+  border-color: blue;
   border-width: 1px;
   border-radius: 5px;
   margin: 3px;
@@ -130,7 +156,8 @@ body {
   align-items: center;
 }
 
-.killer {
+.selected {
+  background-color: grey;
   width: 80px;
   height: 50px;
   border-style: solid;
@@ -141,6 +168,21 @@ body {
    display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.killer {
+  width: 80px;
+  height: 50px;
+  border-style: solid;
+  border-color: black;
+  border-width: 1px;
+  border-radius: 5px;
+  margin: 3px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  background-color: black;
 }
 
 .board {

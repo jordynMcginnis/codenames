@@ -51,11 +51,12 @@ class SpyMasters extends Component {
   }
   handleSubmitWord = () => {
     submitWord(this.props.id, this.state.singleWord, this.state.num);
+    this.setState(()=>({turn : false}));
   }
   render() {
     return (
       <div className="board">
-         <h6>Spy Master</h6>
+         <h6>Spy Master : {this.state.team} Team</h6>
          <CardField data={this.state.words}/>
          {this.state.turn === true
           ? <div>

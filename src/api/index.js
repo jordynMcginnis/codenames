@@ -149,7 +149,7 @@ export function switchTurn (id) {
       result.turn = 'b';
     }
     firebasedb.ref('/games/' + id + '/').update(result);
-    switchSpyMaster(id);
+    //switchSpyMaster(id);
   });
 
   console.log('got here to switch turn');

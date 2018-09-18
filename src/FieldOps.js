@@ -64,7 +64,7 @@ class FieldOps extends Component {
   render() {
     return (
       <div className="board">
-        <h6>Field Operations</h6>
+        <h6>Field Operations : {this.state.team} Team</h6>
         <CardField data={this.state.words} handleSubmit={this.handleSubmit} maxNum={this.state.currentNum}/>
         {this.state.turn === true
           ? <button onClick={() => {switchTurn(this.props.id)}}> submit</button>
