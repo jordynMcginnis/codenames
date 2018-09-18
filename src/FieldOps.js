@@ -15,10 +15,10 @@ class FieldOps extends Component {
     };
   }
   componentDidMount () {
-    this.setState(()=> ({turn: this.props.turn}));
+    //this.setState(()=> ({turn: this.props.turn}));
 
 
-    console.log('name', this.props.name);
+    console.log('turn passed from gameboard', this.props.turn);
     const name = this.props.name;
     const that = this;
 

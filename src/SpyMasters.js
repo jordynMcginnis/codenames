@@ -15,14 +15,17 @@ class SpyMasters extends Component {
     };
   }
   componentDidMount () {
-    this.setState(()=> ({turn: this.props.turn}));
-
-
+    //this.setState(()=> ({turn: this.props.turn}));
+    console.log('SpyMaster component rerenders here')
+    //THIS ONLY RUNS WHEN WORDMAP IS UPDATED SO NOT OFTEN LOL
     let games = firebasedb.ref('/games/' + this.props.id + '/wordMap');
     games.on('value', (snapshot) => {
       let words = snapshot.val();
       this.setState(() => ({words}));
+      console.log('right here ran and updated');
     })
+
+
     const name = this.props.name;
     const that = this;
     const key = firebasedb.ref('/games/' + this.props.id + '/players').once('value').then(function(snapshot) {
@@ -31,28 +34,42 @@ class SpyMasters extends Component {
       for(var i = 0; i < playersArr.length; i++) {
         if(playersObj[playersArr[i]] === name) {
           that.setState(() => ({team: playersArr[i].slice(0,1)}));
+          //that.handleTeam();
           break;
         }
       }
     });
-    this.handleTeam();
-  }
-  handleTeam = () => {
-    const that = this;
-    // let team = firebasedb.ref('/games/' + this.props.id + '/turn');
-    // team.on('value', (snapshot) => {
+    //EVERYTIME TURN CHANGES CALLS HANDLETEAM
+    let team = firebasedb.ref('/games/' + this.props.id + '/turn');
+    team.on('value', (snapshot) => {
     //   let value = snapshot.val();
     //   //this.setState(() => ({words}));
+    //   //THIS SHOULD RUN EVERYTIME BUTTON GETS PUSHED? CHECK
+    //   console.log('value here:', value)
+    //   console.log('state team here:', that.state.team);
+
     //   if(value === that.state.team){
     //     that.setState(() => ({turn : true}));
     //   }
-    // })
+    that.handleTeam();
+    })
+
+
+  };
+
+
+  handleTeam = () => {
+    const that = this;
+
     const team = firebasedb.ref('/games/' + this.props.id + '/turn').once('value').then(function(snapshot) {
       let value = snapshot.val();
       console.log('value here:', value)
-      console.log('team here:', that.state.team);
+      console.log('state team here:', that.state.team);
+      //console.log('this.props.turn here:', that.props.turn)
       if(value === that.state.team){
         that.setState(() => ({turn : true}));
+      } else {
+        that.setState(() => ({turn : false}));
       }
     });
   }
