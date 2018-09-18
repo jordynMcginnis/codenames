@@ -20,7 +20,8 @@ export function createGame (name) {
     words: false,
     currentWord: false,
     currentNum: false,
-    turn: 'b'
+    turn: 'b',
+    winner: false
   }
   //get random keyId from firebase below:
   const key = firebasedb.ref().child('games').push().key;
@@ -114,29 +115,38 @@ export function checkData (id) {
   });
 }
 
-export function sendWord (arr) {
+export function sendWord (arr, id) {
   firebasedb.ref('/games/' + id + '/').once('value').then(function(snapshot) {
     let turn = snapshot.val().turn;
     let wordMap = snapshot.val().wordMap;
     let words = snapshot.val().words;
     for(var i = 0; i < arr.length; i++) {
       if(wordMap[arr[i]].slice(0,1) === turn){
-        word[arr[i]] = turn;
+        words[arr[i]] = turn;
       } else if (wordMap[arr[i]] === 'killer'){
-        switchturn();
-        selectWinner();
+        switchTurn(turn, id);
+        selectWinner(id);
       }
     }
+    firebasedb.ref('/games/' + id + '/words').update(words);
   });
-  //switchTurn();
+
+  switchTurn();
 }
 
-export function switchTurn (turn) {
-
+function switchTurn (turn, id) {
+  let result = {};
+  turn === 'b' ? result[turn] = 'r' : result[turn] = 'b';
+  firebasedb.ref('/games/' + id + '/').update(result);
 }
 
-export function selectWinner () {
-
+export function selectWinner (id) {
+  firebasedb.ref('/games/' + id + '/').once('value').then(function(snapshot) {
+    let turn = snapshot.val().turn;
+    let result = {};
+    result.winner = turn;
+    firebasedb.ref('/games/' + id + '/').update(result);
+  });
 }
 
 function chooseData (id) {

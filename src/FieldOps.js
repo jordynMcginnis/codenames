@@ -56,7 +56,7 @@ class FieldOps extends Component {
   }
   handleSubmit = (arr) => {
     console.log('selected options', arr);
-    sendWord(arr);
+    sendWord(arr, this.props.id);
     //switchTurn();
   }
   render() {
