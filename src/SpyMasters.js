@@ -15,6 +15,9 @@ class SpyMasters extends Component {
     };
   }
   componentDidMount () {
+    this.setState(()=> ({turn: this.props.turn}));
+
+
     let games = firebasedb.ref('/games/' + this.props.id + '/wordMap');
     games.on('value', (snapshot) => {
       let words = snapshot.val();

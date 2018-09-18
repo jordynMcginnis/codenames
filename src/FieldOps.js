@@ -15,6 +15,9 @@ class FieldOps extends Component {
     };
   }
   componentDidMount () {
+    this.setState(()=> ({turn: this.props.turn}));
+
+
     console.log('name', this.props.name);
     const name = this.props.name;
     const that = this;
