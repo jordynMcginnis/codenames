@@ -54,12 +54,25 @@ class FieldOps extends Component {
         that.setState(() => ({turn : true}));
       }
     });
+    // const that = this;
+    // let team = firebasedb.ref('/games/' + this.props.id + '/turn');
+    // team.on('value', (snapshot) => {
+    //   let value = snapshot.val();
+    //   //this.setState(() => ({words}));
+    //   if(value === that.state.team){
+    //     that.setState(() => ({turn : true}));
+    //   }
+    // })
   }
   handleSubmit = (arr) => {
     console.log('selected options', arr);
     this.setState(()=> ({arr}))
-    sendWord(arr, this.props.id);
+
     //switchTurn();
+  }
+  finalSubmit = () => {
+     sendWord(this.state.arr, this.props.id);
+     switchTurn(this.props.id);
   }
   render() {
     return (
@@ -67,7 +80,7 @@ class FieldOps extends Component {
         <h6>Field Operations : {this.state.team} Team</h6>
         <CardField data={this.state.words} handleSubmit={this.handleSubmit} maxNum={this.state.currentNum}/>
         {this.state.turn === true
-          ? <button onClick={() => {switchTurn(this.props.id)}}> submit</button>
+          ? <button onClick={() => {this.finalSubmit()}}>submit</button>
           : null
         }
         {this.state.currentWord} : {this.state.currentNum}

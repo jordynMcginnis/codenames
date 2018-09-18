@@ -36,8 +36,18 @@ class SpyMasters extends Component {
   }
   handleTeam = () => {
     const that = this;
+    // let team = firebasedb.ref('/games/' + this.props.id + '/turn');
+    // team.on('value', (snapshot) => {
+    //   let value = snapshot.val();
+    //   //this.setState(() => ({words}));
+    //   if(value === that.state.team){
+    //     that.setState(() => ({turn : true}));
+    //   }
+    // })
     const team = firebasedb.ref('/games/' + this.props.id + '/turn').once('value').then(function(snapshot) {
       let value = snapshot.val();
+      console.log('value here:', value)
+      console.log('team here:', that.state.team);
       if(value === that.state.team){
         that.setState(() => ({turn : true}));
       }
@@ -51,7 +61,7 @@ class SpyMasters extends Component {
   }
   handleSubmitWord = () => {
     submitWord(this.props.id, this.state.singleWord, this.state.num);
-    this.setState(()=>({turn : false}));
+    //this.setState(()=>({turn : false}));
   }
   render() {
     return (

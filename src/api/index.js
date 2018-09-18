@@ -64,9 +64,10 @@ export function switchTeam (id) {
 }
 
 export function switchSpyMaster (id) {
+    //changed spyMaster to 1 perinently then to 2 to see what will happen
     firebasedb.ref('/games/' + id + '/').once('value').then(function(snapshot) {
       let spyMaster = snapshot.val().spyMaster;
-      spyMaster === 1 ? spyMaster = 2 : spyMaster = 1;
+      spyMaster = 1;
       let result = {};
       result.spyMaster = spyMaster;
     return firebasedb.ref('/games/' + id + '/').update(result);
