@@ -33,6 +33,17 @@ class FieldOps extends Component {
       }
     });
    this.handleTeam();
+   //const that = this;
+    let team = firebasedb.ref('/games/' + this.props.id + '/turn');
+    team.on('value', (snapshot) => {
+      // let value = snapshot.val();
+      // //this.setState(() => ({words}));
+      // if(value === that.state.team){
+      //   that.setState(() => ({turn : true}));
+      // }
+      that.handleTeam();
+      //IF NOT TRY HANDLE TURN THINK THAT CURRENT WORD NEEDS TO CHANGE ALSO
+    })
   }
   handleTeam = () => {
     const that = this;
@@ -55,7 +66,9 @@ class FieldOps extends Component {
       let value = snapshot.val();
       if(value === that.state.team){
         that.setState(() => ({turn : true}));
-      }
+      } else {
+        that.setState(() => ({turn: false}))
+      };
     });
     // const that = this;
     // let team = firebasedb.ref('/games/' + this.props.id + '/turn');
@@ -66,6 +79,17 @@ class FieldOps extends Component {
     //     that.setState(() => ({turn : true}));
     //   }
     // })
+  }
+  handleTurn = () => {
+    let that = this;
+    const team = firebasedb.ref('/games/' + this.props.id + '/turn').once('value').then(function(snapshot) {
+      let value = snapshot.val();
+      if(value === that.state.team){
+        that.setState(() => ({turn : true}));
+      } else {
+        that.setState(() => ({turn: false}))
+      };
+    });
   }
   handleSubmit = (arr) => {
     console.log('selected options', arr);
