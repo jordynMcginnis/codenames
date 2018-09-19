@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { firebasedb } from './utils/config.js';
 import CardField from './CardField.js';
-import {sendWord, switchTurn, gatherData} from './api/index.js';
+import {sendWord, switchTurn, gatherData, clearClue} from './api/index.js';
 class FieldOps extends Component {
   constructor(props) {
     super(props);
@@ -99,6 +99,7 @@ class FieldOps extends Component {
   }
   finalSubmit = () => {
      sendWord(this.state.arr, this.props.id);
+     clearClue(this.props.id);
      switchTurn(this.props.id);
 
   }
@@ -108,7 +109,12 @@ class FieldOps extends Component {
         <h6>Field Operations : {this.state.team} Team</h6>
         <CardField data={this.state.words} handleSubmit={this.handleSubmit} maxNum={this.state.currentNum}/>
         {this.state.turn === true
-          ? <button onClick={() => {this.finalSubmit()}}>submit</button>
+          ? <div>
+              <button onClick={() => {this.finalSubmit()}}>submit</button>
+              <span>Selected:</span>
+              {this.state.arr.map((item)=>{item})};
+            </div>
+
           : null
         }
         {this.state.currentWord} : {this.state.currentNum}

@@ -168,6 +168,16 @@ export function selectWinner (id) {
   // });
 }
 
+export function clearClue (id) {
+    firebasedb.ref('/games/' + id + '/').once('value').then(function(snapshot) {
+      let value = snapshot.val();
+      let result = {};
+      result.currentWord = false;
+      result.currentNum = false;
+      firebasedb.ref('/games/' + id + '/').update(result);
+    });
+}
+
 function chooseData (id) {
   var newData = {};
   for(var i = 0; i < 25; i++){
