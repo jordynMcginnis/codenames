@@ -3,7 +3,7 @@ import TeamSelection from './teamSelection.js';
 import { firebasedb } from './utils/config.js';
 import SpyMasters from './SpyMasters.js';
 import FieldOps from './FieldOps.js';
-import {checkStart, checkData, gatherData} from './api/index.js';
+import {checkStart, checkData, gatherData, switchSpyMaster, updateGame} from './api/index.js';
 
 class GameBoard extends Component {
   constructor(props) {
@@ -27,9 +27,13 @@ class GameBoard extends Component {
     let games = firebasedb.ref('/games/' + path +'/');
     games.on('value', (snapshot) => {
       let value = snapshot.val();
-      if(value.winner === 'r' || value.winner === 'b'){
+      if(value.winner === 'red' || value.winner === 'blue'){
         //call switch turn function
         //also update
+        updateGame(this.props.location.pathname.slice(1));
+        //switchSpyMaster(this.props.location.pathname.slice(1));
+
+
       }
       console.log('rerendering', value.turn);
       this.setState(() => ({gameInfo: value, players: value.players, start: value.start, spym: value.spyMaster, turn: value.turn}));

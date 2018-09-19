@@ -119,6 +119,26 @@ export function checkData (id) {
   });
 }
 
+export function updateGame (id) {
+  firebasedb.ref('/games/' + id + '/words').once('value').then(function(snapshot) {
+    let result = {};
+    let redPoints = snapshot.val().redPoints;
+    let bluePoints = snapshot.val().redPoints;
+    let value = snapshot.val();
+    let winner = snapshot.val().winner;
+    if(winner === 'blue'){
+      result.bluePoints = bluePoints + 1;
+      result.winner = false;
+    } else if (winner === 'red'){
+      result.redPoints = redPoints + 1;
+      result.winner = false
+    }
+    result.words = chooseData(id);
+    firebasedb.ref('/games/' + id + '/').update(result);
+  });
+  switchSpyMaster(id);
+}
+
 export function sendWord (arr, id) {
   firebasedb.ref('/games/' + id + '/').once('value').then(function(snapshot) {
     let turn = snapshot.val().turn;
@@ -131,6 +151,15 @@ export function sendWord (arr, id) {
         //switchTurn(turn, id);
         //selectWinner(id);
         //NEED TO FIX HERE
+        let person = false;
+        if(turn === 'b'){
+          person = 'red'
+        } else {
+          person = 'blue'
+        }
+        let result = {};
+        result.winner = person;
+        firebasedb.ref('/games/' + id + '/').update(result);
       }
     }
     firebasedb.ref('/games/' + id + '/words').update(words);
