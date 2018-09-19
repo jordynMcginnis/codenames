@@ -100,6 +100,7 @@ class FieldOps extends Component {
   finalSubmit = () => {
      sendWord(this.state.arr, this.props.id);
      switchTurn(this.props.id);
+
   }
   render() {
     return (

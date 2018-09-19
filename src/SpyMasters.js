@@ -81,7 +81,7 @@ class SpyMasters extends Component {
   }
   handleSubmitWord = () => {
     submitWord(this.props.id, this.state.singleWord, this.state.num);
-    //this.setState(()=>({turn : false}));
+    this.setState(()=>({turn : false}));
   }
   render() {
     return (
