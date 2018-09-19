@@ -159,14 +159,29 @@ export function switchTurn (id) {
 }
 
 export function selectWinner (id) {
+  let blueCount = 0;
+  let redCount = 0;
   console.log('winner function ran')
-  // firebasedb.ref('/games/' + id + '/').once('value').then(function(snapshot) {
-  //   let turn = snapshot.val().turn;
-  //   let result = {};
-  //   result.winner = turn;
-  //   firebasedb.ref('/games/' + id + '/').update(result);
-  // });
-}
+  firebasedb.ref('/games/' + id + '/').once('value').then(function(snapshot) {
+    let result = {};
+    let map = snapshot.val().words;
+    for(var key in map) {
+      if(map[key] === 'b'){
+        blueCount++;
+      } else if (map[key] === 'r'){
+        redCount++;
+      }
+    }
+    if(blueCount >= 12){
+        result.winner = 'blue'
+    } else if (redCount >= 12){
+        result.winner = 'red'
+    }
+    firebasedb.ref('/games/' + id + '/').update(result);
+  });
+};
+
+
 
 export function clearClue (id) {
     firebasedb.ref('/games/' + id + '/').once('value').then(function(snapshot) {

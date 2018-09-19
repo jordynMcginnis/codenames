@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { firebasedb } from './utils/config.js';
 import CardField from './CardField.js';
-import {sendWord, switchTurn, gatherData, clearClue} from './api/index.js';
+import {sendWord, switchTurn, gatherData, clearClue, selectWinner} from './api/index.js';
 class FieldOps extends Component {
   constructor(props) {
     super(props);
@@ -101,7 +101,7 @@ class FieldOps extends Component {
      sendWord(this.state.arr, this.props.id);
      clearClue(this.props.id);
      switchTurn(this.props.id);
-
+     selectWinner(this.props.id);
   }
   render() {
     return (
