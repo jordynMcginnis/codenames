@@ -109,10 +109,10 @@ class FieldOps extends Component {
         <h6>Field Operations : {this.state.team} Team</h6>
         <CardField data={this.state.words} handleSubmit={this.handleSubmit} maxNum={this.state.currentNum}/>
         {this.state.turn === true
-          ? <div>
+          ? <div className='chooser'>
               <button onClick={() => {this.finalSubmit()}}>submit</button>
-              <span>Selected:</span>
-              {this.state.arr.map((item)=>{item})};
+              <span>Selected Words:</span>
+              {this.state.arr.map((item)=>{item})}
             </div>
 
           : null
