@@ -27,6 +27,10 @@ class GameBoard extends Component {
     let games = firebasedb.ref('/games/' + path +'/');
     games.on('value', (snapshot) => {
       let value = snapshot.val();
+      if(value.winner === 'r' || value.winner === 'b'){
+        //call switch turn function
+        //also update
+      }
       console.log('rerendering', value.turn);
       this.setState(() => ({gameInfo: value, players: value.players, start: value.start, spym: value.spyMaster, turn: value.turn}));
     });
