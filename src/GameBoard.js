@@ -57,9 +57,11 @@ class GameBoard extends Component {
   render() {
     return (
       <div className="game-board">
+
         {this.state.start === false
           ? <TeamSelection id={this.props.location.pathname.slice(1)} start={this.startGame}/>
           : <div>
+
               {Object.keys(this.state.players).map((player) => {
                 if(this.state.name === this.state.gameInfo.players[player] && player.slice(-1) == this.state.spym){
                   return <SpyMasters id={this.props.location.pathname.slice(1)} name={this.state.name} turn={this.state.turn}/>

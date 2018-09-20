@@ -2,20 +2,30 @@ body {
   margin: 0;
   padding: 0;
   font-family: sans-serif;
-  background-color: white;
+  background-color: grey;
+  background-image: url('./photos/p2.png');
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 1000px 830px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
 }
+
 .app {
   text-align: center;
   height: 98vh;
   width: 98vw;
   max-width: 400px;
-  max-height: 800px;
+  max-height: 600px;
   min-height: 300px;
-  border-color: #ffefe9;
+  border-color: gray;
   border-style: solid;
   border-radius: 10px;
   margin: 0 auto;
-  background-color: #ffefe9;
+  background-color: #f3f3f3;
+
 }
 
 .app-title {
@@ -96,7 +106,7 @@ body {
   height: 50px;
   border-style: solid;
   border-color: grey;
-  border-width: 1px;
+  border-width: 2px;
   border-radius: 5px;
   margin: 3px;
   display: flex;
@@ -104,15 +114,23 @@ body {
   align-items: center;
 }
 
+.red-team1{
+ color: #e86c7a;
+}
+
+.blue-team1{
+  color: #2cb5b4;
+}
+
 .red {
   width: 80px;
   height: 50px;
   border-style: solid;
-  border-color: red;
-  border-width: 1px;
+  border-color: #e86c7a;
+  border-width: 2px;
   border-radius: 5px;
   margin: 3px;
-   display: flex;
+  display: flex;
   justify-content: center;
   align-items: center;
 }
@@ -121,7 +139,7 @@ body {
   width: 80px;
   height: 50px;
   border-style: solid;
-  border-color: red;
+  border-color: #e86c7a;
   border-width: 1px;
   border-radius: 5px;
   margin: 3px;
@@ -134,8 +152,8 @@ body {
   width: 80px;
   height: 50px;
   border-style: solid;
-  border-color: blue;
-  border-width: 1px;
+  border-color: #2cb5b4;
+  border-width: 2px;
   border-radius: 5px;
   margin: 3px;
    display: flex;
@@ -147,7 +165,7 @@ body {
   width: 80px;
   height: 50px;
   border-style: solid;
-  border-color: blue;
+  border-color: #2cb5b4;
   border-width: 1px;
   border-radius: 5px;
   margin: 3px;
@@ -168,7 +186,7 @@ body {
   height: 50px;
   border-style: solid;
   border-color: black;
-  border-width: 1px;
+  border-width: 2px;
   border-radius: 5px;
   margin: 3px;
    display: flex;
@@ -212,3 +230,44 @@ body {
   border-radius: 5px;
   width: 40px;
 }
+/* Dropdown Button */
+.dropbtn {
+    background-color: #4CAF50;
+    color: white;
+    padding: 16px;
+    font-size: 16px;
+    border: none;
+}
+
+/* The container <div> - needed to position the dropdown content */
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+/* Dropdown Content (Hidden by Default) */
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f1f1f1;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+}
+
+/* Links inside the dropdown */
+.dropdown-content div {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+}
+
+/* Change color of dropdown links on hover */
+.dropdown-content div:hover {background-color: #e86c7a;}
+
+/* Show the dropdown menu on hover */
+.dropdown:hover .dropdown-content {display: block;}
+
+/* Change the background color of the dropdown button when the dropdown content is shown */
+.dropdown:hover .dropbtn {background-color: gray;}

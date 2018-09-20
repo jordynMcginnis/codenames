@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {submitName, switchTeam} from './api/index.js';
+import {submitName, switchTeam, selectRounds} from './api/index.js';
 import { firebasedb } from './utils/config.js';
 
 class TeamSelection extends Component {
@@ -8,7 +8,8 @@ class TeamSelection extends Component {
     this.state = {
       render: 'name',
       name: false,
-      players: {}
+      players: {},
+      round: 2
     }
     this.submitName = this.submitName.bind(this);
     this.updateInput = this.updateInput.bind(this);
@@ -20,6 +21,11 @@ class TeamSelection extends Component {
     games.on('value', function (snapshot) {
       let value = snapshot.val();
       that.setState(() => ({players: value}));
+    })
+    let rounds = firebasedb.ref('/games/' + this.props.id + '/rounds');
+    rounds.on('value', function (snapshot) {
+      let value = snapshot.val();
+      that.setState(() => ({round: value}));
     })
   }
   submitName () {
@@ -34,6 +40,11 @@ class TeamSelection extends Component {
   }
   switchTeams () {
     switchTeam(this.props.id);
+
+  }
+  switchRounds = (round) => {
+    this.setState(()=>({round}));
+    selectRounds(this.props.id, round);
   }
   render() {
     return (
@@ -51,7 +62,16 @@ class TeamSelection extends Component {
                   return <div className='red-team' key={player}> {this.state.players[player]} </div>
                 }
               })}
-              <button className='switch' onClick={this.switchTeams}> SWITCH TEAMS</button>
+              <button className='switch' onClick={this.switchTeams}>SWITCH TEAMS</button>
+              <h2> Rounds : {this.state.round}</h2>
+              <div class="dropdown">
+                <button class="dropbtn">Change Rounds</button>
+                <div class="dropdown-content">
+                  <div onClick={()=>{this.switchRounds(2)}}>2</div>
+                  <div onClick={()=>{this.switchRounds(4)}}>4</div>
+                  <div onClick={()=>{this.switchRounds(6)}}>6</div>
+                </div>
+              </div>
               <button className='switch' onClick={() => {this.props.start(this.state.name)}}> START</button>
             </div>
         }

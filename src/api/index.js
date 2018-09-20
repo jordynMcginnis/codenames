@@ -21,7 +21,8 @@ export function createGame (name) {
     currentWord: false,
     currentNum: false,
     turn: 'b',
-    winner: false
+    winner: false,
+    rounds: false
   }
   //get random keyId from firebase below:
   const key = firebasedb.ref().child('games').push().key;
@@ -43,6 +44,16 @@ export function submitName (name, id) {
     }
     return firebasedb.ref('/games/' + id + '/players').update(playersObj);
   });
+}
+
+export function selectRounds (id, round) {
+  // firebasedb.ref('/games/' + id + '/').once('value').then(function(snapshot) {
+  //   let result = {};
+  //   result.
+  // });
+  let result = {};
+  result.rounds = round;
+  firebasedb.ref('/games/' + id + '/').update(result);
 }
 
 export function switchTeam (id) {

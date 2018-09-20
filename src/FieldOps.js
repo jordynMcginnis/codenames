@@ -2,6 +2,9 @@ import React, { Component } from 'react';
 import { firebasedb } from './utils/config.js';
 import CardField from './CardField.js';
 import {sendWord, switchTurn, gatherData, clearClue, selectWinner} from './api/index.js';
+import {FaBullseye} from "react-icons/fa";
+
+
 class FieldOps extends Component {
   constructor(props) {
     super(props);
@@ -106,7 +109,12 @@ class FieldOps extends Component {
   render() {
     return (
       <div className="board">
-        <h6>Field Operations : {this.state.team} Team</h6>
+        <h6>Field Operations :
+          {this.state.team === 'r'
+             ? <div className='red-team1'><FaBullseye/> </div>
+             : <div className='blue-team1'><FaBullseye/> </div>
+           }
+        </h6>
         <CardField data={this.state.words} handleSubmit={this.handleSubmit} maxNum={this.state.currentNum}/>
         {this.state.turn === true
           ? <div className='chooser'>

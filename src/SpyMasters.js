@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { firebasedb } from './utils/config.js';
 import CardField from './CardField.js';
 import {submitWord} from './api/index.js';
-
+import {FaBullseye} from "react-icons/fa";
 class SpyMasters extends Component {
   constructor(props) {
     super(props);
@@ -86,7 +86,12 @@ class SpyMasters extends Component {
   render() {
     return (
       <div className="board">
-         <h6>Spy Master : {this.state.team} Team</h6>
+         <h6>Spy Master for Team:
+           {this.state.team === 'r'
+             ? <span className='red-team1'> <FaBullseye/> </span>
+             : <span className='blue-team1'> <FaBullseye/> </span>
+           }
+         </h6>
          <CardField data={this.state.words}/>
          {this.state.turn === true
           ? <div>
