@@ -22,7 +22,7 @@ export function createGame (name) {
     currentNum: false,
     turn: 'b',
     winner: false,
-    rounds: false
+    rounds: 2
   }
   //get random keyId from firebase below:
   const key = firebasedb.ref().child('games').push().key;

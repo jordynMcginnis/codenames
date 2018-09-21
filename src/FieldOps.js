@@ -111,9 +111,10 @@ class FieldOps extends Component {
       <div className="board">
         <h6>Field Operations :
           {this.state.team === 'r'
-             ? <div className='red-team1'><FaBullseye/> </div>
-             : <div className='blue-team1'><FaBullseye/> </div>
+             ? <span className='red-team1'> Red</span>
+             : <span className='blue-team1'> Blue</span>
            }
+           Team
         </h6>
         <CardField data={this.state.words} handleSubmit={this.handleSubmit} maxNum={this.state.currentNum}/>
         {this.state.turn === true

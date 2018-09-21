@@ -15,7 +15,9 @@ class GameBoard extends Component {
       players: {},
       name: false,
       turn: false,
-      spym: false
+      spym: false,
+      redPoints: 0,
+      bluePoints: 0
     }
   }
   componentDidMount () {
@@ -36,7 +38,7 @@ class GameBoard extends Component {
 
       }
       console.log('rerendering', value.turn);
-      this.setState(() => ({gameInfo: value, players: value.players, start: value.start, spym: value.spyMaster, turn: value.turn}));
+      this.setState(() => ({gameInfo: value, players: value.players, start: value.start, spym: value.spyMaster, turn: value.turn, redPoints: value.redPoints, bluePoints: value.bluePoints}));
     });
 
 
@@ -69,6 +71,10 @@ class GameBoard extends Component {
                   return <FieldOps id={this.props.location.pathname.slice(1)} name={this.state.name} turn={this.state.turn}/>
                 }
               })}
+              <div className='all-points'>
+                <span> Red Points: {this.state.redPoints} </span>
+                <span> Blue Points: {this.state.bluePoints} </span>
+              </div>
             </div>
         }
       </div>

@@ -3,6 +3,7 @@ import { firebasedb } from './utils/config.js';
 import CardField from './CardField.js';
 import {submitWord} from './api/index.js';
 import {FaBullseye} from "react-icons/fa";
+
 class SpyMasters extends Component {
   constructor(props) {
     super(props);
@@ -18,9 +19,22 @@ class SpyMasters extends Component {
     //this.setState(()=> ({turn: this.props.turn}));
     console.log('SpyMaster component rerenders here')
     //THIS ONLY RUNS WHEN WORDMAP IS UPDATED SO NOT OFTEN LOL
-    let games = firebasedb.ref('/games/' + this.props.id + '/wordMap');
+    let games = firebasedb.ref('/games/' + this.props.id + '/');
     games.on('value', (snapshot) => {
-      let words = snapshot.val();
+      let words = {};
+      let wordMap = snapshot.val().wordMap;
+      let wordAgent = snapshot.val().words;
+      for(var key in wordMap){
+        if(wordAgent[key] !== false){
+          if(wordAgent[key] === 'r'){
+            words[key] = 'red-selected'
+          } else if (wordAgent[key] === 'b'){
+            words[key] = 'blue-selected'
+          }
+        } else {
+          words[key] = wordMap[key];
+        }
+      }
       this.setState(() => ({words}));
       console.log('right here ran and updated');
     })
@@ -88,19 +102,20 @@ class SpyMasters extends Component {
       <div className="board">
          <h6>Spy Master for Team:
            {this.state.team === 'r'
-             ? <span className='red-team1'> <FaBullseye/> </span>
-             : <span className='blue-team1'> <FaBullseye/> </span>
+             ? <span className='red-team1'> Red</span>
+             : <span className='blue-team1'> Blue</span>
            }
+           Team
          </h6>
          <CardField data={this.state.words}/>
          {this.state.turn === true
           ? <div>
-              <input placeholder='word' onChange={this.handleInput}/>
+              <input placeholder='word' onChange={this.handleInput} className='hint'/>
               <div className ='ol'>
-                <div onClick={() => {this.handleNumber(1)}}> </div>
-                <div onClick={() => {this.handleNumber(2)}}> </div>
-                <div onClick={() => {this.handleNumber(3)}}> </div>
-                <div onClick={() => {this.handleNumber(4)}}> </div>
+                <div onClick={() => {this.handleNumber(1)}}> 1</div>
+                <div onClick={() => {this.handleNumber(2)}}> 2</div>
+                <div onClick={() => {this.handleNumber(3)}}> 3</div>
+                <div onClick={() => {this.handleNumber(4)}}> 4</div>
               </div>
              <button onClick={this.handleSubmitWord}>Submit</button>
             </div>

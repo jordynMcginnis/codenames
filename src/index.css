@@ -25,12 +25,18 @@ body {
   border-radius: 10px;
   margin: 0 auto;
   background-color: #f3f3f3;
+}
 
+
+.all-points {
+  display: flex;
+  justify-content: space-around;
 }
 
 .app-title {
   font-size: 1.5em;
   color: black;
+
 }
 
 .name {
@@ -116,10 +122,12 @@ body {
 
 .red-team1{
  color: #e86c7a;
+ margin: 1px;
 }
 
 .blue-team1{
   color: #2cb5b4;
+  margin: 1px;
 }
 
 .red {
@@ -140,12 +148,13 @@ body {
   height: 50px;
   border-style: solid;
   border-color: #e86c7a;
-  border-width: 1px;
+  border-width: 2px;
   border-radius: 5px;
   margin: 3px;
    display: flex;
   justify-content: center;
-  align-items: center
+  align-items: center;
+  color: #e86c7a;
 }
 
 .blue{
@@ -159,14 +168,16 @@ body {
    display: flex;
   justify-content: center;
   align-items: center;
+
 }
 
 .b{
+  color: #2cb5b4;
   width: 80px;
   height: 50px;
   border-style: solid;
   border-color: #2cb5b4;
-  border-width: 1px;
+  border-width: 2px;
   border-radius: 5px;
   margin: 3px;
    display: flex;
@@ -194,6 +205,33 @@ body {
   align-items: center;
 }
 
+.red-selected {
+  width: 80px;
+  height: 50px;
+  border-style: solid;
+  background-color: #e86c7a;
+  border-width: 2px;
+  border-radius: 5px;
+  margin: 3px;
+   display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+}
+
+.blue-selected {
+    width: 80px;
+  height: 50px;
+  border-style: solid;
+  background-color: #2cb5b4;
+  border-width: 2px;
+  border-radius: 5px;
+  margin: 3px;
+   display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+}
 .killer {
   width: 80px;
   height: 50px;
@@ -213,20 +251,43 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
+}
+
+.board button {
+  border-style: solid;
+  border-width: 1px;
+  border-color: #2cb5b4;
+  color: #2cb5b4;
+  margin: 2px;
+}
+
+h6{
+  margin: 1px;
+}
+
+.hint {
+  border-top-width: 0px;
+  border-right-width: 0px;
+  border-left-width: 0px;
+  border-color: #2cb5b4;
+  background-color: #f3f3f3;
+  margin: 3px;
 }
 
 .ol {
   display: flex;
   justify-content: space-around;
   height: 20px;
-  background-color: white;
+  background-color: #f3f3f3;
 }
 
 .ol div {
   border-style: solid;
-  border-color: black;
+  border-color: #2cb5b4;
   border-width: 1px;
+  margin: 1px;
+  background-color:white;
   border-radius: 5px;
   width: 40px;
 }
@@ -234,8 +295,8 @@ body {
 .dropbtn {
     background-color: #4CAF50;
     color: white;
-    padding: 16px;
-    font-size: 16px;
+    padding: 14px;
+    font-size: 14px;
     border: none;
 }
 
@@ -250,21 +311,21 @@ body {
     display: none;
     position: absolute;
     background-color: #f1f1f1;
-    min-width: 160px;
-    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    min-width: 130px;
+    box-shadow: 0px 8px 10px 0px rgba(0,0,0,0.2);
     z-index: 1;
 }
 
 /* Links inside the dropdown */
 .dropdown-content div {
     color: black;
-    padding: 12px 16px;
+    padding: 10px 8px;
     text-decoration: none;
     display: block;
 }
 
 /* Change color of dropdown links on hover */
-.dropdown-content div:hover {background-color: #e86c7a;}
+.dropdown-content div:hover {background-color: #2cb5b4; color: white;}
 
 /* Show the dropdown menu on hover */
 .dropdown:hover .dropdown-content {display: block;}
