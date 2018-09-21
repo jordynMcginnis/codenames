@@ -17,7 +17,8 @@ class GameBoard extends Component {
       turn: false,
       spym: false,
       redPoints: 0,
-      bluePoints: 0
+      bluePoints: 0,
+      gameStatus: true
     }
   }
   componentDidMount () {
@@ -38,7 +39,7 @@ class GameBoard extends Component {
 
       }
       console.log('rerendering', value.turn);
-      this.setState(() => ({gameInfo: value, players: value.players, start: value.start, spym: value.spyMaster, turn: value.turn, redPoints: value.redPoints, bluePoints: value.bluePoints}));
+      this.setState(() => ({gameInfo: value, players: value.players, start: value.start, spym: value.spyMaster, turn: value.turn, redPoints: value.redPoints, bluePoints: value.bluePoints, gameStatus: value.gameStatus}));
     });
 
 
@@ -59,25 +60,33 @@ class GameBoard extends Component {
   render() {
     return (
       <div className="game-board">
-
         {this.state.start === false
           ? <TeamSelection id={this.props.location.pathname.slice(1)} start={this.startGame}/>
           : <div>
-
-              {Object.keys(this.state.players).map((player) => {
-                if(this.state.name === this.state.gameInfo.players[player] && player.slice(-1) == this.state.spym){
-                  return <SpyMasters id={this.props.location.pathname.slice(1)} name={this.state.name} turn={this.state.turn}/>
-                } else if (this.state.name === this.state.gameInfo.players[player]){
-                  return <FieldOps id={this.props.location.pathname.slice(1)} name={this.state.name} turn={this.state.turn}/>
-                }
-              })}
-              <div className='all-points'>
-                <span> Red Points: {this.state.redPoints} </span>
-                <span> Blue Points: {this.state.bluePoints} </span>
-              </div>
+              {this.state.gameStatus === false
+                ? <div>
+                    <h3>Game Over</h3>
+                    <div className='all-points'>
+                      <span> Red Points: {this.state.redPoints} </span>
+                      <span> Blue Points: {this.state.bluePoints} </span>
+                    </div>
+                  </div>
+                : <div>
+                    {Object.keys(this.state.players).map((player) => {
+                      if(this.state.name === this.state.gameInfo.players[player] && player.slice(-1) == this.state.spym){
+                        return <SpyMasters id={this.props.location.pathname.slice(1)} name={this.state.name} turn={this.state.turn}/>
+                      } else if (this.state.name === this.state.gameInfo.players[player]){
+                        return <FieldOps id={this.props.location.pathname.slice(1)} name={this.state.name} turn={this.state.turn}/>
+                      }
+                    })}
+                    <div className='all-points'>
+                      <span> Red Points: {this.state.redPoints} </span>
+                      <span> Blue Points: {this.state.bluePoints} </span>
+                    </div>
+                  </div>
+              }
             </div>
         }
-
       </div>
     );
   }

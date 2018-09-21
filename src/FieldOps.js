@@ -14,7 +14,8 @@ class FieldOps extends Component {
       team: false,
       currentWord: false,
       currentNum: false,
-      arr: []
+      arr: [],
+      round: 0
     };
   }
   componentDidMount () {
@@ -96,15 +97,21 @@ class FieldOps extends Component {
   }
   handleSubmit = (arr) => {
     console.log('selected options', arr);
+
     this.setState(()=> ({arr}))
 
     //switchTurn();
   }
   finalSubmit = () => {
-     sendWord(this.state.arr, this.props.id);
-     clearClue(this.props.id);
-     switchTurn(this.props.id);
-     selectWinner(this.props.id);
+    let currentRound = this.state.round + 1;
+    console.log('currentRound: ', currentRound);
+    sendWord(this.state.arr, this.props.id, currentRound);
+    selectWinner(this.props.id);
+    if(currentRound >= this.state.currentNum){
+      this.setState(()=>({round: 0}));
+    } else {
+      this.setState(()=> ({round: currentRound}));
+    }
   }
   render() {
     return (
@@ -119,9 +126,7 @@ class FieldOps extends Component {
         <CardField data={this.state.words} handleSubmit={this.handleSubmit} maxNum={this.state.currentNum}/>
         {this.state.turn === true
           ? <div className='chooser'>
-              <button onClick={() => {this.finalSubmit()}}>submit</button>
-              <span>Selected Words:</span>
-              {this.state.arr.map((item)=>{item})}
+              <button onClick={() => {this.finalSubmit()}}>submit selected word</button>
             </div>
 
           : null

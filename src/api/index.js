@@ -152,14 +152,18 @@ export function updateGame (id) {
   switchSpyMaster(id);
 }
 
-export function sendWord (arr, id) {
+export function sendWord (arr, id, round) {
+
   firebasedb.ref('/games/' + id + '/').once('value').then(function(snapshot) {
-    let turn = snapshot.val().turn;
+    let turn = snapshot.val().turn; //red
     let wordMap = snapshot.val().wordMap;
     let words = snapshot.val().words;
+    let currentRound = snapshot.val().currentNum;
+
     for(var i = 0; i < arr.length; i++) {
       if(wordMap[arr[i]].slice(0,1) === turn){
         words[arr[i]] = turn;
+
       } else if (wordMap[arr[i]] === 'killer'){
         //switchTurn(turn, id);
         //selectWinner(id);
@@ -175,11 +179,16 @@ export function sendWord (arr, id) {
         firebasedb.ref('/games/' + id + '/').update(result);
       }
     }
+    //check if round passed is equal to Current Num.. if it is then call switchTurn//
+    //if not than don't call switch turn
     firebasedb.ref('/games/' + id + '/words').update(words);
-    //switchTurn(turn, id);
+    if(round >= currentRound){
+      switchTurn(id);
+      clearClue(id);
+      //checkEnd(id);
+    }
+
   });
-
-
 }
 
 export function switchTurn (id) {
@@ -206,6 +215,7 @@ export function selectWinner (id) {
   console.log('winner function ran')
   firebasedb.ref('/games/' + id + '/').once('value').then(function(snapshot) {
     let result = {};
+    let round = snapshot.val().rounds;
     let map = snapshot.val().words;
     for(var key in map) {
       if(map[key] === 'b'){
@@ -215,24 +225,26 @@ export function selectWinner (id) {
       }
     }
     if(blueCount >= 12){
-        result.winner = 'blue'
+        result.winner = 'blue';
+        result.rounds = round + 1;
     } else if (redCount >= 12){
-        result.winner = 'red'
+        result.winner = 'red';
+        result.rounds = round + 1;
     }
     firebasedb.ref('/games/' + id + '/').update(result);
   });
+   //
   checkEnd(id);
 };
 
 export function checkEnd (id) {
+  //RIGHT HERE WRONG SHOULD NOT UPDATE CURRENT ROUND ONLY WHEN WINNER
   firebasedb.ref('/games/' + id + '/').once('value').then(function(snapshot) {
     let result = {};
     let round = snapshot.val().currentRound;
     let roundMax = snapshot.val().rounds;
     if(round === roundMax){
       result.gameStatus = false
-    } else {
-      result.currentRound = round + 1;
     }
     firebasedb.ref('/games/' + id + '/').update(result);
   });

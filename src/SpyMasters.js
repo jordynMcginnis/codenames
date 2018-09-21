@@ -97,6 +97,9 @@ class SpyMasters extends Component {
     submitWord(this.props.id, this.state.singleWord, this.state.num);
     this.setState(()=>({turn : false}));
   }
+  handleSubmit = ()=> {
+    console.log('enter word')
+  }
   render() {
     return (
       <div className="board">
@@ -107,7 +110,7 @@ class SpyMasters extends Component {
            }
            Team
          </h6>
-         <CardField data={this.state.words}/>
+         <CardField data={this.state.words} handleSubmit={this.handleSubmit}/>
          {this.state.turn === true
           ? <div>
               <input placeholder='word' onChange={this.handleInput} className='hint'/>

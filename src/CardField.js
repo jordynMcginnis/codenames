@@ -11,17 +11,19 @@ class CardField extends Component {
   handleSelection = (value) => {
     let currentArr = this.state.selection;
     console.log('maximun', this.props.maxNum)
-    if(this.props.maxNum !== false){
-      if(currentArr.length === this.props.maxNum){
-        currentArr.shift();
-        currentArr.push(value);
-        this.setState(()=> ({selection : currentArr}));
-      } else {
-        currentArr.push(value);
-        this.setState(()=> ({selection : currentArr}));
-      }
-      this.props.handleSubmit(this.state.selection);
-    }
+    // if(this.props.maxNum !== false){
+    //   if(currentArr.length === this.props.maxNum){
+    //     currentArr.shift();
+    //     currentArr.push(value);
+    //     this.setState(()=> ({selection : currentArr}));
+    //   } else {
+    //     currentArr.push(value);
+    //     this.setState(()=> ({selection : currentArr}));
+    //   }
+    //   this.props.handleSubmit(this.state.selection);
+    // }
+    currentArr[0] = value;
+    this.props.handleSubmit(this.state.selection)
   }
   render() {
     return (
