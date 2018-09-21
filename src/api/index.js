@@ -22,7 +22,9 @@ export function createGame (name) {
     currentNum: false,
     turn: 'b',
     winner: false,
-    rounds: 2
+    rounds: 2,
+    currentRound: 1,
+    gameStatus: true
   }
   //get random keyId from firebase below:
   const key = firebasedb.ref().child('games').push().key;
@@ -219,18 +221,31 @@ export function selectWinner (id) {
     }
     firebasedb.ref('/games/' + id + '/').update(result);
   });
+  checkEnd(id);
 };
 
-
+export function checkEnd (id) {
+  firebasedb.ref('/games/' + id + '/').once('value').then(function(snapshot) {
+    let result = {};
+    let round = snapshot.val().currentRound;
+    let roundMax = snapshot.val().rounds;
+    if(round === roundMax){
+      result.gameStatus = false
+    } else {
+      result.currentRound = round + 1;
+    }
+    firebasedb.ref('/games/' + id + '/').update(result);
+  });
+}
 
 export function clearClue (id) {
-    firebasedb.ref('/games/' + id + '/').once('value').then(function(snapshot) {
-      let value = snapshot.val();
-      let result = {};
-      result.currentWord = false;
-      result.currentNum = false;
-      firebasedb.ref('/games/' + id + '/').update(result);
-    });
+  firebasedb.ref('/games/' + id + '/').once('value').then(function(snapshot) {
+    let value = snapshot.val();
+    let result = {};
+    result.currentWord = false;
+    result.currentNum = false;
+    firebasedb.ref('/games/' + id + '/').update(result);
+  });
 }
 
 function chooseData (id) {
