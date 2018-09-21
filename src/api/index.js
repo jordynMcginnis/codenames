@@ -153,7 +153,6 @@ export function updateGame (id) {
 }
 
 export function sendWord (arr, id, round) {
-
   firebasedb.ref('/games/' + id + '/').once('value').then(function(snapshot) {
     let turn = snapshot.val().turn; //red
     let wordMap = snapshot.val().wordMap;
@@ -163,7 +162,8 @@ export function sendWord (arr, id, round) {
     for(var i = 0; i < arr.length; i++) {
       if(wordMap[arr[i]].slice(0,1) === turn){
         words[arr[i]] = turn;
-
+        firebasedb.ref('/games/' + id + '/words').update(words);
+        selectWinner(id);
       } else if (wordMap[arr[i]] === 'killer'){
         //switchTurn(turn, id);
         //selectWinner(id);
@@ -177,11 +177,12 @@ export function sendWord (arr, id, round) {
         let result = {};
         result.winner = person;
         firebasedb.ref('/games/' + id + '/').update(result);
+        selectWinner(id);
       }
     }
     //check if round passed is equal to Current Num.. if it is then call switchTurn//
     //if not than don't call switch turn
-    firebasedb.ref('/games/' + id + '/words').update(words);
+
     if(round >= currentRound){
       switchTurn(id);
       clearClue(id);

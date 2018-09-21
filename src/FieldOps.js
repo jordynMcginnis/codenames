@@ -106,7 +106,7 @@ class FieldOps extends Component {
     let currentRound = this.state.round + 1;
     console.log('currentRound: ', currentRound);
     sendWord(this.state.arr, this.props.id, currentRound);
-    selectWinner(this.props.id);
+    //selectWinner(this.props.id);
     if(currentRound >= this.state.currentNum){
       this.setState(()=>({round: 0}));
     } else {
