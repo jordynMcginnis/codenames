@@ -23,7 +23,7 @@ export function createGame (name) {
     turn: 'b',
     winner: false,
     rounds: 2,
-    currentRound: 1,
+    currentRound: 0,
     gameStatus: true
   }
   //get random keyId from firebase below:
@@ -132,21 +132,13 @@ export function checkData (id) {
   });
 }
 
-export function updateGame (id) {
+export function updateGame (id, winner) {
+  console.log(winner + ' won, running update game to change word maps')
   firebasedb.ref('/games/' + id + '/words').once('value').then(function(snapshot) {
     let result = {};
-    let redPoints = snapshot.val().redPoints;
-    let bluePoints = snapshot.val().redPoints;
-    let value = snapshot.val();
-    let winner = snapshot.val().winner;
-    if(winner === 'blue'){
-      result.bluePoints = bluePoints + 1;
-      result.winner = false;
-    } else if (winner === 'red'){
-      result.redPoints = redPoints + 1;
-      result.winner = false
-    }
+    result.winner = false;
     result.words = chooseData(id);
+    //I don't think that I am updating word map?
     firebasedb.ref('/games/' + id + '/').update(result);
   });
   switchSpyMaster(id);
@@ -216,7 +208,9 @@ export function selectWinner (id) {
   console.log('winner function ran')
   firebasedb.ref('/games/' + id + '/').once('value').then(function(snapshot) {
     let result = {};
-    let round = snapshot.val().rounds;
+    let redPoints = snapshot.val().redPoints;
+    let bluePoints = snapshot.val().bluePoints;
+    let currentRound = snapshot.val().currentRound;
     let map = snapshot.val().words;
     for(var key in map) {
       if(map[key] === 'b'){
@@ -226,15 +220,21 @@ export function selectWinner (id) {
       }
     }
     if(blueCount >= 12){
+        console.log('blue team won')
         result.winner = 'blue';
-        result.rounds = round + 1;
+        result.currentRound = currentRound + 1;
+        result.redPoints = redPoints + 1;
+        updateGame(id, 'blue');
     } else if (redCount >= 12){
+        console.log('red team won')
         result.winner = 'red';
-        result.rounds = round + 1;
+        result.currentRound = currentRound + 1;
+        result.bluePoints = bluePoints + 1;
+        updateGame(id, 'red');
     }
     firebasedb.ref('/games/' + id + '/').update(result);
   });
-   //
+
   checkEnd(id);
 };
 

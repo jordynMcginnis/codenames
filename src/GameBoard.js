@@ -30,14 +30,14 @@ class GameBoard extends Component {
     let games = firebasedb.ref('/games/' + path +'/');
     games.on('value', (snapshot) => {
       let value = snapshot.val();
-      if(value.winner === 'red' || value.winner === 'blue'){
-        //call switch turn function
-        //also update
-        updateGame(this.props.location.pathname.slice(1));
-        //switchSpyMaster(this.props.location.pathname.slice(1));
+      // if(value.winner === 'red' || value.winner === 'blue'){
+      //   //call switch turn function
+      //   //also update
+      //   updateGame(this.props.location.pathname.slice(1));
+      //   //switchSpyMaster(this.props.location.pathname.slice(1));
 
 
-      }
+      // }
       console.log('rerendering', value.turn);
       this.setState(() => ({gameInfo: value, players: value.players, start: value.start, spym: value.spyMaster, turn: value.turn, redPoints: value.redPoints, bluePoints: value.bluePoints, gameStatus: value.gameStatus}));
     });
