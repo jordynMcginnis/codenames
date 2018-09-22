@@ -137,6 +137,7 @@ export function updateGame (id, winner) {
   firebasedb.ref('/games/' + id + '/words').once('value').then(function(snapshot) {
     let result = {};
     result.winner = false;
+    //result.winner = winner;
     result.words = chooseData(id);
     //I don't think that I am updating word map?
     firebasedb.ref('/games/' + id + '/').update(result);
@@ -175,10 +176,10 @@ export function sendWord (arr, id, round) {
     //check if round passed is equal to Current Num.. if it is then call switchTurn//
     //if not than don't call switch turn
 
-    if(round >= currentRound){
+    if(currentRound <= round){
       switchTurn(id);
       clearClue(id);
-      //checkEnd(id);
+      //selectWinner(id);
     }
 
   });
@@ -223,13 +224,14 @@ export function selectWinner (id) {
         console.log('blue team won')
         result.winner = 'blue';
         result.currentRound = currentRound + 1;
-        result.redPoints = redPoints + 1;
+        result.bluePoints = bluePoints + 1;
+
         updateGame(id, 'blue');
     } else if (redCount >= 12){
         console.log('red team won')
         result.winner = 'red';
         result.currentRound = currentRound + 1;
-        result.bluePoints = bluePoints + 1;
+        result.redPoints = redPoints + 1;
         updateGame(id, 'red');
     }
     firebasedb.ref('/games/' + id + '/').update(result);
@@ -244,6 +246,7 @@ export function checkEnd (id) {
     let result = {};
     let round = snapshot.val().currentRound;
     let roundMax = snapshot.val().rounds;
+    console.log('currentRound: ' + round + ' MaxRound: ' + roundMax);
     if(round === roundMax){
       result.gameStatus = false
     }

@@ -42,6 +42,12 @@ class GameBoard extends Component {
       this.setState(() => ({gameInfo: value, players: value.players, start: value.start, spym: value.spyMaster, turn: value.turn, redPoints: value.redPoints, bluePoints: value.bluePoints, gameStatus: value.gameStatus}));
     });
 
+    let rounds = firebasedb.ref('/games/' + path +'/currentRound');
+      rounds.on('value', (snapshot) => {
+        checkEnd(path);
+      }
+    });
+
 
     // let that = this;
     // // // THIS IS ONLY ONCE FOR NOW:
