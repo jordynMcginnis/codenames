@@ -267,11 +267,14 @@ export function clearClue (id) {
 function chooseData (id) {
   var newData = {};
   for(var i = 0; i < 25; i++){
-    let index = Math.floor(Math.random() * Math.floor(374));
-    newData[data[index]] = false;
+    let thing = Math.floor(Math.random() * Math.floor(374));
+    newData[data[thing]] = false;
+    if(i === 24) {
+      console.log('arr length', Object.keys(newData).length);
+      chooseTeamWords(newData, id)
+      return newData;
+    }
   }
-  chooseTeamWords(newData, id)
-  return newData;
 }
 
 function chooseTeamWords(data, id) {
