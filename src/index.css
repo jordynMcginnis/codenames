@@ -141,7 +141,10 @@ button {
   justify-content: center;
 }
 
+
+
 .team-options {
+  background-color: red;
   display: flex;
   flex-direction: column;
   justify-content: center;
