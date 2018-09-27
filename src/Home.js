@@ -7,7 +7,6 @@ class Home extends Component {
   constructor(props){
     super(props);
     this.state = {
-      render: 'gameList',
       games: false
     }
   }
@@ -19,16 +18,10 @@ class Home extends Component {
       that.setState(() => ({games}));
     })
   }
-  renderCreateGame = () => {
-    this.state.render === 'createGame'
-      ? this.setState(() => ({render: 'gameList'}))
-      : this.setState(() => ({render: 'createGame'}));
-  }
   render() {
     return (
       <div className="app-intro">
-        <button onClick={this.renderCreateGame}>Create a new game</button>
-        {this.state.render === 'createGame' ? <CreateGame exitSubmit={this.renderCreateGame}/> : null}
+        <CreateGame/>
         <div>Games:</div>
         {Object.keys(this.state.games).map((id) =>
           this.state.games[id].homeRender === true

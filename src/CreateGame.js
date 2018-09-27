@@ -7,15 +7,12 @@ class CreateGame extends Component {
     this.state = {
       name: false
     };
-    this.handleName = this.handleName.bind(this);
-    this.submitName = this.submitName.bind(this);
   }
-  handleName ({target}) {
+  handleName = ({target}) => {
     this.setState(() => ({ name : target.value}))
   }
-  submitName () {
+  submitName = () => {
     createGame(this.state.name)
-    this.props.exitSubmit();
   }
   render () {
     return (
