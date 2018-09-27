@@ -24,7 +24,8 @@ export function createGame (name) {
     winner: false,
     rounds: 2,
     currentRound: 0,
-    gameStatus: true
+    gameStatus: true,
+    homeRender : true
   }
   //get random keyId from firebase below:
   const key = firebasedb.ref().child('games').push().key;
@@ -80,7 +81,8 @@ export function switchSpyMaster (id) {
     //changed spyMaster to 1 perinently then to 2 to see what will happen
     firebasedb.ref('/games/' + id + '/').once('value').then(function(snapshot) {
       let spyMaster = snapshot.val().spyMaster;
-      spyMaster = 1;
+      spyMaster === 1 ? spyMaster = 2 : spyMaster = 1;
+      //spyMaster = 1;
       let result = {};
       result.spyMaster = spyMaster;
     return firebasedb.ref('/games/' + id + '/').update(result);
@@ -132,7 +134,7 @@ export function checkData (id) {
   });
 }
 
-export function updateGame (id, winner) {
+export function updateGame (id, winner, kill) {
   console.log(winner + ' won, running update game to change word maps')
   firebasedb.ref('/games/' + id + '/words').once('value').then(function(snapshot) {
     let result = {};
@@ -142,21 +144,37 @@ export function updateGame (id, winner) {
     //I don't think that I am updating word map?
     firebasedb.ref('/games/' + id + '/').update(result);
   });
-  switchSpyMaster(id);
+  if (kill === false){
+
+    switchSpyMaster(id);
+  }
+
 }
 
 export function sendWord (arr, id, round) {
-  firebasedb.ref('/games/' + id + '/').once('value').then(function(snapshot) {
+  return firebasedb.ref('/games/' + id + '/').once('value').then(function(snapshot) {
     let turn = snapshot.val().turn; //red
     let wordMap = snapshot.val().wordMap;
     let words = snapshot.val().words;
     let currentRound = snapshot.val().currentNum;
 
-    for(var i = 0; i < arr.length; i++) {
+//was at bottom;
+  // if(currentRound <= round){
+  //     switchTurn(id);
+  //     clearClue(id);
+  //     //selectWinner(id);
+  //   }
+    for (var i = 0; i < arr.length; i++) {
       if(wordMap[arr[i]].slice(0,1) === turn){
         words[arr[i]] = turn;
         firebasedb.ref('/games/' + id + '/words').update(words);
         selectWinner(id);
+          if(currentRound <= round){
+            switchTurn(id);
+            clearClue(id);
+            //selectWinner(id);
+          }
+        return true;
       } else if (wordMap[arr[i]] === 'killer'){
         //switchTurn(turn, id);
         //selectWinner(id);
@@ -168,20 +186,25 @@ export function sendWord (arr, id, round) {
           person = 'blue'
         }
         let result = {};
-        result.winner = person;
-        firebasedb.ref('/games/' + id + '/').update(result);
-        selectWinner(id);
+        //result.winner = person;
+        //firebasedb.ref('/games/' + id + '/').update(result);
+        selectWinner(id, 'end', person);
+        if(currentRound <= round){
+            switchTurn(id);
+            clearClue(id);
+            //selectWinner(id);
+          }
+        return;
+      } else {
+          if(currentRound <= round){
+            switchTurn(id);
+            clearClue(id);
+          }
+        return false;
       }
     }
     //check if round passed is equal to Current Num.. if it is then call switchTurn//
     //if not than don't call switch turn
-
-    if(currentRound <= round){
-      switchTurn(id);
-      clearClue(id);
-      //selectWinner(id);
-    }
-
   });
 }
 
@@ -203,7 +226,7 @@ export function switchTurn (id) {
   //firebasedb.ref('/games/' + id + '/').update(result);
 }
 
-export function selectWinner (id) {
+export function selectWinner (id, stat, person) {
   let blueCount = 0;
   let redCount = 0;
   console.log('winner function ran')
@@ -213,26 +236,38 @@ export function selectWinner (id) {
     let bluePoints = snapshot.val().bluePoints;
     let currentRound = snapshot.val().currentRound;
     let map = snapshot.val().words;
-    for(var key in map) {
-      if(map[key] === 'b'){
-        blueCount++;
-      } else if (map[key] === 'r'){
-        redCount++;
-      }
-    }
-    if(blueCount >= 12){
-        console.log('blue team won')
-        result.winner = 'blue';
-        result.currentRound = currentRound + 1;
-        result.bluePoints = bluePoints + 1;
+    let teamTurn = snapshot.val().turn;
 
-        updateGame(id, 'blue');
-    } else if (redCount >= 12){
-        console.log('red team won')
-        result.winner = 'red';
-        result.currentRound = currentRound + 1;
-        result.redPoints = redPoints + 1;
-        updateGame(id, 'red');
+    if(stat === 'end'){
+      result.winner = person;
+      person === 'blue' ? result.bluePoints = bluePoints + 1 : result.redPoints = redPoints + 1;
+      result.currentRound = currentRound + 1;
+
+      console.log('say winner should be:', person);
+      updateGame(id, person, false);
+    } else {
+      for(var key in map) {
+        if(map[key] === 'b'){
+          blueCount++;
+        } else if (map[key] === 'r'){
+          redCount++;
+        }
+      }
+
+      if(blueCount >= 12){
+          console.log('blue team won')
+          result.winner = 'blue';
+          result.currentRound = currentRound + 1;
+          result.bluePoints = bluePoints + 1;
+
+          updateGame(id, 'blue', false);
+      } else if (redCount >= 12){
+          console.log('red team won')
+          result.winner = 'red';
+          result.currentRound = currentRound + 1;
+          result.redPoints = redPoints + 1;
+          updateGame(id, 'red', false);
+      }
     }
     firebasedb.ref('/games/' + id + '/').update(result);
   });
@@ -248,7 +283,8 @@ export function checkEnd (id) {
     let roundMax = snapshot.val().rounds;
     console.log('currentRound: ' + round + ' MaxRound: ' + roundMax);
     if(round === roundMax){
-      result.gameStatus = false
+      result.gameStatus = false;
+      result.homeRender = false;
     }
     firebasedb.ref('/games/' + id + '/').update(result);
   });
@@ -267,9 +303,9 @@ export function clearClue (id) {
 function chooseData (id) {
   var newData = {};
   for(var i = 0; i < 25; i++){
-    let thing = Math.floor(Math.random() * Math.floor(374));
-    newData[data[thing]] = false;
-    if(i === 24) {
+    let ranNum = Math.floor(Math.random() * Math.floor(374));
+    newData[data[ranNum]] = false;
+    if(Object.keys(newData).length === 25) {
       console.log('arr length', Object.keys(newData).length);
       chooseTeamWords(newData, id)
       return newData;

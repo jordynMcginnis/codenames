@@ -27,7 +27,16 @@ body {
   background-color: #f3f3f3;
 }
 
+.ol div:hover {
+  background-color:  #2cb5b4;
+  color: white;
+}
 
+.ol div:selected {
+ background-color:  #2cb5b4;
+  color: white;
+
+}
 .all-points {
   display: flex;
   justify-content: space-around;

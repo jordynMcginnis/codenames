@@ -105,13 +105,26 @@ class FieldOps extends Component {
   finalSubmit = () => {
     let currentRound = this.state.round + 1;
     console.log('currentRound: ', currentRound);
-    sendWord(this.state.arr, this.props.id, currentRound);
+    sendWord(this.state.arr, this.props.id, currentRound).then((res)=> {
+      if(res === false) {
+        this.skipTurn();
+        //this.setState(() => ({round: 0}));
+      } else if (res === true){
+        if(currentRound >= this.state.currentNum){
+          this.setState(()=>({round: 0}));
+        } else {
+          this.setState(()=> ({round: currentRound}));
+        }
+      }
+    });
     //selectWinner(this.props.id);
-    if(currentRound >= this.state.currentNum){
-      this.setState(()=>({round: 0}));
-    } else {
-      this.setState(()=> ({round: currentRound}));
-    }
+    //GET RESPONSE BACK FROM SEND WORD THEN DO BELOW OR SKIPTURN;
+
+  }
+  skipTurn = () => {
+    //working right here
+    sendWord(this.state.arr, this.props.id, this.state.currentNum);
+    this.setState(() => ({round: 0}));
   }
   render() {
     return (
@@ -126,12 +139,17 @@ class FieldOps extends Component {
         <CardField data={this.state.words} handleSubmit={this.handleSubmit} maxNum={this.state.currentNum}/>
         {this.state.turn === true
           ? <div className='chooser'>
-              <button onClick={() => {this.finalSubmit()}}>submit selected word</button>
+              <button onClick={() => {this.finalSubmit()}}>submit {this.state.round}/{this.state.currentNum}</button>
+              <button onClick={this.skipTurn}>Stop Guessing</button>
             </div>
 
           : null
         }
-        {this.state.currentWord} : {this.state.currentNum}
+        {this.state.currentWord === false
+          ? <div> Waiting for clue... </div>
+          : <div> {this.state.currentWord} : {this.state.currentNum} </div>
+        }
+
       </div>
     );
   }

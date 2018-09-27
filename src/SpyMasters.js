@@ -119,6 +119,8 @@ class SpyMasters extends Component {
                 <div onClick={() => {this.handleNumber(2)}}> 2</div>
                 <div onClick={() => {this.handleNumber(3)}}> 3</div>
                 <div onClick={() => {this.handleNumber(4)}}> 4</div>
+                <div onClick={() => {this.handleNumber(5)}}> 5</div>
+                <div onClick={() => {this.handleNumber(6)}}> 6</div>
               </div>
              <button onClick={this.handleSubmitWord}>Submit</button>
             </div>
