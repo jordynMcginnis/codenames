@@ -57,6 +57,7 @@ class TeamSelection extends Component {
           : null
         }
         <div className='team-options'>
+          <div className='all-teams'>
             {Object.keys(this.state.players).map((player) => {
               if(player[0] === 'b'){
                 return <div className='blue-team' key={player} >{this.state.players[player]} </div>
@@ -64,18 +65,19 @@ class TeamSelection extends Component {
                 return <div className='red-team' key={player}> {this.state.players[player]} </div>
               }
             })}
-            <button className='switch' onClick={this.switchTeams}>SWITCH TEAMS</button>
-            <h2> Rounds : {this.state.round}</h2>
-            <div class="dropdown">
-              <button class="dropbtn">Change Rounds</button>
-              <div class="dropdown-content">
-                <div onClick={()=>{this.switchRounds(2)}}>2</div>
-                <div onClick={()=>{this.switchRounds(4)}}>4</div>
-                <div onClick={()=>{this.switchRounds(6)}}>6</div>
-              </div>
-            </div>
-            <button className='switch' onClick={() => {this.props.start(this.state.name)}}> START</button>
           </div>
+          <button className='switch' onClick={this.switchTeams}>SWITCH TEAMS</button>
+          <h2> Rounds : {this.state.round}</h2>
+          <div class="dropdown">
+            <button class="dropbtn">Change Rounds</button>
+            <div class="dropdown-content">
+              <div onClick={()=>{this.switchRounds(2)}}>2</div>
+              <div onClick={()=>{this.switchRounds(4)}}>4</div>
+              <div onClick={()=>{this.switchRounds(6)}}>6</div>
+            </div>
+          </div>
+          <button className='switch' onClick={() => {this.props.start(this.state.name)}}> START</button>
+        </div>
       </div>
     );
   }

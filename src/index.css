@@ -2,44 +2,48 @@ body {
   margin: 0;
   padding: 0;
   font-family: sans-serif;
-  background-color: #f3f3f3;
-  background-size: 1000px 830px;
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
-  background-color: #020c39;
+  background-color: #00295a;
 }
 
 .app {
-  text-align: center;
-  height: 98vh;
-  width: 98vw;
-  max-width: 1200px;
-  max-height: 800px;
+  height: 700px;
+  width: 1000px;
+  min-height: 500px;
   margin: 0 auto;
-  background-color: green;
+  text-align: center;
 }
 
-.all-games{
-  height: 38%;
-  width: 98%;
-  max-width: 400px;
-  max-height: 490px;
-  min-height: 150px;
+@media screen and (max-width: 600px) {
+  .app{
+    height: 95vh;
+    width: 350px;
+  }
+}
+
+.all-games {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-around;
   align-items: center;
   text-decoration: none;
+  width: 90vw;
+  max-width: 1000px;
+  height: 83vh;
+  max-height: 700px;
 }
 
 .link {
   text-decoration: none;
+  display: flex;
+  background-color: black;
 }
+
 .game-box {
-  width: 100px;
-  height: 70px;
+  height: 20vh;
+  width: 30vw;
   border-radius: 5px;
   border-color: #2cb5b4;
   border-style: solid;
@@ -51,7 +55,6 @@ body {
   text-decoration: none;
   background-color:#002d58;
   color: white;
-
 }
 
 .enter-name {
@@ -91,6 +94,7 @@ body {
   color: white;
 
 }
+
 .all-points {
   display: flex;
   justify-content: space-around;
@@ -123,7 +127,7 @@ body {
 }
 
 button {
-    border-color: #2cb5b4;
+  border-color: #2cb5b4;
   border-style: solid;
   color: white;
   background-color:#002d58;
@@ -137,12 +141,13 @@ button {
   justify-content: center;
 }
 
-.team-options{
+.team-options {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
 }
+
 .blue-team {
   width: 150px;
   height: 30px;
@@ -181,13 +186,14 @@ button {
   align-self: center;
 }
 
-.card-field{
+.card-field {
   width: 98%;
   height: 400px;
   display: flex;
   justify-content: space-between;
   flex-wrap: wrap;
 }
+
 .false {
   width: 80px;
   height: 50px;
@@ -201,12 +207,12 @@ button {
   align-items: center;
 }
 
-.red-team1{
+.red-team1 {
  color: #e86c7a;
  margin: 1px;
 }
 
-.blue-team1{
+.blue-team1 {
   color: #2cb5b4;
   margin: 1px;
 }
@@ -224,7 +230,7 @@ button {
   align-items: center;
 }
 
-.r{
+.r {
   width: 80px;
   height: 50px;
   border-style: solid;
@@ -238,7 +244,7 @@ button {
   color: #e86c7a;
 }
 
-.blue{
+.blue {
   width: 80px;
   height: 50px;
   border-style: solid;
@@ -252,7 +258,7 @@ button {
 
 }
 
-.b{
+.b {
   color: #2cb5b4;
   width: 80px;
   height: 50px;
@@ -281,7 +287,7 @@ button {
   border-width: 2px;
   border-radius: 5px;
   margin: 3px;
-   display: flex;
+  display: flex;
   justify-content: center;
   align-items: center;
 }
@@ -294,25 +300,26 @@ button {
   border-width: 2px;
   border-radius: 5px;
   margin: 3px;
-   display: flex;
+  display: flex;
   justify-content: center;
   align-items: center;
   color: white;
 }
 
 .blue-selected {
-    width: 80px;
+  width: 80px;
   height: 50px;
   border-style: solid;
   background-color: #2cb5b4;
   border-width: 2px;
   border-radius: 5px;
   margin: 3px;
-   display: flex;
+  display: flex;
   justify-content: center;
   align-items: center;
   color: white;
 }
+
 .killer {
   width: 80px;
   height: 50px;
@@ -343,7 +350,7 @@ button {
   margin: 2px;
 }
 
-h6{
+h6 {
   margin: 1px;
 }
 
