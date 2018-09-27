@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import CreateGame from './CreateGame.js';
 import { Link } from 'react-router-dom';
 import { firebasedb } from './utils/config.js';
+import HomeGame from './HomeGame.js';
 
 class Home extends Component {
   constructor(props){
@@ -11,23 +12,23 @@ class Home extends Component {
     }
   }
   componentDidMount () {
-    let that = this;
-    let games = firebasedb.ref('/games/');
-    games.on('value', function (snapshot) {
-      let games = snapshot.val();
-      that.setState(() => ({games}));
+    const gamesRef = firebasedb.ref('/games/');
+    gamesRef.on('value', (snapshot) => {
+      const games = snapshot.val();
+      this.setState(() => ({games}));
     })
   }
   render() {
     return (
       <div className="app-intro">
         <CreateGame/>
-        <div>Games:</div>
-        {Object.keys(this.state.games).map((id) =>
-          this.state.games[id].homeRender === true
-            ? <Link to={`/${id}`} key={id}> {this.state.games[id]['name']} </Link>
-            : null
-        )}
+        <div className='all-games'>
+          {Object.keys(this.state.games).map((id) =>
+            this.state.games[id].homeRender === true
+              ? <Link to={`/${id}`} key={id} className='link'>  <HomeGame title={this.state.games[id]['name']} playersKey={this.state.games[id]['players']}/></Link>
+              : null
+          )}
+        </div>
       </div>
     );
   }

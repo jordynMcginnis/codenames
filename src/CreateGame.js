@@ -17,8 +17,8 @@ class CreateGame extends Component {
   render () {
     return (
       <div>
-        <input placeholder='game name' onChange={this.handleName}/>
-        <button onClick={this.submitName}>Submit</button>
+        <input className='enter-name' placeholder='Create Game' onChange={this.handleName}/>
+        <button className='send-name'onClick={this.submitName}>Submit</button>
       </div>
     )
   }
