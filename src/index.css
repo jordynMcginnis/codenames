@@ -144,7 +144,7 @@ button {
 }
 
 .team-options {
-  background-color: red;
+
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -185,6 +185,15 @@ button {
   width: 150px;
   height: 30px;
   background-color: #2cb5b4;
+  border-radius: 10px;
+  margin-top: 10px;
+  color: white;
+  align-self: center;
+}
+.switchr{
+  width: 150px;
+  height: 30px;
+  background-color: #e86c7a;
   border-radius: 10px;
   margin-top: 10px;
   color: white;
@@ -384,6 +393,11 @@ h6 {
   border-radius: 5px;
   width: 40px;
 }
+
+.enter-info {
+  display: flex;
+  flex-direction: column;
+}
 /* Dropdown Button */
 .dropbtn {
     background-color: #020c39;
@@ -432,12 +446,12 @@ h6 {
     width: 350px;
   }
   .blue-team{
-    width: 150px;
+    width: 140px;
     height: 30px;
     margin: 2px;
   }
   .red-team{
-    width: 150px;
+    width: 140px;
     height: 30px;
     margin: 2px;
   }

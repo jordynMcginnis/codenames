@@ -35,14 +35,39 @@ export function createGame (name) {
   //switchTurn('b', key);
 };
 
-export function submitName (name, id) {
+export function submitName (name, id, team) {
   const key = firebasedb.ref('/games/' + id + '/players').once('value').then(function(snapshot) {
     let playersArr = Object.keys(snapshot.val());
     let playersObj = snapshot.val();
-    for(var i = 0; i < playersArr.length; i++) {
-      if(playersObj[playersArr[i]] === false) {
-        playersObj[playersArr[i]] = name;
-        break;
+    // for(var i = 0; i < playersArr.length; i++) {
+    //   if(playersObj[playersArr[i]] === false) {
+    //     playersObj[playersArr[i]] = name;
+    //     break;
+    //   }
+    // }
+    if(team === 'blue'){
+      if(playersObj.bluePlayer1 === false){
+        playersObj.bluePlayer1 = name;
+      } else if (playersObj.bluePlayer2 === false){
+        playersObj.bluePlayer2 = name;
+      } else {
+        if(playersObj.redPlayer1 === false){
+        playersObj.redPlayer1 = name;
+        } else if (playersObj.redPlayer2 === false){
+        playersObj.redPlayer2 = name;
+        }
+      }
+    } else {
+       if(playersObj.redPlayer1 === false){
+        playersObj.redPlayer1 = name;
+      } else if (playersObj.redPlayer2 === false){
+        playersObj.redPlayer2 = name;
+      } else {
+        if(playersObj.bluePlayer1 === false){
+        playersObj.bluePlayer1 = name;
+        } else if (playersObj.bluePlayer2 === false){
+        playersObj.bluePlayer2 = name;
+        }
       }
     }
     return firebasedb.ref('/games/' + id + '/players').update(playersObj);
