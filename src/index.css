@@ -16,12 +16,7 @@ body {
   text-align: center;
 }
 
-@media screen and (max-width: 600px) {
-  .app{
-    height: 95vh;
-    width: 350px;
-  }
-}
+
 
 .all-games {
   display: flex;
@@ -141,7 +136,12 @@ button {
   justify-content: center;
 }
 
-
+.all-teams {
+  display: flex;
+  width: 100%;
+  justify-content: space-around;
+  align-items: center;
+}
 
 .team-options {
   background-color: red;
@@ -149,11 +149,12 @@ button {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  color: white;
 }
 
 .blue-team {
-  width: 150px;
-  height: 30px;
+  width: 250px;
+  height: 100px;
   border-left-width: 5px;
   border-left-color: #2cb5b4;
   border-left-style: solid;
@@ -162,12 +163,12 @@ button {
   display: flex;
   align-items: center;
   justify-content: center;
-  margin: 2px;
+  margin: 3px;
 }
 
 .red-team {
-  width: 150px;
-  height: 30px;
+  width: 250px;
+  height: 100px;
   border-left-width: 5px;
   border-left-color: #e86c7a;
   border-left-style: solid;
@@ -176,7 +177,8 @@ button {
   display: flex;
   align-items: center;
   justify-content: center;
-  margin: 2px;
+  margin: 3px;
+  order: 2;
 }
 
 .switch {
@@ -423,3 +425,20 @@ h6 {
 
 /* Change the background color of the dropdown button when the dropdown content is shown */
 .dropdown:hover .dropbtn {background-color: gray;}
+
+@media screen and (max-width: 600px) {
+  .app{
+    height: 95vh;
+    width: 350px;
+  }
+  .blue-team{
+    width: 150px;
+    height: 30px;
+    margin: 2px;
+  }
+  .red-team{
+    width: 150px;
+    height: 30px;
+    margin: 2px;
+  }
+}

@@ -49,24 +49,36 @@ class TeamSelection extends Component {
   render() {
     return (
       <div className="team-selection">
-        {this.state.render === 'name'
-          ? <div>
-              <input className='t-input' placeholder='name' onChange={this.updateInput}/>
-              <button onClick ={this.submitName}>Submit</button>
-            </div>
-          : null
-        }
+
         <div className='team-options'>
           <div className='all-teams'>
-            {Object.keys(this.state.players).map((player) => {
-              if(player[0] === 'b'){
-                return <div className='blue-team' key={player} >{this.state.players[player]} </div>
-              } else {
-                return <div className='red-team' key={player}> {this.state.players[player]} </div>
-              }
-            })}
+            <span>
+              {Object.keys(this.state.players).map((player) => {
+                if(player[0] === 'b'){
+                  return <div className='blue-team' key={player} >{this.state.players[player]} </div>
+                }
+              })}
+            </span>
+            vs
+            <span>
+              {Object.keys(this.state.players).map((player) => {
+                if(player[0] === 'r'){
+                  return <div className='red-team' key={player}> {this.state.players[player]} </div>
+                }
+              })}
+            </span>
           </div>
-          <button className='switch' onClick={this.switchTeams}>SWITCH TEAMS</button>
+          {this.state.render === 'name'
+            ? <div>
+                <input className='t-input' placeholder='name' onChange={this.updateInput}/>
+                <button onClick ={this.submitName}>Submit</button>
+              </div>
+            : null
+          }
+          <span>
+            <button className='switch' >Blue</button>
+            <button className='switch' >Red</button>
+          </span>
           <h2> Rounds : {this.state.round}</h2>
           <div class="dropdown">
             <button class="dropbtn">Change Rounds</button>
