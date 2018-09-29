@@ -19,14 +19,20 @@ class TeamSelection extends Component {
   componentDidMount () {
     let that = this;
     let games = firebasedb.ref('/games/' + this.props.id + '/players');
-    games.on('value', function (snapshot) {
+    games.on('value', (snapshot) => {
       let value = snapshot.val();
-      that.setState(() => ({players: value}));
-    })
+      this.setState(() => ({players: value}));
+      for(var key in this.state.players){
+        if(this.state.players[key] !== false){
+          let newCount = this.state.count += 1;
+          this.setState(()=>({count : newCount}));
+        }
+      }
+    });
     let rounds = firebasedb.ref('/games/' + this.props.id + '/rounds');
-    rounds.on('value', function (snapshot) {
+    rounds.on('value', (snapshot) => {
       let value = snapshot.val();
-      that.setState(() => ({round: value}));
+      this.setState(() => ({round: value}));
     })
   }
   submitName (team) {
@@ -53,7 +59,6 @@ class TeamSelection extends Component {
   render() {
     return (
       <div className="team-selection">
-
         <div className='team-options'>
           <div className='all-teams'>
             <span>
@@ -92,16 +97,9 @@ class TeamSelection extends Component {
               <div onClick={()=>{this.switchRounds(6)}}>6</div>
             </div>
           </div>
-          {Object.keys(this.state.players).map((player)=>{
-            if(player !== false){
-              //let newCount = this.state.count += 1;
-              //this.setState(()=>({count : newCount}));
-              //fix call setstate
-            }
-          })}
-          {this.state.count === 4
-            ? <button className='switch' onClick={() => {this.props.start(this.state.name)}}> START</button>
-            : null
+          {this.state.count >= 3
+            ? <button className='switch' onClick={() => {this.props.start(this.state.name)}}>START</button>
+            : <div> Waiting for more players to join... </div>
           }
         </div>
       </div>

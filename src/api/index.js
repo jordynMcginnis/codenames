@@ -146,12 +146,13 @@ export function submitWord (id, word, num){
 }
 
 export function checkData (id) {
+  let words = chooseData(id);
   firebasedb.ref('/games/' + id + '/words').once('value').then(function(snapshot) {
     let value = snapshot.val();
-    console.log('here', value);
+    //console.log('words:', words);
     if(value === false){
       let result = {};
-      result.words = chooseData(id);
+      result.words = words; //undefined
       firebasedb.ref('/games/' + id + '/').update(result);
     } else {
       console.log('already filled')

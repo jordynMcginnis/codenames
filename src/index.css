@@ -5,7 +5,8 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: #00295a;
+  background-color: #032B2F;
+
 }
 
 .app {
@@ -14,6 +15,7 @@ body {
   min-height: 500px;
   margin: 0 auto;
   text-align: center;
+  color: white;
 }
 
 
@@ -96,11 +98,11 @@ body {
 }
 
 .app-title {
-  color: #e86c7a;
+  color: #e60019;
 }
 
 .name {
-  color: #2cb5b4;
+  color:#2db4bf;
 }
 
 .app-intro {
@@ -202,23 +204,26 @@ button {
 
 .card-field {
   width: 98%;
-  height: 400px;
+  height: 70vh;
   display: flex;
   justify-content: space-between;
   flex-wrap: wrap;
-}
+/*  background-color: blue;
+*/}
 
 .false {
-  width: 80px;
-  height: 50px;
+  width: 12vw;
+  height: 10vh;
   border-style: solid;
-  border-color: grey;
+  border-color: #00718c;
   border-width: 2px;
   border-radius: 5px;
   margin: 3px;
   display: flex;
   justify-content: center;
   align-items: center;
+  color: #032B2F;
+  background-color: #00718c;
 }
 
 .red-team1 {
@@ -242,6 +247,7 @@ button {
   display: flex;
   justify-content: center;
   align-items: center;
+  background-color: red;
 }
 
 .r {
@@ -256,6 +262,7 @@ button {
   justify-content: center;
   align-items: center;
   color: #e86c7a;
+  background-color: green
 }
 
 .blue {
@@ -269,7 +276,7 @@ button {
    display: flex;
   justify-content: center;
   align-items: center;
-
+  background-color: green;
 }
 
 .b {
@@ -290,12 +297,22 @@ button {
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
+  background-color: green;
+  margin-top: 30px;
+  height:  90px;
+  width: 200px;
+
+}
+
+.chooser button {
+
 }
 
 .selected {
-  background-color: grey;
-  width: 80px;
-  height: 50px;
+  background-color: #cfd3c4;
+  width: 12vw;
+  height: 10vh;
   border-style: solid;
   border-color: black;
   border-width: 2px;
@@ -304,11 +321,12 @@ button {
   display: flex;
   justify-content: center;
   align-items: center;
+  color:black;
 }
 
 .red-selected {
-  width: 80px;
-  height: 50px;
+  width: 12vw;
+  height: 10vh;
   border-style: solid;
   background-color: #e86c7a;
   border-width: 2px;
@@ -321,8 +339,8 @@ button {
 }
 
 .blue-selected {
-  width: 80px;
-  height: 50px;
+  width: 12vw;
+  height: 10vh;
   border-style: solid;
   background-color: #2cb5b4;
   border-width: 2px;
@@ -335,8 +353,8 @@ button {
 }
 
 .killer {
-  width: 80px;
-  height: 50px;
+  width: 12vw;
+  height: 10vh;
   border-style: solid;
   border-color: black;
   border-width: 1px;
@@ -353,7 +371,10 @@ button {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: flex-start;
+  justify-content: space-around;
+  color: #cfd3c4;
+ /* background-color: red;*/
+  height: 80vh;
 }
 
 .board button {
@@ -362,6 +383,7 @@ button {
   border-color: #2cb5b4;
   color: #2cb5b4;
   margin: 2px;
+  padding: 1vw;
 }
 
 h6 {
@@ -398,6 +420,11 @@ h6 {
   display: flex;
   flex-direction: column;
 }
+
+.bottom {
+  margin-bottom: 0px;
+}
+
 /* Dropdown Button */
 .dropbtn {
     background-color: #020c39;

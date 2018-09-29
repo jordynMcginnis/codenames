@@ -78,7 +78,11 @@ class GameBoard extends Component {
                       <span> Blue Points: {this.state.bluePoints} </span>
                     </div>
                   </div>
-                : <div>
+                : <div className='bottom'>
+                    <div className='all-points'>
+                      <span> Red Points: {this.state.redPoints} </span>
+                      <span> Blue Points: {this.state.bluePoints} </span>
+                    </div>
                     {Object.keys(this.state.players).map((player) => {
                       if(this.state.name === this.state.gameInfo.players[player] && player.slice(-1) == this.state.spym){
                         return <SpyMasters id={this.props.location.pathname.slice(1)} name={this.state.name} turn={this.state.turn}/>
@@ -86,10 +90,7 @@ class GameBoard extends Component {
                         return <FieldOps id={this.props.location.pathname.slice(1)} name={this.state.name} turn={this.state.turn}/>
                       }
                     })}
-                    <div className='all-points'>
-                      <span> Red Points: {this.state.redPoints} </span>
-                      <span> Blue Points: {this.state.bluePoints} </span>
-                    </div>
+
                   </div>
               }
             </div>
