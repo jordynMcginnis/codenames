@@ -491,4 +491,22 @@ h6 {
     height: 50px;
     width: 100px;
   }
+  .app-title {
+    font-size: 20px;
+
+  }
+  .team-selection {
+    height: 600px;
+
+  }
+  .all-teams{
+    height: 200px;
+  }
+  .t-input {
+    margin-bottom: 50px;
+  }
+  .dropdown {
+    margin-bottom: 50px;
+  }
+
 }
