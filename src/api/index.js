@@ -149,7 +149,7 @@ export function checkData (id) {
   let words = chooseData(id);
   firebasedb.ref('/games/' + id + '/words').once('value').then(function(snapshot) {
     let value = snapshot.val();
-    //console.log('words:', words);
+    console.log('words:', words);
     if(value === false){
       let result = {};
       result.words = words; //undefined

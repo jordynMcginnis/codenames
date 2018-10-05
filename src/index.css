@@ -482,4 +482,13 @@ h6 {
     height: 30px;
     margin: 2px;
   }
+  .false {
+    height: 50px;
+    width: 100px;
+    color: pink;
+  }
+  .selected {
+    height: 50px;
+    width: 100px;
+  }
 }
