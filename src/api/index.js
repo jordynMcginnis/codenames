@@ -146,18 +146,20 @@ export function submitWord (id, word, num){
 }
 
 export function checkData (id) {
-  let words = chooseData(id);
-  firebasedb.ref('/games/' + id + '/words').once('value').then(function(snapshot) {
-    let value = snapshot.val();
-    console.log('words:', words);
-    if(value === false){
-      let result = {};
-      result.words = words; //undefined
-      firebasedb.ref('/games/' + id + '/').update(result);
-    } else {
-      console.log('already filled')
-    }
-  });
+  chooseData(id, 25, {});
+  //console.log('words:', words);
+
+  // firebasedb.ref('/games/' + id + '/words').once('value').then(function(snapshot) {
+  //   let value = snapshot.val();
+
+  //   if(value === false){
+  //     let result = {};
+  //     result.words = words; //undefined
+  //     firebasedb.ref('/games/' + id + '/').update(result);
+  //   } else {
+  //     console.log('already filled')
+  //   }
+  // });
 }
 
 export function updateGame (id, winner, kill) {
@@ -326,16 +328,38 @@ export function clearClue (id) {
   });
 }
 
-function chooseData (id) {
-  var newData = {};
-  for(var i = 0; i < 25; i++){
-    let ranNum = Math.floor(Math.random() * Math.floor(374));
-    newData[data[ranNum]] = false;
-    if(Object.keys(newData).length === 25) {
-      console.log('arr length', Object.keys(newData).length);
-      chooseTeamWords(newData, id)
-      return newData;
+// function chooseData (id) {
+//   var newData = {};
+//   for(var i = 0; i < 25; i++){
+//     let ranNum = Math.floor(Math.random() * Math.floor(374));
+//     newData[data[ranNum]] = false;
+//     if(Object.keys(newData).length === 25) {
+//       console.log('arr length', Object.keys(newData).length);
+//       chooseTeamWords(newData, id)
+//       return newData;
+//     }
+//   }
+// }
+
+function chooseData (id, num, obj){
+  if(num === 0){
+  firebasedb.ref('/games/' + id + '/words').once('value').then(function(snapshot) {
+    console.log('jordyn should only run once')
+    let value = snapshot.val();
+    if(value === false){
+      let result = {};
+      result.words = obj //undefined
+      firebasedb.ref('/games/' + id + '/').update(result);
+    } else {
+      console.log('already filled')
     }
+  });
+    chooseTeamWords(obj, id);
+    return;
+  } else {
+    let ranNum = Math.floor(Math.random() * Math.floor(374));
+    obj[data[ranNum]] = false;
+    chooseData(id, num - 1, obj);
   }
 }
 

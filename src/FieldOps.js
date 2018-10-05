@@ -130,26 +130,25 @@ class FieldOps extends Component {
     return (
       <div className="board">
         <h6 className='find-team'>
-
           {this.state.team === 'r'
-             ? <span className='find-team'> <span className='red-team1'>Red</span> Blue </span>
-             : <span className='find-team'> <span className='blue-team1'>Blue</span> Red </span>
-           }
-           <span className='f-o'>Field Operations </span>
-          <span> SpyMaster</span>
+            ? <span className='find-team'> <span className='it' >Red</span> <span className='not-it'> Blue</span> </span>
+            : <span className='find-team'> <span className='it'>Blue</span> <span className='not-it' > Red </span> </span>
+          }
+          <span  className='it'>Field Operations</span>
+          <span className='not-it'>SpyMaster</span>
         </h6>
         <CardField data={this.state.words} handleSubmit={this.handleSubmit} maxNum={this.state.currentNum}/>
          {this.state.currentWord === false
           ? <div> Waiting for clue... </div>
           : <div> {this.state.currentWord} : {this.state.currentNum} </div>
         }
-        {this.state.turn === true
+         {this.state.turn === true
           ? <div className='chooser'>
               <button onClick={() => {this.finalSubmit()}}>submit {this.state.round}/{this.state.currentNum}</button>
               <button onClick={this.skipTurn}>Stop Guessing</button>
             </div>
 
-          : null
+          : <div>Other Teams turn...</div>
         }
 
 

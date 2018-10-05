@@ -19,6 +19,13 @@ body {
 }
 
 
+.not-it {
+  color: #00295a;
+}
+
+.it{
+  color: yellow;
+}
 
 .all-games {
   display: flex;
@@ -247,7 +254,6 @@ button {
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: red;
 }
 
 .r {
@@ -262,7 +268,7 @@ button {
   justify-content: center;
   align-items: center;
   color: #e86c7a;
-  background-color: green
+
 }
 
 .blue {
@@ -276,7 +282,7 @@ button {
    display: flex;
   justify-content: center;
   align-items: center;
-  background-color: green;
+
 }
 
 .b {
@@ -300,9 +306,9 @@ button {
   justify-content: center;
   background-color: green;
   margin-top: 30px;
-  height:  90px;
-  width: 200px;
-
+  /*height:  90px;
+  width: 200px;*/
+  height: 10px;
 }
 
 .chooser button {
@@ -371,7 +377,7 @@ button {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: space-around;
+  /*justify-content: space-around;*/
   color: #cfd3c4;
  /* background-color: red;*/
   height: 80vh;
@@ -472,6 +478,14 @@ h6 {
     height: 95vh;
     width: 350px;
   }
+  .game-board{
+    width: 340px;
+  }
+  .board{
+    width: 340px;
+    margin-left: 0px;
+    height: 700px;
+  }
   .blue-team{
     width: 140px;
     height: 30px;
@@ -490,14 +504,42 @@ h6 {
   .selected {
     height: 50px;
     width: 100px;
+
+  }
+  .killer {
+    height: 50px;
+    width: 100px;
+  }
+  .r {
+    height: 50px;
+    width: 100px;
+  }
+  .b {
+    height: 50px;
+    width: 100px;
+  }
+  .blue-selected {
+    height: 50px;
+    width: 100px;
+
+  }
+  .red-selected {
+    height: 50px;
+    width: 100px;
+  }
+  .red {
+    height: 50px;
+    width: 100px;
+  }
+  .blue {
+    height: 50px;
+    width: 100px;
   }
   .app-title {
     font-size: 20px;
-
   }
   .team-selection {
     height: 600px;
-
   }
   .all-teams{
     height: 200px;
@@ -507,6 +549,10 @@ h6 {
   }
   .dropdown {
     margin-bottom: 50px;
+  }
+  .card-field {
+    height: 500px;
+    width: 330px;
   }
 
 }

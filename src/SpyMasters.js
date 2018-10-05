@@ -21,9 +21,11 @@ class SpyMasters extends Component {
     //THIS ONLY RUNS WHEN WORDMAP IS UPDATED SO NOT OFTEN LOL
     let games = firebasedb.ref('/games/' + this.props.id + '/');
     games.on('value', (snapshot) => {
+
       let words = {};
       let wordMap = snapshot.val().wordMap;
       let wordAgent = snapshot.val().words;
+      console.log('JORDYN HERE ARE WORDS FROM DB:',wordAgent);
       for(var key in wordMap){
         if(wordAgent[key] !== false){
           if(wordAgent[key] === 'r'){
@@ -103,13 +105,12 @@ class SpyMasters extends Component {
   render() {
     return (
       <div className="board">
-         <h6>Spy Master for Team:
-           {this.state.team === 'r'
-             ? <span className='red-team1'> Red</span>
-             : <span className='blue-team1'> Blue</span>
-           }
-           Team
-         </h6>
+          {this.state.team === 'r'
+            ? <span className='find-team'> <span className='it' >Red</span> <span className='not-it'> Blue</span> </span>
+            : <span className='find-team'> <span className='it'>Blue</span> <span className='not-it' > Red </span> </span>
+          }
+          <span className='not-it'>Field Operations </span>
+          <span className='it'> SpyMaster</span>
          <CardField data={this.state.words} handleSubmit={this.handleSubmit}/>
          {this.state.turn === true
           ? <div>
@@ -124,7 +125,7 @@ class SpyMasters extends Component {
               </div>
              <button onClick={this.handleSubmitWord}>Submit</button>
             </div>
-          : null
+          : <div> Other teams turn.. please wait</div>
          }
       </div>
     );

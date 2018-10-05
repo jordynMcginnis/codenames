@@ -90,7 +90,6 @@ class GameBoard extends Component {
                         return <FieldOps id={this.props.location.pathname.slice(1)} name={this.state.name} turn={this.state.turn}/>
                       }
                     })}
-
                   </div>
               }
             </div>
