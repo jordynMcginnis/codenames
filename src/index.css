@@ -211,6 +211,7 @@ button {
 
 .card-field {
   width: 98%;
+  max-width: 600px;
   height: 70vh;
   display: flex;
   justify-content: space-between;
@@ -301,14 +302,9 @@ button {
 
 .chooser {
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
-  background-color: green;
   margin-top: 30px;
-  /*height:  90px;
-  width: 200px;*/
-  height: 10px;
 }
 
 .chooser button {
@@ -342,6 +338,10 @@ button {
   justify-content: center;
   align-items: center;
   color: white;
+  box-sizing: border-box;
+  max-width: 100px;
+  max-height: 50px;
+
 }
 
 .blue-selected {
@@ -356,6 +356,9 @@ button {
   justify-content: center;
   align-items: center;
   color: white;
+  box-sizing: border-box;
+  max-width: 100px;
+  max-height: 50px;
 }
 
 .killer {
@@ -401,15 +404,16 @@ h6 {
   border-right-width: 0px;
   border-left-width: 0px;
   border-color: #2cb5b4;
-  background-color: #f3f3f3;
+  color: white;
   margin: 3px;
+  background-color: #002d30;
 }
 
 .ol {
   display: flex;
   justify-content: space-around;
   height: 20px;
-  background-color: #f3f3f3;
+
 }
 
 .ol div {
@@ -417,7 +421,7 @@ h6 {
   border-color: #2cb5b4;
   border-width: 1px;
   margin: 1px;
-  background-color:white;
+  background-color:#002d30;
   border-radius: 5px;
   width: 40px;
 }
@@ -474,19 +478,26 @@ h6 {
 .dropdown:hover .dropbtn {background-color: gray;}
 
 @media screen and (max-width: 600px) {
-  .app{
-    height: 95vh;
-    width: 350px;
+ .app{
+    height: 700px;
+    width: 330px;
   }
   .game-board{
-    width: 340px;
+    height: 88vh;
   }
+  .bottom {
+    height: 87vh;
+  }
+
   .board{
-    width: 340px;
-    margin-left: 0px;
-    height: 700px;
+    height: 86vh;
   }
-  .blue-team{
+  .find-team{
+    margin: 10px;
+  }
+
+/*  player selection:
+*/  .blue-team{
     width: 140px;
     height: 30px;
     margin: 2px;
@@ -496,37 +507,71 @@ h6 {
     height: 30px;
     margin: 2px;
   }
-  .false {
-    height: 50px;
-    width: 100px;
-    color: pink;
+  .t-input {
+    margin-top: 20px;
+    margin-bottom: 20px;
   }
-  .selected {
-    height: 50px;
-    width: 100px;
+  .dropdown{
+    margin-bottom: 60px;
+  }
 
-  }
+  /*spyMaster*/
   .killer {
     height: 50px;
-    width: 100px;
+    width: 95px;
+    box-sizing: border-box;
   }
-  .r {
+  .red {
     height: 50px;
-    width: 100px;
+    width: 95px;
+    box-sizing: border-box;
   }
-  .b {
+  .blue {
     height: 50px;
-    width: 100px;
+    width: 95px;
+    box-sizing: border-box;
+  }
+  .hint {
+    margin-bottom: 10px;
+    margin-top: 20px;
+  }
+  .ol {
+    margin-bottom: 10px;
   }
   .blue-selected {
     height: 50px;
-    width: 100px;
-
+    width: 95px;
+    box-sizing: border-box;
   }
-  .red-selected {
+ .red-selected {
     height: 50px;
-    width: 100px;
+    width: 95px;
+    box-sizing: border-box;
   }
+/*  field Ops
+*/  .false {
+    height: 50px;
+    width: 95px;
+    color: pink;
+  }
+
+  .selected {
+    height: 50px;
+    width: 95px;
+  }
+  .b {
+    height: 50px;
+    width: 95px;
+  }
+  .r {
+    height: 50px;
+    width: 95px;
+  }
+  /*
+
+
+
+
   .red {
     height: 50px;
     width: 100px;
@@ -551,8 +596,11 @@ h6 {
     margin-bottom: 50px;
   }
   .card-field {
-    height: 500px;
-    width: 330px;
-  }
+    background-color: green;
+    min-height: 650px;
+    max-height: 650px;
+    max-width: 320px;
+    min-width: 320px;
+  }*/
 
 }

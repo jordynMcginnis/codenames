@@ -168,7 +168,7 @@ export function updateGame (id, winner, kill) {
     let result = {};
     result.winner = false;
     //result.winner = winner;
-    result.words = chooseData(id);
+    result.words = chooseData(id, 25, {});
     //I don't think that I am updating word map?
     firebasedb.ref('/games/' + id + '/').update(result);
   });
@@ -350,11 +350,13 @@ function chooseData (id, num, obj){
       let result = {};
       result.words = obj //undefined
       firebasedb.ref('/games/' + id + '/').update(result);
+      fillWordMap(obj, id);
     } else {
       console.log('already filled')
     }
   });
-    chooseTeamWords(obj, id);
+    console.log('this should only run once calling chooseTeamWords')
+
     return;
   } else {
     let ranNum = Math.floor(Math.random() * Math.floor(374));
@@ -363,13 +365,15 @@ function chooseData (id, num, obj){
   }
 }
 
-function chooseTeamWords(data, id) {
+function fillWordMap(obj, id) {
+  console.log('obj received:', obj);
   let newData = {};
   let BlueCount = 12;
   let RedCount = 12;
   let killer = 1;
 
-  for(var key in data){
+  for(var key in obj){
+    console.log(key);
     if(BlueCount > 0) {
       newData[key] = 'blue';
       BlueCount -= 1;
@@ -381,7 +385,8 @@ function chooseTeamWords(data, id) {
       killer -= 1;
     }
   }
+  console.log('final edit here:', newData);
   let result = {};
-  result.wordMap = newData
+  result.wordMap = newData;
   firebasedb.ref('/games/' + id + '/').update(result);
 }

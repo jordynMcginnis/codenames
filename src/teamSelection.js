@@ -88,7 +88,7 @@ class TeamSelection extends Component {
               </div>
             : null
           }
-          <h2> Rounds : {this.state.round}</h2>
+          <h2> Rounds Selected : {this.state.round}</h2>
           <div class="dropdown">
             <button class="dropbtn">Change Rounds</button>
             <div class="dropdown-content">

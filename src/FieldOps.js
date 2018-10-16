@@ -140,7 +140,7 @@ class FieldOps extends Component {
         <CardField data={this.state.words} handleSubmit={this.handleSubmit} maxNum={this.state.currentNum}/>
          {this.state.currentWord === false
           ? <div> Waiting for clue... </div>
-          : <div> {this.state.currentWord} : {this.state.currentNum} </div>
+          : <div> CLUE WORD: {this.state.currentWord} : {this.state.currentNum} </div>
         }
          {this.state.turn === true
           ? <div className='chooser'>
@@ -148,7 +148,7 @@ class FieldOps extends Component {
               <button onClick={this.skipTurn}>Stop Guessing</button>
             </div>
 
-          : <div>Other Teams turn...</div>
+          : <div>Please wait.. other teams turn</div>
         }
 
 

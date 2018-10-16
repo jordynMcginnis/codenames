@@ -17,6 +17,7 @@ class SpyMasters extends Component {
   }
   componentDidMount () {
     //this.setState(()=> ({turn: this.props.turn}));
+
     console.log('SpyMaster component rerenders here')
     //THIS ONLY RUNS WHEN WORDMAP IS UPDATED SO NOT OFTEN LOL
     let games = firebasedb.ref('/games/' + this.props.id + '/');
@@ -25,6 +26,7 @@ class SpyMasters extends Component {
       let words = {};
       let wordMap = snapshot.val().wordMap;
       let wordAgent = snapshot.val().words;
+      console.log('wordMap', wordMap);
       console.log('JORDYN HERE ARE WORDS FROM DB:',wordAgent);
       for(var key in wordMap){
         if(wordAgent[key] !== false){
@@ -35,12 +37,14 @@ class SpyMasters extends Component {
           }
         } else {
           words[key] = wordMap[key];
+          //NOT WORKING BECAUSE THEY AREN"T THE SAME WORDS THATS WHY IT IS SO SHORT
         }
       }
       this.setState(() => ({words}));
+
       console.log('right here ran and updated');
     })
-
+    //this.setState(() => ({words: this.props.info}));
 
     const name = this.props.name;
     const that = this;
@@ -105,12 +109,14 @@ class SpyMasters extends Component {
   render() {
     return (
       <div className="board">
+        <h6 className='find-team'>
           {this.state.team === 'r'
             ? <span className='find-team'> <span className='it' >Red</span> <span className='not-it'> Blue</span> </span>
             : <span className='find-team'> <span className='it'>Blue</span> <span className='not-it' > Red </span> </span>
           }
           <span className='not-it'>Field Operations </span>
           <span className='it'> SpyMaster</span>
+        </h6>
          <CardField data={this.state.words} handleSubmit={this.handleSubmit}/>
          {this.state.turn === true
           ? <div>
