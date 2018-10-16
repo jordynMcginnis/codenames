@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { firebasedb } from './utils/config.js';
 import CardField from './CardField.js';
-import {sendWord, switchTurn, gatherData, clearClue, selectWinner} from './api/index.js';
+import {sendWord, switchTurn, gatherData, clearClue, selectWinner, endWord} from './api/index.js';
 import {FaBullseye} from "react-icons/fa";
 
 
@@ -107,9 +107,11 @@ class FieldOps extends Component {
     console.log('currentRound: ', currentRound);
     sendWord(this.state.arr, this.props.id, currentRound).then((res)=> {
       if(res === false) {
+        console.log('SEND WORD CAME BACK FALSE, CALLING SKIPTURN')
         this.skipTurn();
         //this.setState(() => ({round: 0}));
       } else if (res === true){
+        console.log('SEND WORD CAME BACK TRUE')
         if(currentRound >= this.state.currentNum){
           this.setState(()=>({round: 0}));
         } else {
@@ -122,8 +124,12 @@ class FieldOps extends Component {
 
   }
   skipTurn = () => {
-    //working right here
-    sendWord(this.state.arr, this.props.id, this.state.currentNum);
+    //why calling again though?
+    //sendWord(this.state.arr, this.props.id, this.state.round);
+    this.setState(() => ({round: 0}));
+  }
+  endTurn = () => {
+    endWord(this.props.id)
     this.setState(() => ({round: 0}));
   }
   render() {
@@ -142,10 +148,15 @@ class FieldOps extends Component {
           ? <div> Waiting for clue... </div>
           : <div> CLUE WORD: {this.state.currentWord} : {this.state.currentNum} </div>
         }
-         {this.state.turn === true
+
+        {this.state.turn === true
           ? <div className='chooser'>
-              <button onClick={() => {this.finalSubmit()}}>submit {this.state.round}/{this.state.currentNum}</button>
-              <button onClick={this.skipTurn}>Stop Guessing</button>
+              {this.state.currentWord !== false
+                ? <div> <button onClick={() => {this.finalSubmit()}}>submit {this.state.round}/{this.state.currentNum}</button>
+                  <button onClick={this.endTurn}>Stop Guessing</button> </div>
+                : null
+              }
+
             </div>
 
           : <div>Please wait.. other teams turn</div>

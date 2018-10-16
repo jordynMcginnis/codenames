@@ -192,8 +192,10 @@ export function sendWord (arr, id, round) {
   //     clearClue(id);
   //     //selectWinner(id);
   //   }
+    console.log('THIs IS THE ROUND', round);
     for (var i = 0; i < arr.length; i++) {
       if(wordMap[arr[i]].slice(0,1) === turn){
+        console.log(true, turn, wordMap[arr[i]].slice(0,1))
         words[arr[i]] = turn;
         firebasedb.ref('/games/' + id + '/words').update(words);
         selectWinner(id);
@@ -217,23 +219,30 @@ export function sendWord (arr, id, round) {
         //result.winner = person;
         //firebasedb.ref('/games/' + id + '/').update(result);
         selectWinner(id, 'end', person);
-        if(currentRound <= round){
+
             switchTurn(id);
             clearClue(id);
             //selectWinner(id);
-          }
+
         return;
       } else {
-          if(currentRound <= round){
+        //this is where going wrong
+        console.log('ROUND:', round)
+
             switchTurn(id);
             clearClue(id);
-          }
+
         return false;
       }
     }
     //check if round passed is equal to Current Num.. if it is then call switchTurn//
     //if not than don't call switch turn
   });
+}
+
+export function endWord (id) {
+   switchTurn(id);
+   clearClue(id);
 }
 
 export function switchTurn (id) {
