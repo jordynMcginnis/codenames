@@ -163,15 +163,20 @@ export function checkData (id) {
 }
 
 export function updateGame (id, winner, kill) {
-  console.log(winner + ' won, running update game to change word maps')
-  firebasedb.ref('/games/' + id + '/words').once('value').then(function(snapshot) {
+
+    //let newWord = chooseData(id, 25, {});
     let result = {};
     result.winner = false;
     //result.winner = winner;
-    result.words = chooseData(id, 25, {});
+    result.words = false;
+  firebasedb.ref('/games/' + id + '/words').once('value').then(function(snapshot) {
+
     //I don't think that I am updating word map?
     firebasedb.ref('/games/' + id + '/').update(result);
+    console.log(winner + ' won, running chooseData');
+    chooseData(id, 25, {});
   });
+
   if (kill === false){
 
     switchSpyMaster(id);
@@ -356,6 +361,7 @@ function chooseData (id, num, obj){
     console.log('jordyn should only run once')
     let value = snapshot.val();
     if(value === false){
+      console.log('value is equal to false');
       let result = {};
       result.words = obj //undefined
       firebasedb.ref('/games/' + id + '/').update(result);

@@ -212,6 +212,7 @@ button {
 .card-field {
   width: 98%;
   max-width: 600px;
+  max-height: 700px;
   height: 70vh;
   display: flex;
   justify-content: space-between;
@@ -220,8 +221,8 @@ button {
 */}
 
 .false {
-  width: 12vw;
-  height: 10vh;
+  width: 80px;
+  height: 50px;
   border-style: solid;
   border-color: #00718c;
   border-width: 2px;
@@ -313,8 +314,8 @@ button {
 
 .selected {
   background-color: #cfd3c4;
-  width: 12vw;
-  height: 10vh;
+  width: 80px;
+  height: 50px;
   border-style: solid;
   border-color: black;
   border-width: 2px;
@@ -327,8 +328,8 @@ button {
 }
 
 .red-selected {
-  width: 12vw;
-  height: 10vh;
+  width: 80px;
+  height: 50px;
   border-style: solid;
   background-color: #e86c7a;
   border-width: 2px;
@@ -345,8 +346,8 @@ button {
 }
 
 .blue-selected {
-  width: 12vw;
-  height: 10vh;
+  width: 80px;
+  height: 50px;
   border-style: solid;
   background-color: #2cb5b4;
   border-width: 2px;
@@ -362,11 +363,11 @@ button {
 }
 
 .killer {
-  width: 12vw;
-  height: 10vh;
+  width: 80px;
+  height: 50px;
   border-style: solid;
-  border-color: black;
-  border-width: 1px;
+  border-color: white;
+  border-width: 2px;
   border-radius: 5px;
   margin: 3px;
   display: flex;
