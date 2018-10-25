@@ -355,15 +355,17 @@ export function clearClue (id) {
 //   }
 // }
 
-function chooseData (id, num, obj){
+function chooseData (id, num, obj, arr){
   if(num === 0){
   firebasedb.ref('/games/' + id + '/words').once('value').then(function(snapshot) {
     console.log('jordyn should only run once')
     let value = snapshot.val();
     if(value === false){
       console.log('value is equal to false');
+
       let result = {};
       result.words = obj //undefined
+      console.log('final obj:', obj);
       firebasedb.ref('/games/' + id + '/').update(result);
       fillWordMap(obj, id);
     } else {
@@ -374,21 +376,29 @@ function chooseData (id, num, obj){
 
     return;
   } else {
-    let ranNum = Math.floor(Math.random() * Math.floor(374));
+    let ranNum = randomNum();
+    while(obj[data[ranNum]] === false){
+      ranNum = randomNum();
+      console.log('found duplicate word calling function again')
+    }
     obj[data[ranNum]] = false;
+    console.log('num: ' + num + '  word: ' + data[ranNum])
     chooseData(id, num - 1, obj);
   }
 }
 
+function randomNum () {
+  return Math.floor(Math.random() * Math.floor(350));
+}
 function fillWordMap(obj, id) {
-  console.log('obj received:', obj);
+  console.log('obj received:', Object.keys(obj).length);
   let newData = {};
   let BlueCount = 12;
   let RedCount = 12;
   let killer = 1;
 
   for(var key in obj){
-    console.log(key);
+    //console.log(key);
     if(BlueCount > 0) {
       newData[key] = 'blue';
       BlueCount -= 1;
