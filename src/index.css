@@ -483,13 +483,16 @@ h6 {
     height: 700px;
     width: 330px;
   }
+  .app-title{
+    margin-top: 0;
+    margin-bottom: 6px;
+  }
   .game-board{
     height: 88vh;
   }
   .bottom {
     height: 87vh;
   }
-
   .board{
     height: 86vh;
   }
@@ -498,7 +501,7 @@ h6 {
   }
 
 /*  player selection:
-*/  .blue-team{
+*/.blue-team{
     width: 140px;
     height: 30px;
     margin: 2px;
