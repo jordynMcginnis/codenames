@@ -12,12 +12,8 @@ class TeamSelection extends Component {
       round: 2,
       count: 0
     }
-    this.submitName = this.submitName.bind(this);
-    this.updateInput = this.updateInput.bind(this);
-    this.switchTeams = this.switchTeams.bind(this);
   }
   componentDidMount () {
-    let that = this;
     let games = firebasedb.ref('/games/' + this.props.id + '/players');
     games.on('value', (snapshot) => {
       let value = snapshot.val();
@@ -35,8 +31,7 @@ class TeamSelection extends Component {
       this.setState(() => ({round: value}));
     })
   }
-  submitName (team) {
-    //submit name and team name here
+  submitName = (team) => {
     if(this.state.name !== false){
       submitName(this.state.name, this.props.id, team);
       this.props.start(this.state.name);
@@ -45,12 +40,11 @@ class TeamSelection extends Component {
         : this.setState(() => ({render: 'name'}))
     }
   }
-  updateInput ({target}) {
+  updateInput = ({target}) => {
    this.setState(() => ({name: target.value}))
   }
-  switchTeams () {
+  switchTeams = () => {
     switchTeam(this.props.id);
-
   }
   switchRounds = (round) => {
     this.setState(()=>({round}));
@@ -64,7 +58,7 @@ class TeamSelection extends Component {
             <span>
               {Object.keys(this.state.players).map((player) => {
                 if(player[0] === 'b'){
-                  return <div className='blue-team' key={player} >{this.state.players[player]} </div>
+                  return <div className='blue-team' key={player}>{this.state.players[player]}</div>
                 }
               })}
             </span>
@@ -72,13 +66,13 @@ class TeamSelection extends Component {
             <span>
               {Object.keys(this.state.players).map((player) => {
                 if(player[0] === 'r'){
-                  return <div className='red-team' key={player}> {this.state.players[player]} </div>
+                  return <div className='red-team' key={player}>{this.state.players[player]}</div>
                 }
               })}
             </span>
           </div>
           {this.state.render === 'name'
-            ? <div className= 'enter-info'>
+            ? <div className='enter-info'>
                 <input className='t-input' placeholder='name' onChange={this.updateInput}/>
                 SELECT TEAM:
                 <span>
@@ -88,7 +82,7 @@ class TeamSelection extends Component {
               </div>
             : null
           }
-          <h2> Rounds Selected : {this.state.round}</h2>
+          <h2>Rounds Selected : {this.state.round}</h2>
           <div class="dropdown">
             <button class="dropbtn">Change Rounds</button>
             <div class="dropdown-content">
@@ -99,7 +93,7 @@ class TeamSelection extends Component {
           </div>
           {this.state.count >= 3
             ? <button className='switch' onClick={() => {this.props.start(this.state.name)}}>START</button>
-            : <div> Waiting for more players to join... </div>
+            : <div>Waiting for more players to join...</div>
           }
         </div>
       </div>

@@ -20,7 +20,7 @@ class Home extends Component {
     return (
       <div className='game-box'>
         {this.props.title}
-        <span className='total'> {this.state.players}/4 Players </span>
+        <span className='total'>{this.state.players}/4 Players</span>
       </div>
     );
   }

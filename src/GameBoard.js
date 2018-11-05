@@ -23,41 +23,15 @@ class GameBoard extends Component {
   }
   componentDidMount () {
     let path = this.props.location.pathname.slice(1);
-
-
-    //this only changes when the turn changes therefore update should only change when turn changes? turn and see?
-    //if not try
-    ///THIS IS EVERY CHANGE HERE OOK! vvvv:
-
     let games = firebasedb.ref('/games/' + path +'/');
     games.on('value', (snapshot) => {
       let value = snapshot.val();
-      // if(value.winner === 'red' || value.winner === 'blue'){
-      //   //call switch turn function
-      //   //also update
-      //   updateGame(this.props.location.pathname.slice(1));
-      //   //switchSpyMaster(this.props.location.pathname.slice(1));
-
-
-      // }
-      //console.log('rerendering', value.turn);
       this.setState(() => ({gameInfo: value, players: value.players, start: value.start, spym: value.spyMaster, turn: value.turn, redPoints: value.redPoints, bluePoints: value.bluePoints, gameStatus: value.gameStatus}));
     });
-
     let rounds = firebasedb.ref('/games/' + path +'/currentRound');
     rounds.on('value', (snapshot) => {
       checkEnd(path);
     });
-
-
-    // let that = this;
-    // // // THIS IS ONLY ONCE FOR NOW:
-    // firebasedb.ref('/games/' + path + '/').once('value').then(function(snapshot) {
-    //   let value = snapshot.val();
-    //   console.log('rerendering', value.turn);
-    //   that.setState(() => ({gameInfo: value, players: value.players, start: value.start, spym: value.spyMaster, turn: value.turn}));
-    // });
-    //MAYBE TRY ON FOR TURN???
   }
   startGame = (name) =>  {
     this.setState(() => ({name: name}));

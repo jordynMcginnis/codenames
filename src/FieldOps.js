@@ -19,99 +19,70 @@ class FieldOps extends Component {
     };
   }
   componentDidMount () {
-    //this.setState(()=> ({turn: this.props.turn}));
-
-
-    console.log('turn passed from gameboard', this.props.turn);
     const name = this.props.name;
-    const that = this;
 
-    const key = firebasedb.ref('/games/' + this.props.id + '/players').once('value').then(function(snapshot) {
+    const key = firebasedb.ref('/games/' + this.props.id + '/players').once('value').then((snapshot) => {
       let playersArr = Object.keys(snapshot.val());
       let playersObj = snapshot.val();
       for(var i = 0; i < playersArr.length; i++) {
         if(playersObj[playersArr[i]] === name) {
-          that.setState(() => ({team: playersArr[i].slice(0,1)}));
+          this.setState(() => ({team: playersArr[i].slice(0,1)}));
           break;
         }
       }
     });
-   this.handleTeam();
-   //const that = this;
+    this.handleTeam();
     let team = firebasedb.ref('/games/' + this.props.id + '/turn');
     team.on('value', (snapshot) => {
-      // let value = snapshot.val();
-      // //this.setState(() => ({words}));
-      // if(value === that.state.team){
-      //   that.setState(() => ({turn : true}));
-      // }
-      that.handleTeam();
-      //IF NOT TRY HANDLE TURN THINK THAT CURRENT WORD NEEDS TO CHANGE ALSO
+      this.handleTeam();
     })
   }
   handleTeam = () => {
-    const that = this;
     let games = firebasedb.ref('/games/' + this.props.id + '/words');
     games.on('value', (snapshot) => {
       let words = snapshot.val();
-      that.setState(() => ({words}));
+      this.setState(() => ({words}));
     })
     let word = firebasedb.ref('/games/' + this.props.id + '/currentWord');
     word.on('value', (snapshot) => {
       let currentWord = snapshot.val();
-      that.setState(() => ({currentWord}));
+      this.setState(() => ({currentWord}));
     })
     let num = firebasedb.ref('/games/' + this.props.id + '/currentNum');
     num.on('value', (snapshot) => {
       let currentNum = snapshot.val();
-      that.setState(() => ({currentNum}));
+      this.setState(() => ({currentNum}));
     })
-    const team = firebasedb.ref('/games/' + this.props.id + '/turn').once('value').then(function(snapshot) {
+    const team = firebasedb.ref('/games/' + this.props.id + '/turn').once('value').then((snapshot) => {
       let value = snapshot.val();
-      if(value === that.state.team){
-        that.setState(() => ({turn : true}));
+      if(value === this.state.team){
+        this.setState(() => ({turn : true}));
       } else {
-        that.setState(() => ({turn: false}))
+        this.setState(() => ({turn: false}))
       };
     });
-    // const that = this;
-    // let team = firebasedb.ref('/games/' + this.props.id + '/turn');
-    // team.on('value', (snapshot) => {
-    //   let value = snapshot.val();
-    //   //this.setState(() => ({words}));
-    //   if(value === that.state.team){
-    //     that.setState(() => ({turn : true}));
-    //   }
-    // })
   }
   handleTurn = () => {
     let that = this;
-    const team = firebasedb.ref('/games/' + this.props.id + '/turn').once('value').then(function(snapshot) {
+    const team = firebasedb.ref('/games/' + this.props.id + '/turn').once('value').then((snapshot) => {
       let value = snapshot.val();
-      if(value === that.state.team){
-        that.setState(() => ({turn : true}));
+      if(value === this.state.team){
+        this.setState(() => ({turn : true}));
       } else {
-        that.setState(() => ({turn: false}))
+        this.setState(() => ({turn: false}))
       };
     });
   }
   handleSubmit = (arr) => {
-    console.log('selected options', arr);
-
-    this.setState(()=> ({arr}))
-
-    //switchTurn();
+    this.setState(()=> ({arr}));
   }
   finalSubmit = () => {
     let currentRound = this.state.round + 1;
-    console.log('currentRound: ', currentRound);
-    sendWord(this.state.arr, this.props.id, currentRound).then((res)=> {
+
+    sendWord(this.state.arr, this.props.id, currentRound).then((res) => {
       if(res === false) {
-        console.log('SEND WORD CAME BACK FALSE, CALLING SKIPTURN')
         this.skipTurn();
-        //this.setState(() => ({round: 0}));
       } else if (res === true){
-        console.log('SEND WORD CAME BACK TRUE')
         if(currentRound >= this.state.currentNum){
           this.setState(()=>({round: 0}));
         } else {
@@ -119,13 +90,8 @@ class FieldOps extends Component {
         }
       }
     });
-    //selectWinner(this.props.id);
-    //GET RESPONSE BACK FROM SEND WORD THEN DO BELOW OR SKIPTURN;
-
   }
   skipTurn = () => {
-    //why calling again though?
-    //sendWord(this.state.arr, this.props.id, this.state.round);
     this.setState(() => ({round: 0}));
   }
   endTurn = () => {
@@ -137,32 +103,29 @@ class FieldOps extends Component {
       <div className="board">
         <h6 className='find-team'>
           {this.state.team === 'r'
-            ? <span className='find-team'> <span className='it' >Red</span> <span className='not-it'> Blue</span> </span>
-            : <span className='find-team'> <span className='it'>Blue</span> <span className='not-it' > Red </span> </span>
+            ? <span className='find-team'><span className='it'>Red</span><span className='not-it'>Blue</span></span>
+            : <span className='find-team'><span className='it'>Blue</span><span className='not-it'>Red</span></span>
           }
-          <span  className='it'>Field Operations</span>
+          <span className='it'>Field Operations</span>
           <span className='not-it'>SpyMaster</span>
         </h6>
         <CardField data={this.state.words} handleSubmit={this.handleSubmit} maxNum={this.state.currentNum}/>
-         {this.state.currentWord === false
-          ? <div> Waiting for clue... </div>
-          : <div> CLUE WORD: {this.state.currentWord} : {this.state.currentNum} </div>
+        {this.state.currentWord === false
+         ? <div> Waiting for clue... </div>
+         : <div> CLUE WORD: {this.state.currentWord} : {this.state.currentNum} </div>
         }
-
         {this.state.turn === true
           ? <div className='chooser'>
               {this.state.currentWord !== false
-                ? <div> <button onClick={() => {this.finalSubmit()}}>submit {this.state.round}/{this.state.currentNum}</button>
-                  <button onClick={this.endTurn}>Stop Guessing</button> </div>
+                ? <div>
+                    <button onClick={() => {this.finalSubmit()}}>submit {this.state.round}/{this.state.currentNum}</button>
+                    <button onClick={this.endTurn}>Stop Guessing</button>
+                  </div>
                 : null
               }
-
             </div>
-
           : <div>Please wait.. other teams turn</div>
         }
-
-
       </div>
     );
   }
