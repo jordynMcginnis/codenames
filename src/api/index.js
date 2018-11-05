@@ -34,7 +34,7 @@ export function createGame (name) {
 };
 
 export function submitName (name, id, team) {
-  const key = firebasedb.ref('/games/' + id + '/players').once('value').then(function(snapshot) {
+  const key = firebasedb.ref('/games/' + id + '/players').once('value').then((snapshot) => {
     let playersArr = Object.keys(snapshot.val());
     let playersObj = snapshot.val();
 
@@ -75,7 +75,7 @@ export function selectRounds (id, round) {
 
 export function switchTeam (id) {
   firebasedb.ref('/games/' + id + '/players').once('value').then((snapshot) => {
-    let playersArr = Object.keys(snapshot.val());
+    const playersArr = Object.keys(snapshot.val());
     let playersObj = snapshot.val();
     let playersNames = [];
     let randomize = {};
@@ -127,7 +127,7 @@ export function submitWord (id, word, num){
   firebasedb.ref('/games/' + id + '/currentNum').once('value').then((snapshot) => {
     let value = snapshot.val();
       let result = {};
-      result.currentNum = num
+      result.currentNum = num;
       firebasedb.ref('/games/' + id + '/').update(result);
   });
 }

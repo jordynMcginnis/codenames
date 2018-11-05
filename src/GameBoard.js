@@ -22,13 +22,13 @@ class GameBoard extends Component {
     }
   }
   componentDidMount () {
-    let path = this.props.location.pathname.slice(1);
-    let games = firebasedb.ref('/games/' + path +'/');
+    const path = this.props.location.pathname.slice(1);
+    const games = firebasedb.ref('/games/' + path +'/');
     games.on('value', (snapshot) => {
-      let value = snapshot.val();
+      const value = snapshot.val();
       this.setState(() => ({gameInfo: value, players: value.players, start: value.start, spym: value.spyMaster, turn: value.turn, redPoints: value.redPoints, bluePoints: value.bluePoints, gameStatus: value.gameStatus}));
     });
-    let rounds = firebasedb.ref('/games/' + path +'/currentRound');
+    const rounds = firebasedb.ref('/games/' + path +'/currentRound');
     rounds.on('value', (snapshot) => {
       checkEnd(path);
     });

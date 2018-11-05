@@ -4,7 +4,6 @@ import CardField from './CardField.js';
 import {sendWord, switchTurn, gatherData, clearClue, selectWinner, endWord} from './api/index.js';
 import {FaBullseye} from "react-icons/fa";
 
-
 class FieldOps extends Component {
   constructor(props) {
     super(props);
@@ -32,29 +31,29 @@ class FieldOps extends Component {
       }
     });
     this.handleTeam();
-    let team = firebasedb.ref('/games/' + this.props.id + '/turn');
+    const team = firebasedb.ref('/games/' + this.props.id + '/turn');
     team.on('value', (snapshot) => {
       this.handleTeam();
     })
   }
   handleTeam = () => {
-    let games = firebasedb.ref('/games/' + this.props.id + '/words');
+    const games = firebasedb.ref('/games/' + this.props.id + '/words');
     games.on('value', (snapshot) => {
-      let words = snapshot.val();
+      const words = snapshot.val();
       this.setState(() => ({words}));
     })
-    let word = firebasedb.ref('/games/' + this.props.id + '/currentWord');
+    const word = firebasedb.ref('/games/' + this.props.id + '/currentWord');
     word.on('value', (snapshot) => {
-      let currentWord = snapshot.val();
+      const currentWord = snapshot.val();
       this.setState(() => ({currentWord}));
     })
-    let num = firebasedb.ref('/games/' + this.props.id + '/currentNum');
+    const num = firebasedb.ref('/games/' + this.props.id + '/currentNum');
     num.on('value', (snapshot) => {
-      let currentNum = snapshot.val();
+      const currentNum = snapshot.val();
       this.setState(() => ({currentNum}));
     })
     const team = firebasedb.ref('/games/' + this.props.id + '/turn').once('value').then((snapshot) => {
-      let value = snapshot.val();
+      const value = snapshot.val();
       if(value === this.state.team){
         this.setState(() => ({turn : true}));
       } else {
@@ -63,13 +62,12 @@ class FieldOps extends Component {
     });
   }
   handleTurn = () => {
-    let that = this;
     const team = firebasedb.ref('/games/' + this.props.id + '/turn').once('value').then((snapshot) => {
-      let value = snapshot.val();
+     const value = snapshot.val();
       if(value === this.state.team){
         this.setState(() => ({turn : true}));
       } else {
-        this.setState(() => ({turn: false}))
+        this.setState(() => ({turn: false}));
       };
     });
   }
@@ -95,7 +93,7 @@ class FieldOps extends Component {
     this.setState(() => ({round: 0}));
   }
   endTurn = () => {
-    endWord(this.props.id)
+    endWord(this.props.id);
     this.setState(() => ({round: 0}));
   }
   render() {

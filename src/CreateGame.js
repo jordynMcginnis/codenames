@@ -9,7 +9,7 @@ class CreateGame extends Component {
     };
   }
   handleName = ({target}) => {
-    this.setState(() => ({ name : target.value}));
+    this.setState(() => ({name : target.value}));
   }
   submitName = () => {
     createGame(this.state.name);

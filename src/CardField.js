@@ -19,10 +19,8 @@ class CardField extends Component {
         {Object.keys(this.props.data).map((obj) => {
           if(this.props.data[obj] === false){
             if(this.state.selection.indexOf(obj) > -1){
-              console.log(true)
               return <Card value={obj} handleSelection={this.handleSelection} class1='selected'/>
             } else {
-              console.log(false, this.props.data[obj])
               return <Card value={obj} handleSelection={this.handleSelection} class1={JSON.stringify(this.props.data[obj])}/>
             }
           } else {
