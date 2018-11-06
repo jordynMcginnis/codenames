@@ -14,9 +14,9 @@ class TeamSelection extends Component {
     }
   }
   componentDidMount () {
-    let games = firebasedb.ref('/games/' + this.props.id + '/players');
+    const games = firebasedb.ref('/games/' + this.props.id + '/players');
     games.on('value', (snapshot) => {
-      let value = snapshot.val();
+      const value = snapshot.val();
       this.setState(() => ({players: value}));
       for(var key in this.state.players){
         if(this.state.players[key] !== false){
@@ -29,7 +29,7 @@ class TeamSelection extends Component {
     rounds.on('value', (snapshot) => {
       let value = snapshot.val();
       this.setState(() => ({round: value}));
-    })
+    });
   }
   submitName = (team) => {
     if(this.state.name !== false){
@@ -41,7 +41,7 @@ class TeamSelection extends Component {
     }
   }
   updateInput = ({target}) => {
-   this.setState(() => ({name: target.value}))
+    this.setState(() => ({name: target.value}));
   }
   switchTeams = () => {
     switchTeam(this.props.id);
