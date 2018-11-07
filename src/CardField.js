@@ -26,14 +26,13 @@ class CardField extends Component {
           } else {
             if(this.props.data[obj] === 'red-selected'){
               return <Card value={obj} handleSelection={this.handleSelection} class1='red-selected'/>
-            } else if (this.props.data[obj] === 'blue-selected') {
+            } else if(this.props.data[obj] === 'blue-selected'){
               return <Card value={obj} handleSelection={this.handleSelection} class1='blue-selected'/>
             } else {
               return <Card value={obj} handleSelection={this.handleSelection} class1={this.props.data[obj]}/>
             }
           }
-          }
-        )}
+        })}
       </div>
     );
   }
