@@ -3,7 +3,7 @@ import TeamSelection from './teamSelection.js';
 import { firebasedb } from './utils/config.js';
 import SpyMasters from './SpyMasters.js';
 import FieldOps from './FieldOps.js';
-import {checkStart, checkData, gatherData, switchSpyMaster, checkEnd} from './api/index.js';
+import {checkStart, checkData, gatherData, switchSpyMaster, checkEndGame} from './api/index.js';
 
 class GameBoard extends Component {
   constructor(props) {
@@ -30,7 +30,7 @@ class GameBoard extends Component {
     });
     const rounds = firebasedb.ref('/games/' + path +'/currentRound');
     rounds.on('value', (snapshot) => {
-      checkEnd(path);
+      checkEndGame(path);
     });
   }
   startGame = (name) =>  {
