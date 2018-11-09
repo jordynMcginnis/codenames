@@ -77,7 +77,9 @@ export function checkStart (id) {
   firebasedb.ref('/games/' + id + '/players').once('value').then((snapshot) => {
     let playersObj = snapshot.val();
     for(var key in playersObj) {
-      playersObj[key] !== false ? count += 1 : null;
+      if(playersObj[key] !== false){
+        count += 1
+      }
     }
     if(count === 4){
       let result = {};

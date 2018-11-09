@@ -63,6 +63,7 @@ class TeamSelection extends Component {
                 if(player[0] === 'b'){
                   return <div className='blue-team' key={player}>{this.state.players[player]}</div>
                 }
+                return null;
               })}
             </span>
             vs
@@ -71,6 +72,7 @@ class TeamSelection extends Component {
                 if(player[0] === 'r'){
                   return <div className='red-team' key={player}>{this.state.players[player]}</div>
                 }
+                return null;
               })}
             </span>
           </div>

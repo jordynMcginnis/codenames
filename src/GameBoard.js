@@ -3,7 +3,7 @@ import TeamSelection from './teamSelection.js';
 import { firebasedb } from './utils/config.js';
 import SpyMasters from './SpyMasters.js';
 import FieldOps from './FieldOps.js';
-import {checkStart, checkData, gatherData, switchSpyMaster, checkEndGame} from './api/index.js';
+import {checkStart, checkData, checkEndGame} from './api/index.js';
 
 class GameBoard extends Component {
   constructor(props) {
@@ -58,10 +58,12 @@ class GameBoard extends Component {
                       <span> Blue Points: {this.state.bluePoints} </span>
                     </div>
                     {Object.keys(this.state.players).map((player) => {
-                      if(this.state.name === this.state.gameInfo.players[player] && player.slice(-1) == this.state.spym){
+                      if(this.state.name === this.state.gameInfo.players[player] && player.slice(-1) === this.state.spym){
                         return <SpyMasters id={this.props.location.pathname.slice(1)} name={this.state.name} turn={this.state.turn} info={this.state.gameInfo.wordMap}/>
                       } else if (this.state.name === this.state.gameInfo.players[player]){
                         return <FieldOps id={this.props.location.pathname.slice(1)} name={this.state.name} turn={this.state.turn}/>
+                      } else {
+                        return null
                       }
                     })}
                   </div>

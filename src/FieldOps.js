@@ -25,7 +25,7 @@ class FieldOps extends Component {
       let playersObj = snapshot.val();
       for(var i = 0; i < playersArr.length; i++) {
         if(playersObj[playersArr[i]] === name) {
-          this.setState(() => ({team: playersArr[i].slice(0,1)}));
+          this.setState({team: playersArr[i].slice(0,1)});
           break;
         }
       }
@@ -52,7 +52,7 @@ class FieldOps extends Component {
       const currentNum = snapshot.val();
       this.setState(() => ({currentNum}));
     })
-    const team = firebasedb.ref('/games/' + this.props.id + '/turn').once('value').then((snapshot) => {
+    firebasedb.ref('/games/' + this.props.id + '/turn').once('value').then((snapshot) => {
       const value = snapshot.val();
       if(value === this.state.team){
         this.setState(() => ({turn : true}));
@@ -62,8 +62,8 @@ class FieldOps extends Component {
     });
   }
   handleTurn = () => {
-    const team = firebasedb.ref('/games/' + this.props.id + '/turn').once('value').then((snapshot) => {
-     const value = snapshot.val();
+    firebasedb.ref('/games/' + this.props.id + '/turn').once('value').then((snapshot) => {
+      const value = snapshot.val();
       if(value === this.state.team){
         this.setState(() => ({turn : true}));
       } else {

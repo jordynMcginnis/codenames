@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { firebasedb } from './utils/config.js';
 import CardField from './CardField.js';
 import {submitWord} from './api/index.js';
-import {FaBullseye} from "react-icons/fa";
 
 class SpyMasters extends Component {
   constructor(props) {
@@ -35,12 +34,12 @@ class SpyMasters extends Component {
       this.setState(() => ({words}));
     });
     const name = this.props.name;
-    const key = firebasedb.ref('/games/' + this.props.id + '/players').once('value').then((snapshot) => {
+    firebasedb.ref('/games/' + this.props.id + '/players').once('value').then((snapshot) => {
       let playersArr = Object.keys(snapshot.val());
       let playersObj = snapshot.val();
       for(var i = 0; i < playersArr.length; i++) {
         if(playersObj[playersArr[i]] === name) {
-          this.setState(() => ({team: playersArr[i].slice(0,1)}));
+          this.setState({team: playersArr[i].slice(0,1)});
           break;
         }
       }
@@ -51,9 +50,8 @@ class SpyMasters extends Component {
     });
   };
   handleTeam = () => {
-    const team = firebasedb.ref('/games/' + this.props.id + '/turn').once('value').then((snapshot) => {
-      let value = snapshot.val();
-      if(value === this.state.team){
+    firebasedb.ref('/games/' + this.props.id + '/turn').once('value').then((snapshot) => {
+      if(snapshot.val() === this.state.team){
         this.setState(() => ({turn : true}));
       } else {
         this.setState(() => ({turn : false}));
@@ -71,7 +69,7 @@ class SpyMasters extends Component {
     this.setState(()=>({turn : false}));
   }
   handleSubmit = ()=> {
-    console.log('enter word');
+    console.log('enter word below');
   }
   render() {
     return (
