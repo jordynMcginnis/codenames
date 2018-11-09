@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {submitName, selectRounds} from './api/index.js';
+import {submitName, selectRounds, teamFull} from './api/index.js';
 import { firebasedb } from './utils/config.js';
 
 class TeamSelection extends Component {
@@ -33,18 +33,21 @@ class TeamSelection extends Component {
     });
   }
   submit = (team) => {
-    if(this.state.name !== false){
-      submitName(this.state.name, this.props.id, team).then((teamFilled)=>{
-        if(teamFilled === true) {
-          this.setState(()=>({[team] : false}))
-        } else {
-          this.props.start(this.state.name);
-          this.state.render === 'name'
-            ? this.setState(() => ({render: 'teams'}))
-            : this.setState(() => ({render: 'name'}))
-        }
-      })
+    if(!this.state.name){
+      return;
     }
+
+    teamFull(this.props.id, team).then((status) => {
+      if(status === false) {
+        submitName(this.state.name, this.props.id, team);
+        this.props.start(this.state.name);
+        this.state.render === 'name'
+          ? this.setState(() => ({render: 'teams'}))
+          : this.setState(() => ({render: 'name'}))
+        } else {
+          this.setState(()=>({[team] : false}))
+        }
+    });
   }
   updateInput = ({target}) => {
     this.setState(() => ({name: target.value}));

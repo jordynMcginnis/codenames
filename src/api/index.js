@@ -1,6 +1,12 @@
 import { firebasedb } from '../utils/config.js';
 import codeWordsList from '../data.js';
 
+function getPlayers (id) {
+  return firebasedb.ref('/games/' + id + '/players').once('value').then((snapshot) => {
+    return snapshot.val();
+  });
+}
+
 export function createGame (name) {
   const gameData = {
     name : name,
@@ -28,36 +34,23 @@ export function createGame (name) {
     homeRender : true
   }
   const key = firebasedb.ref().child('games').push().key;
-  let updates = {};
-  updates[key] = gameData;
-  return firebasedb.ref('/games/').update(updates);
+  return firebasedb.ref('/games/').update({[key] : gameData});
 };
 
-export function submitName (name, id, team) {
-  return firebasedb.ref('/games/' + id + '/players').once('value').then((snapshot) => {
-    let playersObj = snapshot.val();
-
-    if(team === 'blue'){
-      if(playersObj.bluePlayer1 === false){
-        playersObj.bluePlayer1 = name;
-      } else if(playersObj.bluePlayer2 === false){
-        playersObj.bluePlayer2 = name;
-      } else {
-        return true;
-      }
-    } else {
-      if(playersObj.redPlayer1 === false){
-        playersObj.redPlayer1 = name;
-      } else if(playersObj.redPlayer2 === false){
-        playersObj.redPlayer2 = name;
-      } else {
-        return true;
-      }
-    }
-
-    firebasedb.ref('/games/' + id + '/players').update(playersObj);
-    return false;
+export function teamFull (id, team) {
+  return getPlayers(id).then((players) => {
+    return players[`${team}Player1`] !== false && players[`${team}Player2`] !== false
   });
+}
+
+export function submitName (name, id, team) {
+  getPlayers(id).then((players) => {
+    if(players[`${team}Player1`] === false){
+      return firebasedb.ref(`/games/${id}/players`).update({[`${team}Player1`] : name});
+    } else {
+      return firebasedb.ref(`/games/${id}/players`).update({[`${team}Player2`] : name});
+    }
+  })
 }
 
 export function selectRounds (id, round) {
