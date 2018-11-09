@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {submitName, switchTeam, selectRounds} from './api/index.js';
+import {submitName, selectRounds} from './api/index.js';
 import { firebasedb } from './utils/config.js';
 
 class TeamSelection extends Component {
@@ -10,7 +10,9 @@ class TeamSelection extends Component {
       name: false,
       players: {},
       round: 2,
-      count: 0
+      count: 0,
+      red: true,
+      blue: true
     }
   }
   componentDidMount () {
@@ -20,8 +22,7 @@ class TeamSelection extends Component {
       this.setState(() => ({players: value}));
       for(var key in this.state.players){
         if(this.state.players[key] !== false){
-          let newCount = this.state.count += 1;
-          this.setState(()=>({count : newCount}));
+          this.setState((prevState)=>({count : prevState.count += 1}));
         }
       }
     });
@@ -31,20 +32,22 @@ class TeamSelection extends Component {
       this.setState(() => ({round: value}));
     });
   }
-  submitName = (team) => {
+  submit = (team) => {
     if(this.state.name !== false){
-      submitName(this.state.name, this.props.id, team);
-      this.props.start(this.state.name);
-      this.state.render === 'name'
-        ? this.setState(() => ({render: 'teams'}))
-        : this.setState(() => ({render: 'name'}))
+      submitName(this.state.name, this.props.id, team).then((teamFilled)=>{
+        if(teamFilled === true) {
+          this.setState(()=>({[team] : false}))
+        } else {
+          this.props.start(this.state.name);
+          this.state.render === 'name'
+            ? this.setState(() => ({render: 'teams'}))
+            : this.setState(() => ({render: 'name'}))
+        }
+      })
     }
   }
   updateInput = ({target}) => {
     this.setState(() => ({name: target.value}));
-  }
-  switchTeams = () => {
-    switchTeam(this.props.id);
   }
   switchRounds = (round) => {
     this.setState(()=>({round}));
@@ -76,16 +79,22 @@ class TeamSelection extends Component {
                 <input className='t-input' placeholder='name' onChange={this.updateInput}/>
                 SELECT TEAM:
                 <span>
-                  <button className='switch' onClick ={()=>{this.submitName('blue')}}>Blue</button>
-                  <button className='switchr' onClick ={()=>{this.submitName('red')}}>Red</button>
+                  {this.state.red === true
+                    ? <button className='switchr' onClick ={()=>{this.submit('red')}}>Red</button>
+                    : <button className='full'>Red Team Full</button>
+                  }
+                  {this.state.blue === true
+                    ? <button className='switch' onClick ={()=>{this.submit('blue')}}>Blue</button>
+                    : <button className='full'>Blue Team Full</button>
+                  }
                 </span>
               </div>
             : null
           }
           <h2>Rounds Selected : {this.state.round}</h2>
-          <div class="dropdown">
-            <button class="dropbtn">Change Rounds</button>
-            <div class="dropdown-content">
+          <div className="dropdown">
+            <button className="dropbtn">Change Rounds</button>
+            <div className="dropdown-content">
               <div onClick={()=>{this.switchRounds(2)}}>2</div>
               <div onClick={()=>{this.switchRounds(4)}}>4</div>
               <div onClick={()=>{this.switchRounds(6)}}>6</div>

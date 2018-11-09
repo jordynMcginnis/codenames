@@ -84,8 +84,8 @@ class SpyMasters extends Component {
           <span className='not-it'>Field Operations</span>
           <span className='it'>SpyMaster</span>
         </h6>
-         <CardField data={this.state.words} handleSubmit={this.handleSubmit}/>
-         {this.state.turn === true
+        <CardField data={this.state.words} handleSubmit={this.handleSubmit}/>
+        {this.state.turn === true
           ? <div>
               <input placeholder='word' onChange={this.handleInput} className='hint'/>
               <div className ='ol'>
@@ -99,7 +99,7 @@ class SpyMasters extends Component {
               <button onClick={this.handleSubmitWord}>Submit</button>
             </div>
           : <div> Other teams turn.. please wait</div>
-         }
+        }
       </div>
     );
   }

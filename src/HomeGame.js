@@ -8,11 +8,10 @@ class Home extends Component {
     }
   }
   componentDidMount () {
-    let playersKey = this.props.playersKey
+    const playersKey = this.props.playersKey;
     for (var key in playersKey){
       if(playersKey[key] !== false){
-        let newTotal = this.state.players +=1;
-        this.setState(()=>({players : newTotal}));
+        this.setState((prevState) => ({players : prevState.players += 1}));
       }
     }
   }

@@ -1,5 +1,5 @@
 import { firebasedb } from '../utils/config.js';
-import data from '../data.js';
+import codeWords from '../data.js';
 
 export function createGame (name) {
   const gameData = {
@@ -34,36 +34,29 @@ export function createGame (name) {
 };
 
 export function submitName (name, id, team) {
-  const key = firebasedb.ref('/games/' + id + '/players').once('value').then((snapshot) => {
-    let playersArr = Object.keys(snapshot.val());
+  return firebasedb.ref('/games/' + id + '/players').once('value').then((snapshot) => {
     let playersObj = snapshot.val();
 
     if(team === 'blue'){
       if(playersObj.bluePlayer1 === false){
         playersObj.bluePlayer1 = name;
-      } else if (playersObj.bluePlayer2 === false){
+      } else if(playersObj.bluePlayer2 === false){
         playersObj.bluePlayer2 = name;
       } else {
-        if(playersObj.redPlayer1 === false){
-        playersObj.redPlayer1 = name;
-        } else if (playersObj.redPlayer2 === false){
-        playersObj.redPlayer2 = name;
-        }
+        return true;
       }
     } else {
-       if(playersObj.redPlayer1 === false){
+      if(playersObj.redPlayer1 === false){
         playersObj.redPlayer1 = name;
-      } else if (playersObj.redPlayer2 === false){
+      } else if(playersObj.redPlayer2 === false){
         playersObj.redPlayer2 = name;
       } else {
-        if(playersObj.bluePlayer1 === false){
-        playersObj.bluePlayer1 = name;
-        } else if (playersObj.bluePlayer2 === false){
-        playersObj.bluePlayer2 = name;
-        }
+        return true;
       }
     }
-    return firebasedb.ref('/games/' + id + '/players').update(playersObj);
+
+    firebasedb.ref('/games/' + id + '/players').update(playersObj);
+    return false;
   });
 }
 
@@ -71,24 +64,6 @@ export function selectRounds (id, round) {
   let result = {};
   result.rounds = round;
   firebasedb.ref('/games/' + id + '/').update(result);
-}
-
-export function switchTeam (id) {
-  firebasedb.ref('/games/' + id + '/players').once('value').then((snapshot) => {
-    const playersArr = Object.keys(snapshot.val());
-    let playersObj = snapshot.val();
-    let playersNames = [];
-    let randomize = {};
-    for(var key in playersObj) {
-      playersNames.push(playersObj[key]);
-    }
-    let value = playersNames.pop();
-    playersNames.unshift(value);
-    for(var i = 0; i < playersArr.length; i++) {
-     randomize[playersArr[i]] = playersNames[i];
-    }
-    return firebasedb.ref('/games/' + id + '/players').update(randomize);
-  });
 }
 
 export function switchSpyMaster (id) {
@@ -102,7 +77,6 @@ export function switchSpyMaster (id) {
 }
 
 export function checkStart (id) {
-  let start = true;
   let count = 0;
   firebasedb.ref('/games/' + id + '/players').once('value').then((snapshot) => {
     let playersObj = snapshot.val();
@@ -118,32 +92,21 @@ export function checkStart (id) {
 }
 
 export function submitWord (id, word, num){
-  firebasedb.ref('/games/' + id + '/currentWord').once('value').then((snapshot) => {
-    let value = snapshot.val();
-      let result = {};
-      result.currentWord = word;
-      firebasedb.ref('/games/' + id + '/').update(result);
-  });
-  firebasedb.ref('/games/' + id + '/currentNum').once('value').then((snapshot) => {
-    let value = snapshot.val();
-      let result = {};
-      result.currentNum = num;
-      firebasedb.ref('/games/' + id + '/').update(result);
-  });
+  firebasedb.ref('/games/' + id + '/').update({currentWord: word, currentNum: num});
 }
 
 export function checkData (id) {
   chooseData(id, 25, {});
 }
 
-export function updateGame (id, winner, kill) {
-  let result = {};
-  result.winner = false;
-  result.words = false;
-  firebasedb.ref('/games/' + id + '/words').once('value').then((snapshot) => {
-    firebasedb.ref('/games/' + id + '/').update(result);
+export function updateGame (id, kill) {
+  // let result = {};
+  // result.winner = false;
+  // result.words = false;
+  //firebasedb.ref('/games/' + id + '/words').once('value').then((snapshot) => {
+    firebasedb.ref('/games/' + id + '/').update({winner: false, words: false});
     chooseData(id, 25, {});
-  });
+  //});
   if (kill === false){
     switchSpyMaster(id);
   }
@@ -173,7 +136,6 @@ export function sendWord (arr, id, round) {
         } else {
           person = 'blue'
         }
-        let result = {};
         selectWinner(id, 'end', person);
         switchTurn(id);
         clearClue(id);
@@ -214,13 +176,12 @@ export function selectWinner (id, stat, person) {
     let bluePoints = snapshot.val().bluePoints;
     let currentRound = snapshot.val().currentRound;
     let map = snapshot.val().words;
-    let teamTurn = snapshot.val().turn;
 
     if(stat === 'end'){
       result.winner = person;
       person === 'blue' ? result.bluePoints = bluePoints + 1 : result.redPoints = redPoints + 1;
       result.currentRound = currentRound + 1;
-      updateGame(id, person, false);
+      updateGame(id, false);
     } else {
       for(var key in map) {
         if(map[key] === 'b'){
@@ -233,12 +194,12 @@ export function selectWinner (id, stat, person) {
         result.winner = 'blue';
         result.currentRound = currentRound + 1;
         result.bluePoints = bluePoints + 1;
-        updateGame(id, 'blue', false);
+        updateGame(id, false);
       } else if (redCount >= 12){
         result.winner = 'red';
         result.currentRound = currentRound + 1;
         result.redPoints = redPoints + 1;
-        updateGame(id, 'red', false);
+        updateGame(id, false);
       }
     }
     firebasedb.ref('/games/' + id + '/').update(result);
@@ -261,7 +222,6 @@ export function checkEnd (id) {
 
 export function clearClue (id) {
   firebasedb.ref('/games/' + id + '/').once('value').then((snapshot) => {
-    let value = snapshot.val();
     let result = {};
     result.currentWord = false;
     result.currentNum = false;
@@ -285,10 +245,10 @@ function chooseData (id, num, obj, arr){
     return;
   } else {
     let ranNum = randomNum();
-    while(obj[data[ranNum]] === false){
+    while(obj[codeWords[ranNum]] === false){
       ranNum = randomNum();
     }
-    obj[data[ranNum]] = false;
+    obj[codeWords[ranNum]] = false;
     chooseData(id, num - 1, obj);
   }
 }

@@ -3,7 +3,7 @@ import TeamSelection from './teamSelection.js';
 import { firebasedb } from './utils/config.js';
 import SpyMasters from './SpyMasters.js';
 import FieldOps from './FieldOps.js';
-import {checkStart, checkData, gatherData, switchSpyMaster, updateGame, checkEnd} from './api/index.js';
+import {checkStart, checkData, gatherData, switchSpyMaster, checkEnd} from './api/index.js';
 
 class GameBoard extends Component {
   constructor(props) {

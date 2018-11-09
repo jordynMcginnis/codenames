@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { firebasedb } from './utils/config.js';
 import CardField from './CardField.js';
-import {sendWord, switchTurn, gatherData, clearClue, selectWinner, endWord} from './api/index.js';
-import {FaBullseye} from "react-icons/fa";
+import {sendWord, endWord} from './api/index.js';
+
 
 class FieldOps extends Component {
   constructor(props) {
@@ -20,7 +20,7 @@ class FieldOps extends Component {
   componentDidMount () {
     const name = this.props.name;
 
-    const key = firebasedb.ref('/games/' + this.props.id + '/players').once('value').then((snapshot) => {
+    firebasedb.ref('/games/' + this.props.id + '/players').once('value').then((snapshot) => {
       let playersArr = Object.keys(snapshot.val());
       let playersObj = snapshot.val();
       for(var i = 0; i < playersArr.length; i++) {

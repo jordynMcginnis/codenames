@@ -199,10 +199,21 @@ button {
   color: white;
   align-self: center;
 }
+
 .switchr{
   width: 150px;
   height: 30px;
   background-color: #e86c7a;
+  border-radius: 10px;
+  margin-top: 10px;
+  color: white;
+  align-self: center;
+}
+
+.full{
+  width: 150px;
+  height: 30px;
+  background-color: #333333;
   border-radius: 10px;
   margin-top: 10px;
   color: white;
@@ -217,8 +228,7 @@ button {
   display: flex;
   justify-content: space-between;
   flex-wrap: wrap;
-/*  background-color: blue;
-*/}
+}
 
 .false {
   width: 80px;
@@ -266,11 +276,10 @@ button {
   border-width: 2px;
   border-radius: 5px;
   margin: 3px;
-   display: flex;
+  display: flex;
   justify-content: center;
   align-items: center;
   color: #e86c7a;
-
 }
 
 .blue {
@@ -281,10 +290,9 @@ button {
   border-width: 2px;
   border-radius: 5px;
   margin: 3px;
-   display: flex;
+  display: flex;
   justify-content: center;
   align-items: center;
-
 }
 
 .b {
@@ -296,7 +304,7 @@ button {
   border-width: 2px;
   border-radius: 5px;
   margin: 3px;
-   display: flex;
+  display: flex;
   justify-content: center;
   align-items: center;
 }

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import ReactRouter, { Route, BrowserRouter as Router } from 'react-router-dom';
+import { Route, BrowserRouter as Router } from 'react-router-dom';
 import Home from './Home.js';
 import GameBoard from './GameBoard.js';
 
