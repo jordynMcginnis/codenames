@@ -7,6 +7,26 @@ function getPlayers (id) {
   });
 }
 
+function getGame (id) {
+  return firebasedb.ref('/games/' + id + '/').once('value').then((snapshot) => {
+    return snapshot.val();
+  });
+}
+
+function getSpyMaster (id) {
+  return firebasedb.ref('/games/' + id + '/spyMaster').once('value').then((snapshot) => {
+    return snapshot.val();
+  });
+}
+
+function updateGame (id, obj) {
+  firebasedb.ref('/games/' + id + '/').update(obj);
+}
+
+function updatePlayers (id, obj) {
+  firebasedb.ref(`/games/${id}/players`).update(obj);
+}
+
 export function createGame (name) {
   const gameData = {
     name : name,
@@ -46,44 +66,40 @@ export function teamFull (id, team) {
 export function submitName (name, id, team) {
   getPlayers(id).then((players) => {
     if(players[`${team}Player1`] === false){
-      return firebasedb.ref(`/games/${id}/players`).update({[`${team}Player1`] : name});
+      return updatePlayers(id, {[`${team}Player1`] : name});
     } else {
-      return firebasedb.ref(`/games/${id}/players`).update({[`${team}Player2`] : name});
+      return updatePlayers(id, {[`${team}Player2`] : name});
     }
   })
 }
 
 export function selectRounds (id, round) {
-  firebasedb.ref('/games/' + id + '/').update({rounds: round});
+  updateGame(id, {rounds: round})
 }
 
 export function switchSpyMaster (id) {
-  firebasedb.ref('/games/' + id + '/').once('value').then((snapshot) => {
-    let spyMastersRound = snapshot.val().spyMaster;
+  getSpyMaster(id).then((spyMastersRound) => {
     spyMastersRound === 1 ? spyMastersRound = 2 : spyMastersRound = 1;
-    return firebasedb.ref('/games/' + id + '/').update({spyMaster : spyMastersRound});
-  });
+    return updateGame(id, {spyMaster : spyMastersRound});
+  })
 }
 
 export function checkStart (id) {
   let count = 0;
-  firebasedb.ref('/games/' + id + '/players').once('value').then((snapshot) => {
-    let playersObj = snapshot.val();
-    for(var key in playersObj) {
-      if(playersObj[key] !== false){
+  getPlayers(id).then((players) => {
+    for(var key in players) {
+      if(players[key] !== false){
         count += 1
       }
     }
     if(count === 4){
-      let result = {};
-      result.start = true;
-      firebasedb.ref('/games/' + id + '/').update(result);
+      updateGame(id, {start : true});
     }
-  });
+  })
 }
 
 export function submitWord (id, word, num) {
-  firebasedb.ref('/games/' + id + '/').update({currentWord: word, currentNum: num});
+  updateGame(id, {currentWord: word, currentNum: num});
 }
 
 export function checkData (id) {
@@ -91,7 +107,7 @@ export function checkData (id) {
 }
 
 export function startNextRound (id, kill) {
-  firebasedb.ref('/games/' + id + '/').update({winner: false, words: false});
+  updateGame(id, {winner: false, words: false})
   chooseCodeWords(id, 25, {});
   if (kill === false){
     switchSpyMaster(id);
@@ -99,18 +115,13 @@ export function startNextRound (id, kill) {
 }
 
 export function sendWord (arr, id, round) {
-  return firebasedb.ref('/games/' + id + '/').once('value').then((snapshot) => {
-    let turn = snapshot.val().turn; //red
-    let wordMap = snapshot.val().wordMap;
-    let words = snapshot.val().words;
-    let currentRound = snapshot.val().currentNum;
-
+  getGame(id).then(({turn, wordMap, words, currentNum}) => {
     for (var i = 0; i < arr.length; i++) {
       if(wordMap[arr[i]].slice(0,1) === turn){
         words[arr[i]] = turn;
         firebasedb.ref('/games/' + id + '/words').update(words);
         selectWinner(id);
-        if(currentRound <= round){
+        if(currentNum <= round){
           switchTurn(id);
           clearClue(id);
         }
@@ -132,7 +143,7 @@ export function sendWord (arr, id, round) {
         return false;
       }
     }
-  });
+  })
 }
 
 export function endWord (id) {
@@ -141,81 +152,67 @@ export function endWord (id) {
 }
 
 export function switchTurn (id) {
-  firebasedb.ref('/games/' + id + '/').once('value').then((snapshot) => {
-    let turn = snapshot.val().turn;
-    let result = {};
-    if(turn === 'b'){
-      result.turn = 'r';
-    } else {
-      result.turn = 'b';
+  getGame(id).then(({turn}) => {
+    turn === 'b'
+      ? updateGame(id, {turn : 'r'})
+      : updateGame(id, {turn : 'b'})
+  })
+}
+
+function countGuessedWords (wordMap, team) {
+  let teamPoints = 0;
+  for(var word in wordMap){
+    if(wordMap[word] ===  team){
+      teamPoints++;
     }
-    firebasedb.ref('/games/' + id + '/').update(result);
-  });
+  }
+  return teamPoints;
 }
 
 export function selectWinner (id, stat, person) {
-  let blueCount = 0;
-  let redCount = 0;
-  firebasedb.ref('/games/' + id + '/').once('value').then((snapshot) => {
-    let result = {};
-    let redPoints = snapshot.val().redPoints;
-    let bluePoints = snapshot.val().bluePoints;
-    let currentRound = snapshot.val().currentRound;
-    let map = snapshot.val().words;
-
+  getGame(id).then(({redPoints, bluePoints, currentRound, words}) => {
     if(stat === 'end'){
-      result.winner = person;
-      person === 'blue' ? result.bluePoints = bluePoints + 1 : result.redPoints = redPoints + 1;
-      result.currentRound = currentRound + 1;
+      person === 'blue'
+        ? updateGame(id, {winner: person, 'bluePoints': bluePoints += 1, 'redPoints' : redPoints, 'currentRound' : currentRound + 1})
+        : updateGame(id, {winner: person, 'bluePoints': bluePoints, 'redPoints' : redPoints += 1, 'currentRound' : currentRound + 1})
       startNextRound(id, false);
     } else {
-      for(var key in map) {
-        if(map[key] === 'b'){
-          blueCount++;
-        } else if (map[key] === 'r'){
-          redCount++;
-        }
-      }
-      if(blueCount >= 12){
-        result.winner = 'blue';
-        result.currentRound = currentRound + 1;
-        result.bluePoints = bluePoints + 1;
+      const blueWordsGuessed = countGuessedWords(words, 'b');
+      const redWordsGuessed = countGuessedWords(words, 'r');
+      if(blueWordsGuessed >= 12){
         startNextRound(id, false);
-      } else if (redCount >= 12){
-        result.winner = 'red';
-        result.currentRound = currentRound + 1;
-        result.redPoints = redPoints + 1;
+        updateGame(id, {winner : 'blue', currentRound : currentRound + 1, bluePoints : bluePoints + 1})
+      } else if(redWordsGuessed >= 12){
         startNextRound(id, false);
+        updateGame(id, {winner: 'red',currentRound : currentRound + 1, redPoints : redPoints + 1});
       }
     }
-
-    firebasedb.ref('/games/' + id + '/').update(result);
-  });
+  })
   checkEndGame(id);
 };
 
 export function checkEndGame (id) {
-  firebasedb.ref('/games/' + id + '/').once('value').then((snapshot) => {
-    if(snapshot.val().currentRound === snapshot.val().rounds){
-      firebasedb.ref('/games/' + id + '/').update({gameStatus : false, homeRender : false});
-    }
-  });
+  getGame(id).then(({currentRound, rounds}) => {
+    currentRound === rounds
+      ? updateGame(id, {gameStatus : false, homeRender : false})
+      : null
+  })
 }
 
 export function clearClue (id) {
-  firebasedb.ref('/games/' + id + '/').update({currentWord: false, currentNum: false});
+  updateGame(id, {currentWord: false, currentNum: false})
 }
 
 function chooseCodeWords (id, num, agentWordMap){
   if(num === 0){
-    firebasedb.ref('/games/' + id + '/words').once('value').then((snapshot) => {
-      if(snapshot.val() === false){
-        firebasedb.ref('/games/' + id + '/').update({words: agentWordMap});
+    getGame(id).then(({words}) => {
+      if(words === false){
+        updateGame(id, {words: agentWordMap});
         fillWordMap(agentWordMap, id);
       } else {
         console.log('already filled')
       }
-    });
+    })
     return;
   } else {
     let ranNum = randomNum();
@@ -251,5 +248,5 @@ function fillWordMap(agentWordMap, id) {
     }
   }
 
-  firebasedb.ref('/games/' + id + '/').update({wordMap: spyMasterWordMap});
+  updateGame(id, {wordMap: spyMasterWordMap});
 }
