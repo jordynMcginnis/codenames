@@ -114,32 +114,44 @@ export function startNextRound (id, kill) {
   }
 }
 
+function updateNextHint (id) {
+  switchTurn(id);
+  clearClue(id);
+}
+
+function updateIncorrectGuess (id) {
+  updateNextHint(id);
+}
+
+function updateKillerGuessed (id, turn) {
+  if(turn === 'b'){
+    selectWinner(id, 'end', 'red');
+  } else {
+    selectWinner(id, 'end', 'blue');
+  }
+  updateNextHint(id);
+}
+
+function updateCorrectGuess (id, guess, fieldOpWords, turn, round, currentNum) {
+  firebasedb.ref('/games/' + id + '/words').update({[guess] : turn});
+  selectWinner(id);
+  if(currentNum <= round){
+    updateNextHint(id)
+  }
+}
+
 export function sendWord (arr, id, round) {
-  getGame(id).then(({turn, wordMap, words, currentNum}) => {
+  console.log(arr);
+  return getGame(id).then(({turn, wordMap, words, currentNum}) => {
     for (var i = 0; i < arr.length; i++) {
       if(wordMap[arr[i]].slice(0,1) === turn){
-        words[arr[i]] = turn;
-        firebasedb.ref('/games/' + id + '/words').update(words);
-        selectWinner(id);
-        if(currentNum <= round){
-          switchTurn(id);
-          clearClue(id);
-        }
+        updateCorrectGuess(id, arr[i], words, turn, round, currentNum);
         return true;
       } else if (wordMap[arr[i]] === 'killer'){
-        let person = false;
-        if(turn === 'b'){
-          person = 'red'
-        } else {
-          person = 'blue'
-        }
-        selectWinner(id, 'end', person);
-        switchTurn(id);
-        clearClue(id);
+        updateKillerGuessed(id, turn)
         return;
       } else {
-        switchTurn(id);
-        clearClue(id);
+        updateIncorrectGuess(id);
         return false;
       }
     }
