@@ -140,8 +140,7 @@ function updateCorrectGuess (id, guess, fieldOpWords, turn, round, currentNum) {
   }
 }
 
-export function sendWord (arr, id, round) {
-  console.log(arr);
+export function checkCorrectWord (arr, id, round) {
   return getGame(id).then(({turn, wordMap, words, currentNum}) => {
     for (var i = 0; i < arr.length; i++) {
       if(wordMap[arr[i]].slice(0,1) === turn){

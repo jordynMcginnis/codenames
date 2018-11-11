@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { firebasedb } from './utils/config.js';
 import CardField from './CardField.js';
-import {sendWord, endWord} from './api/index.js';
+import {endWord, checkCorrectWord} from './api/index.js';
 
 
 class FieldOps extends Component {
@@ -76,8 +76,7 @@ class FieldOps extends Component {
   }
   finalSubmit = () => {
     let currentRound = this.state.round + 1;
-
-    sendWord(this.state.arr, this.props.id, currentRound).then((res) => {
+    checkCorrectWord(this.state.arr, this.props.id, currentRound).then((res) => {
       if(res === false) {
         this.skipTurn();
       } else if (res === true){
