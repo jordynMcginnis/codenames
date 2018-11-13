@@ -124,11 +124,9 @@ function updateIncorrectGuess (id) {
 }
 
 function updateKillerGuessed (id, turn) {
-  if(turn === 'b'){
-    selectWinner(id, 'end', 'red');
-  } else {
-    selectWinner(id, 'end', 'blue');
-  }
+  turn === 'b'
+    ? selectWinner(id, 'end', 'red')
+    : selectWinner(id, 'end', 'blue')
   updateNextHint(id);
 }
 

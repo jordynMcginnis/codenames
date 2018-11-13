@@ -106,7 +106,7 @@ class FieldOps extends Component {
           <span className='it'>Field Operations</span>
           <span className='not-it'>SpyMaster</span>
         </h6>
-        <CardField data={this.state.words} handleSubmit={this.handleSubmit} maxNum={this.state.currentNum}/>
+        <CardField codeWordMap={this.state.words} handleSubmit={this.handleSubmit} maxNum={this.state.currentNum}/>
         {this.state.currentWord === false
          ? <div> Waiting for clue... </div>
          : <div> CLUE WORD: {this.state.currentWord} : {this.state.currentNum} </div>

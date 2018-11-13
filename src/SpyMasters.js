@@ -82,7 +82,7 @@ class SpyMasters extends Component {
           <span className='not-it'>Field Operations</span>
           <span className='it'>SpyMaster</span>
         </h6>
-        <CardField data={this.state.words} handleSubmit={this.handleSubmit}/>
+        <CardField codeWordMap={this.state.words} handleSubmit={this.handleSubmit}/>
         {this.state.turn === true
           ? <div>
               <input placeholder='word' onChange={this.handleInput} className='hint'/>
