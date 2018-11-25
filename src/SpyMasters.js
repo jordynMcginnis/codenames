@@ -7,56 +7,65 @@ class SpyMasters extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      words: {},
+      updatedWords: {},
       num: 0,
       singleWord: '',
-      turn: false,
-      team: false
+      turn: null,
+      team: null
     };
   }
   componentDidMount () {
-    let games = firebasedb.ref('/games/' + this.props.id + '/');
-    games.on('value', (snapshot) => {
-      let words = {};
-      let wordMap = snapshot.val().wordMap;
-      let wordAgent = snapshot.val().words;
-      for(var key in wordMap){
-        if(wordAgent[key] !== false){
-          if(wordAgent[key] === 'r'){
-            words[key] = 'red-selected'
-          } else if (wordAgent[key] === 'b'){
-            words[key] = 'blue-selected'
-          }
-        } else {
-          words[key] = wordMap[key];
-        }
-      }
-      this.setState(() => ({words}));
+    const gameChange = firebasedb.ref('/games/' + this.props.id + '/');
+    gameChange.on('value', (emptyMap) => {
+      this.updateTeamGuess(emptyMap.val());
     });
-    const name = this.props.name;
+
+    this.findPlayersTeam();
+
+    const turnChange = firebasedb.ref('/games/' + this.props.id + '/turn');
+    turnChange.on('value', (turn) => {
+      this.handleTeamsTurn(turn.val());
+    });
+  };
+  handleTeamsTurn = (turn) => {
+      if(turn === this.state.team){
+        this.setState(() => ({turn : true}));
+      } else {
+        this.setState(() => ({turn : false}));
+      }
+  }
+  findPlayersTeam = () => {
     firebasedb.ref('/games/' + this.props.id + '/players').once('value').then((snapshot) => {
       let playersArr = Object.keys(snapshot.val());
       let playersObj = snapshot.val();
       for(var i = 0; i < playersArr.length; i++) {
-        if(playersObj[playersArr[i]] === name) {
+        if(playersObj[playersArr[i]] === this.props.name) {
           this.setState({team: playersArr[i].slice(0,1)});
           break;
         }
       }
     });
-    let team = firebasedb.ref('/games/' + this.props.id + '/turn');
-    team.on('value', (snapshot) => {
-      this.handleTeam();
-    });
-  };
-  handleTeam = () => {
-    firebasedb.ref('/games/' + this.props.id + '/turn').once('value').then((snapshot) => {
-      if(snapshot.val() === this.state.team){
-        this.setState(() => ({turn : true}));
-      } else {
-        this.setState(() => ({turn : false}));
+  }
+  redTeamsTurn = () => {
+    return this.state.team === 'r'
+  }
+  isTurn = () => {
+    return this.state.turn === true
+  }
+  updateTeamGuess = ({wordMap, words}) => {
+    let updatedWords = {};
+      for(var key in wordMap){
+        if(words[key] !== false){
+          if(words[key] === 'r'){
+            updatedWords[key] = 'red-selected'
+          } else if (words[key] === 'b'){
+            updatedWords[key] = 'blue-selected'
+          }
+        } else {
+          updatedWords[key] = wordMap[key];
+        }
       }
-    });
+    this.setState(() => ({updatedWords}));
   }
   handleNumber = (num) => {
     this.setState(() => ({num}));
@@ -75,15 +84,15 @@ class SpyMasters extends Component {
     return (
       <div className="board">
         <h6 className='find-team'>
-          {this.state.team === 'r'
+          {this.redTeamsTurn() === true
             ? <span className='find-team'><span className='it'>Red</span><span className='not-it'>Blue</span></span>
             : <span className='find-team'><span className='it'>Blue</span><span className='not-it'>Red</span></span>
           }
           <span className='not-it'>Field Operations</span>
           <span className='it'>SpyMaster</span>
         </h6>
-        <CardField codeWordMap={this.state.words} handleSubmit={this.handleSubmit}/>
-        {this.state.turn === true
+        <CardField codeWordMap={this.state.updatedWords} handleSubmit={this.handleSubmit}/>
+        {this.isTurn() === true
           ? <div>
               <input placeholder='word' onChange={this.handleInput} className='hint'/>
               <div className ='ol'>
