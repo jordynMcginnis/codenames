@@ -12,6 +12,9 @@ class Home extends Component {
     }
   }
   componentDidMount () {
+    this.getGame();
+  }
+  getGame = () => {
     const gamesRef = firebasedb.ref('/games/');
     gamesRef.on('value', (snapshot) => {
       const games = snapshot.val();

@@ -21,6 +21,9 @@ class GameBoard extends Component {
     }
   }
   componentDidMount () {
+    this.fetchGame();
+  }
+  fetchGame = () => {
     const path = this.props.location.pathname.slice(1);
     const games = firebasedb.ref('/games/' + path +'/');
     games.on('value', (snapshot) => {

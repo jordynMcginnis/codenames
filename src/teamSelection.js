@@ -7,7 +7,7 @@ class TeamSelection extends Component {
     super(props);
     this.state = {
       render: 'name',
-      name: false,
+      name: null,
       players: {},
       round: 2,
       count: 0,
@@ -16,15 +16,9 @@ class TeamSelection extends Component {
     }
   }
   componentDidMount () {
-    const games = firebasedb.ref('/games/' + this.props.id + '/players');
-    games.on('value', (snapshot) => {
-      const value = snapshot.val();
-      this.setState(() => ({players: value}));
-      for(var key in this.state.players){
-        if(this.state.players[key] !== false){
-          this.setState((prevState)=>({count : prevState.count += 1}));
-        }
-      }
+    const teamList = firebasedb.ref('/games/' + this.props.id + '/players');
+    teamList.on('value', (players) => {
+      this.updatePlayersTeams(players.val());
     });
     let rounds = firebasedb.ref('/games/' + this.props.id + '/rounds');
     rounds.on('value', (snapshot) => {
@@ -49,12 +43,26 @@ class TeamSelection extends Component {
         }
     });
   }
+  updatePlayersTeams = (teamList) => {
+    this.setState(() => ({players: teamList}));
+    for(var key in this.state.players){
+      if(this.state.players[key] !== false){
+        this.setState((prevState)=>({count : prevState.count += 1}));
+      }
+    }
+  }
   updateInput = ({target}) => {
     this.setState(() => ({name: target.value}));
   }
   switchRounds = (round) => {
     this.setState(()=>({round}));
     selectRounds(this.props.id, round);
+  }
+  readyToStart = () => {
+    return this.state.count >= 3
+  }
+  nameNeeded = () => {
+    return this.state.render === 'name'
   }
   render() {
     return (
@@ -79,7 +87,7 @@ class TeamSelection extends Component {
               })}
             </span>
           </div>
-          {this.state.render === 'name'
+          {this.nameNeeded() === true
             ? <div className='enter-info'>
                 <input className='t-input' placeholder='name' onChange={this.updateInput}/>
                 SELECT TEAM:
@@ -105,7 +113,7 @@ class TeamSelection extends Component {
               <div onClick={()=>{this.switchRounds(6)}}>6</div>
             </div>
           </div>
-          {this.state.count >= 3
+          {this.readyToStart() === true
             ? <button className='switch' onClick={() => {this.props.start(this.state.name)}}>START</button>
             : <div>Waiting for more players to join...</div>
           }
