@@ -35,9 +35,9 @@ class SpyMasters extends Component {
       }
   }
   findPlayersTeam = () => {
-    firebasedb.ref('/games/' + this.props.id + '/players').once('value').then((snapshot) => {
-      let playersArr = Object.keys(snapshot.val());
-      let playersObj = snapshot.val();
+    firebasedb.ref('/games/' + this.props.id + '/players').once('value').then((playerInfo) => {
+      let playersArr = Object.keys(playerInfo.val());
+      let playersObj = playerInfo.val();
       for(var i = 0; i < playersArr.length; i++) {
         if(playersObj[playersArr[i]] === this.props.name) {
           this.setState({team: playersArr[i].slice(0,1)});
