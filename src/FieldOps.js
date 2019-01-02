@@ -20,9 +20,9 @@ class FieldOps extends Component {
   componentDidMount () {
     const name = this.props.name;
 
-    firebasedb.ref('/games/' + this.props.id + '/players').once('value').then((snapshot) => {
-      let playersArr = Object.keys(snapshot.val());
-      let playersObj = snapshot.val();
+    firebasedb.ref('/games/' + this.props.id + '/players').once('value').then((allPlayers) => {
+      let playersArr = Object.keys(allPlayers.val());
+      let playersObj = allPlayers.val();
       for(var i = 0; i < playersArr.length; i++) {
         if(playersObj[playersArr[i]] === name) {
           this.setState({team: playersArr[i].slice(0,1)});
@@ -30,30 +30,36 @@ class FieldOps extends Component {
         }
       }
     });
+
     this.handleTeam();
+
     const team = firebasedb.ref('/games/' + this.props.id + '/turn');
-    team.on('value', (snapshot) => {
+    team.on('value', (teamsTurn) => {
       this.handleTeam();
     })
   }
+
   handleTeam = () => {
     const games = firebasedb.ref('/games/' + this.props.id + '/words');
-    games.on('value', (snapshot) => {
-      const words = snapshot.val();
+    games.on('value', (wordObj) => {
+      const words = wordObj.val();
       this.setState(() => ({words}));
     })
+
     const word = firebasedb.ref('/games/' + this.props.id + '/currentWord');
-    word.on('value', (snapshot) => {
-      const currentWord = snapshot.val();
+    word.on('value', (selectedWord) => {
+      const currentWord = selectedWord.val();
       this.setState(() => ({currentWord}));
     })
+
     const num = firebasedb.ref('/games/' + this.props.id + '/currentNum');
-    num.on('value', (snapshot) => {
-      const currentNum = snapshot.val();
+    num.on('value', (selectedNum) => {
+      const currentNum = selectedNum.val();
       this.setState(() => ({currentNum}));
     })
-    firebasedb.ref('/games/' + this.props.id + '/turn').once('value').then((snapshot) => {
-      const value = snapshot.val();
+
+    firebasedb.ref('/games/' + this.props.id + '/turn').once('value').then((teamTurn) => {
+      const value = teamTurn.val();
       if(value === this.state.team){
         this.setState(() => ({turn : true}));
       } else {
@@ -61,9 +67,10 @@ class FieldOps extends Component {
       };
     });
   }
+
   handleTurn = () => {
-    firebasedb.ref('/games/' + this.props.id + '/turn').once('value').then((snapshot) => {
-      const value = snapshot.val();
+    firebasedb.ref('/games/' + this.props.id + '/turn').once('value').then((teamTurn) => {
+      const value = teamTurn.val();
       if(value === this.state.team){
         this.setState(() => ({turn : true}));
       } else {
@@ -71,15 +78,18 @@ class FieldOps extends Component {
       };
     });
   }
-  handleSubmit = (arr) => {
-    this.setState(()=> ({arr}));
+
+  handleSubmit = (arrOfGuesses) => {
+    this.setState(()=> ({arrOfGuesses}));
   }
+
   finalSubmit = () => {
     let currentRound = this.state.round + 1;
-    checkCorrectWord(this.state.arr, this.props.id, currentRound).then((res) => {
-      if(res === false) {
+
+    checkCorrectWord(this.state.arr, this.props.id, currentRound).then((correctGuess) => {
+      if(correctGuess === false) {
         this.skipTurn();
-      } else if (res === true){
+      } else if (correctGuess === true){
         if(currentRound >= this.state.currentNum){
           this.setState(()=>({round: 0}));
         } else {
@@ -88,13 +98,16 @@ class FieldOps extends Component {
       }
     });
   }
+
   skipTurn = () => {
     this.setState(() => ({round: 0}));
   }
+
   endTurn = () => {
     endWord(this.props.id);
     this.setState(() => ({round: 0}));
   }
+
   render() {
     return (
       <div className="board">
