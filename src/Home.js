@@ -16,10 +16,13 @@ class Home extends Component {
   }
   getGame = () => {
     const gamesRef = firebasedb.ref('/games/');
-    gamesRef.on('value', (snapshot) => {
-      const games = snapshot.val();
+    gamesRef.on('value', (gameId) => {
+      const games = gameId.val();
       this.setState(() => ({games}));
     })
+  }
+  gameFound = (id) => {
+    return this.state.games[id].homeRender === true
   }
   render() {
     return (
@@ -27,7 +30,7 @@ class Home extends Component {
         <CreateGame/>
         <div className='all-games'>
           {Object.keys(this.state.games).map((id) =>
-            this.state.games[id].homeRender === true
+            this.gameFound(id) === true
               ? <Link to={`/${id}`} key={id} className='link'>  <HomeGame title={this.state.games[id]['name']} playersKey={this.state.games[id]['players']}/></Link>
               : null
           )}
