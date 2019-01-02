@@ -38,7 +38,6 @@ class FieldOps extends Component {
       this.handleTeam();
     })
   }
-
   handleTeam = () => {
     const games = firebasedb.ref('/games/' + this.props.id + '/words');
     games.on('value', (wordObj) => {
@@ -67,7 +66,6 @@ class FieldOps extends Component {
       };
     });
   }
-
   handleTurn = () => {
     firebasedb.ref('/games/' + this.props.id + '/turn').once('value').then((teamTurn) => {
       const value = teamTurn.val();
@@ -78,11 +76,9 @@ class FieldOps extends Component {
       };
     });
   }
-
   handleSubmit = (arrOfGuesses) => {
     this.setState(()=> ({arrOfGuesses}));
   }
-
   finalSubmit = () => {
     let currentRound = this.state.round + 1;
 
@@ -98,16 +94,13 @@ class FieldOps extends Component {
       }
     });
   }
-
   skipTurn = () => {
     this.setState(() => ({round: 0}));
   }
-
   endTurn = () => {
     endWord(this.props.id);
     this.setState(() => ({round: 0}));
   }
-
   render() {
     return (
       <div className="board">
