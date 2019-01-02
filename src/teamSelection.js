@@ -20,6 +20,7 @@ class TeamSelection extends Component {
     teamList.on('value', (players) => {
       this.updatePlayersTeams(players.val());
     });
+
     let rounds = firebasedb.ref('/games/' + this.props.id + '/rounds');
     rounds.on('value', (snapshot) => {
       let value = snapshot.val();
@@ -31,8 +32,8 @@ class TeamSelection extends Component {
       return;
     }
 
-    teamFull(this.props.id, team).then((status) => {
-      if(status === false) {
+    teamFull(this.props.id, team).then((teamTaken) => {
+      if(teamTaken === false) {
         submitName(this.state.name, this.props.id, team);
         this.props.start(this.state.name);
         this.state.render === 'name'
