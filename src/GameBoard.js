@@ -26,22 +26,26 @@ class GameBoard extends Component {
   fetchGame = () => {
     const path = this.props.location.pathname.slice(1);
     const games = firebasedb.ref('/games/' + path +'/');
-    games.on('value', (snapshot) => {
-      const value = snapshot.val();
+    games.on('value', (allInfo) => {
+      const value = allInfo.val();
       this.setState(() => ({gameInfo: value, players: value.players, selectTeam: value.start, spym: value.spyMaster, turn: value.turn, redPoints: value.redPoints, bluePoints: value.bluePoints, gameStatus: value.gameStatus}));
     });
+
     const rounds = firebasedb.ref('/games/' + path +'/currentRound');
-    rounds.on('value', (snapshot) => {
+    rounds.on('value', (round) => {
       checkEndGame(path);
     });
   }
+
   startGame = (name) => {
     this.setState(() => ({name: name}));
     checkStart(this.props.location.pathname.slice(1));
     checkData(this.props.location.pathname.slice(1));
   }
+
   isSpyMaster = () => {
     const playersMap = this.state.players;
+
     for(var player in playersMap){
       let playersPosition = player.slice(-1);
       if(this.state.name === this.state.gameInfo.players[player] && playersPosition === this.state.spym.toString()){
@@ -50,9 +54,11 @@ class GameBoard extends Component {
     }
     return false
   }
+
   isGameOver = () => {
     return this.state.gameStatus === false
   }
+
   choosingTeam = () => {
     return this.state.selectTeam === false
   }
