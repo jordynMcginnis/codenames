@@ -3,6 +3,7 @@ import CreateGame from './CreateGame.js';
 import { Link } from 'react-router-dom';
 import { firebasedb } from './utils/config.js';
 import HomeGame from './HomeGame.js';
+import Instructions from './Instructions.js';
 
 class Home extends Component {
   constructor(props){
@@ -28,9 +29,10 @@ class Home extends Component {
     return (
       <div className="app-intro">
         <CreateGame/>
+        <Instructions/>
         <div className='all-games'>
           {Object.keys(this.state.games).map((id) =>
-            this.gameFound(id) === true
+            this.gameFound(id) === true && this.state.games[id]['name'] !== 'aa34fok999'
               ? <Link to={`/${id}`} key={id} className='link'>  <HomeGame title={this.state.games[id]['name']} playersKey={this.state.games[id]['players']}/></Link>
               : null
           )}
