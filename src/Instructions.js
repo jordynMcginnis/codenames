@@ -12,11 +12,11 @@ class Instructions extends Component {
             codenames.
           </li>
           <li><GoPerson className='icon'/>
-          Spymasters take turns giving one-word clues. A clue may relate to multiple words on the table.
+          Spymasters take turns giving one-word clues. A clue may relate to multiple words on the screen.
           </li>
           <li><GoStar className='icon'/> The field
 operatives try to guess which words their spymaster meant. When a field operative chooses a word, the
-game reveals its secret identity. s</li>
+game reveals its secret identity.</li>
           <li><GoPrimitiveDot className='icon'/>
            If the field operatives guess correctly, they may continue guessing,
 until they run out of ideas for the given clue or until they hit a wrong person.

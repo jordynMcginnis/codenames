@@ -202,9 +202,9 @@ export function selectWinner (id, stat, person) {
 
 export function checkEndGame (id) {
   getGame(id).then(({currentRound, rounds}) => {
-    currentRound === rounds
-      ? updateGame(id, {gameStatus : false, homeRender : false})
-      : null
+    if(currentRound === rounds) {
+      updateGame(id, {gameStatus : false, homeRender : false})
+    }
   })
 }
 
